@@ -1058,58 +1058,107 @@ modal.onclick=function(e){
    WALLET
    ========================= */
 
-let walletAddress=null;
+let walletAddress = null;
+let walletProvider = null;
+let walletAccounts = [];
 
-let swapSlippageMode="auto";
+let swapSlippageMode = "auto";
 
+function getWalletProvider() {
+    if (window.ethereum) return window.ethereum;
+    if (window.BinanceChain) return window.BinanceChain;
+    if (window.trustwallet) return window.trustwallet;
+    if (window.bitkeep && window.bitkeep.ethereum) {
+        return window.bitkeep.ethereum;
+    }
+    if (window.okxwallet) return window.okxwallet;
+    return null;
+}
 
-    async function connectWallet() {
+async function ensureBNBChain(provider) {
+    const chainId = await provider.request({
+        method: "eth_chainId"
+    });
+
+    if (String(chainId).toLowerCase() === "0x38") {
+        return true;
+    }
+
     try {
-        // Find an injected wallet provider
-        const provider =
-            window.ethereum ||
-            window.BinanceChain ||
-            window.trustwallet ||
-            window.bitkeep?.ethereum ||
-            window.okxwallet;
+        await provider.request({
+            method: "wallet_switchEthereumChain",
+            params: [{ chainId: "0x38" }]
+        });
+
+        return true;
+    } catch (error) {
+        if (error && error.code === 4902) {
+            await provider.request({
+                method: "wallet_addEthereumChain",
+                params: [{
+                    chainId: "0x38",
+                    chainName: "BNB Smart Chain",
+                    nativeCurrency: {
+                        name: "BNB",
+                        symbol: "BNB",
+                        decimals: 18
+                    },
+                    rpcUrls: [
+                        "https://bsc-dataseed.binance.org/"
+                    ],
+                    blockExplorerUrls: [
+                        "https://bscscan.com/"
+                    ]
+                }]
+            });
+
+            return true;
+        }
+
+        console.error("BNB network switch failed:", error);
+        return false;
+    }
+}
+
+async function connectWallet() {
+    try {
+        const provider = getWalletProvider();
 
         if (!provider) {
             toast(
-                "Wallet not detected. Open GBK Swap inside your wallet browser."
+                "Wallet not detected. Open GBK Swap inside your Web3 wallet browser."
             );
             return;
         }
 
-        // Make the detected provider available globally
-        if (!window.ethereum) {
-            window.ethereum = provider;
-        }
+        walletProvider = provider;
 
-        // Request wallet connection
         const accounts = await provider.request({
             method: "eth_requestAccounts"
         });
 
         if (!accounts || accounts.length === 0) {
-            toast("No wallet account found");
+            toast("No wallet account found.");
             return;
         }
 
+        walletAccounts = accounts;
         walletAddress = accounts[0];
 
-        // Switch to BNB Smart Chain
-        const connected = await ensureBNBChain();
+        const connected = await ensureBNBChain(provider);
 
         if (!connected) {
-            toast("Please switch to BNB Smart Chain");
+            toast("Please switch to BNB Smart Chain.");
             return;
         }
 
-        // Update wallet interface
-        updateWalletUI();
+        if (typeof updateWalletUI === "function") {
+            updateWalletUI();
+        }
 
-        // Load on-chain balances
-        await loadBalances();
+        if (typeof loadBalances === "function") {
+            await loadBalances();
+        }
 
         toast(
             "Wallet connected: " +
@@ -1118,38 +1167,46 @@ let swapSlippageMode="auto";
             walletAddress.slice(-4)
         );
 
-        // Listen for account changes
-        if (provider.on) {
-            provider.on("accountsChanged", function (accounts) {
+        if (typeof provider.on === "function") {
+
+            provider.on("accountsChanged", function(accounts) {
+
                 if (!accounts || accounts.length === 0) {
                     walletAddress = null;
-                    updateWalletUI();
+                    walletAccounts = [];
+
+                    if (typeof updateWalletUI === "function") {
+                        updateWalletUI();
+                    }
+
                     return;
                 }
 
+                walletAccounts = accounts;
                 walletAddress = accounts[0];
-                updateWalletUI();
+
+                if (typeof updateWalletUI === "function") {
+                    updateWalletUI();
+                }
 
                 if (typeof loadBalances === "function") {
                     loadBalances();
                 }
             });
 
-            // Listen for network changes
-            provider.on("chainChanged", function () {
+            provider.on("chainChanged", function() {
                 window.location.reload();
             });
         }
 
     } catch (error) {
+
         console.error("Wallet connection error:", error);
 
         if (error && error.code === 4001) {
-            toast("Wallet connection rejected");
+            toast("Wallet connection rejected.");
         } else {
-            toast(
-                "Wallet connection failed. Please open GBK Swap inside your wallet browser."
-            );
+            toast("Wallet connection failed. Please try again.");
         }
     }
 }
