@@ -4,59 +4,1524 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0b3d2e">
-<meta name="description" content="GBK Swap — simple GBK trading on BNB Chain.">
-<link rel="manifest" href="/manifest.json">
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <title>GBK Swap</title>
+
 <style>
-:root{--g:#0b3d2e;--g2:#126b4e;--gold:#d6a83f;--ink:#10231d;--muted:#718079;--bg:#f5f8f6;--card:#fff;--line:#e2ebe7;--purple:#6f52c8;--teal:#0b8f83}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.app{max-width:520px;margin:auto;min-height:100vh;padding-bottom:90px}
-header{position:sticky;top:0;z-index:10;background:#f5f8f6eF;backdrop-filter:blur(18px);border-bottom:1px solid #e2ebe7}.top{display:flex;align-items:center;justify-content:space-between;padding:15px 18px}.brand{display:flex;align-items:center;gap:10px;font-weight:850}.logo{width:38px;height:38px;border-radius:12px;background:linear-gradient(145deg,var(--g),#0d5a42);display:grid;place-items:center;color:#fff;font-size:12px;font-weight:900;box-shadow:0 7px 18px #0b3d2e2b}.brand small{display:block;color:var(--muted);font-size:9px;text-transform:uppercase;letter-spacing:.1em;margin-top:2px}.tools{display:flex;gap:8px}.icon{width:40px;height:40px;border:1px solid var(--line);background:#fff;border-radius:13px;color:var(--g);font-weight:800}
-main{padding:18px}.hero{background:linear-gradient(135deg,var(--g),#0a5b43);border-radius:26px;padding:22px;color:#fff;box-shadow:0 18px 35px #0b3d2e29}.herorow{display:flex;justify-content:space-between;gap:12px}.eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:.15em;opacity:.7;font-weight:800}.hero h1{font-size:29px;line-height:1.04;letter-spacing:-.045em;margin:7px 0}.hero p{font-size:13px;color:#ffffffb8;line-height:1.45;margin:0}.network{white-space:nowrap;height:max-content;display:flex;align-items:center;gap:7px;padding:8px 10px;border-radius:12px;background:#ffffff1c;font-size:10px;font-weight:800}.dot{width:7px;height:7px;border-radius:50%;background:#58d68d}.balance{display:flex;justify-content:space-between;align-items:end;border-top:1px solid #ffffff22;margin-top:20px;padding-top:15px}.balance small{display:block;opacity:.65;font-size:10px;margin-bottom:4px}.balance strong{font-size:25px}.connect{background:var(--gold);color:#2c2110;padding:11px 14px;border-radius:13px;font-weight:850}
-.section{display:flex;justify-content:space-between;align-items:center;margin:25px 2px 12px}.section h2{font-size:16px;margin:0}.section span{font-size:10px;color:var(--muted);font-weight:700}.grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}.card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:16px;min-height:145px;text-align:left;box-shadow:0 5px 16px #10231d09}.card:active{transform:scale(.985)}.sym{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;font-weight:900;margin-bottom:15px}.buy .sym{background:#e3f4ec;color:var(--g2)}.swap .sym{background:#eee8ff;color:var(--purple)}.sell .sym{background:#fff2d7;color:#986e10}.wallet .sym{background:#e3f2f7;color:#18718b}.card h3{font-size:15px;margin:0 0 5px}.card p{font-size:11px;color:var(--muted);line-height:1.4;margin:0}.arrow{float:right;color:#98a59f}
-.quick,.panel{background:#fff;border:1px solid var(--line);border-radius:20px;padding:14px}.quick{display:flex;gap:8px}.quick button{flex:1;border:0;background:#f3f7f5;color:var(--g);padding:12px 4px;border-radius:12px;font-weight:800;font-size:11px}.quick button:last-child{background:#fbf5e8;color:#7b5d16}
-.asset{display:flex;justify-content:space-between;align-items:center;padding:11px 0}.asset+.asset{border-top:1px solid var(--line)}.assetleft{display:flex;align-items:center;gap:10px}.coin{width:34px;height:34px;border-radius:50%;background:#eaf1ee;display:grid;place-items:center;font-size:9px;font-weight:900;color:var(--g)}.assetname strong{display:block;font-size:13px}.assetname small,.assetr small{color:var(--muted);font-size:10px}.assetr{text-align:right}.assetr strong{font-size:13px;display:block}.info{margin-top:12px;padding:13px 14px;border-radius:15px;background:#edf7f3;color:#31564a;font-size:11px;line-height:1.5}.info b{color:var(--g)}
-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(520px,100%);z-index:20;background:#fffffff5;backdrop-filter:blur(16px);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);padding:8px 12px calc(8px + env(safe-area-inset-bottom))}.nav{border:0;background:transparent;color:#84918c;padding:5px;font-size:10px;font-weight:750}.nav.active{color:var(--g)}.nav i{display:block;font-style:normal;font-size:18px;margin-bottom:3px}
-.modal{position:fixed;inset:0;background:#06161073;z-index:50;display:none;align-items:end}.modal.show{display:flex}.sheet{width:min(520px,100%);margin:auto 0 0;background:#fff;border-radius:26px 26px 0 0;padding:20px;max-height:86vh;overflow:auto}.head{display:flex;justify-content:space-between;align-items:center}.head h2{margin:0;font-size:19px}.close{width:36px;height:36px;border:0;border-radius:11px;background:#f1f5f3}.field{margin-top:15px}.field label{display:block;font-size:10px;font-weight:800;color:var(--muted);margin-bottom:7px}.input{display:flex;border:1px solid var(--line);border-radius:15px;padding:4px;background:#f8faf9}.input input{border:0;outline:0;background:transparent;width:100%;padding:12px;font-size:18px}.token{background:#fff;border:1px solid var(--line);border-radius:11px;padding:9px;font-weight:800;color:var(--g)}.primary,.secondary{width:100%;padding:14px;border:0;border-radius:14px;font-weight:850}.primary{margin-top:17px;background:var(--g);color:#fff}.secondary{margin-top:9px;background:#f0f5f2;color:var(--g)}.langs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}.lang{padding:12px;border:1px solid var(--line);border-radius:13px;background:#fff;text-align:left;font-weight:750}.lang.active{border-color:var(--g);background:#eef7f3;color:var(--g)}.toast{position:fixed;left:50%;bottom:94px;transform:translate(-50%,15px);background:#173c31;color:#fff;padding:11px 15px;border-radius:12px;font-size:12px;font-weight:700;opacity:0;pointer-events:none;transition:.2s;z-index:80;white-space:nowrap}.toast.show{opacity:1;transform:translate(-50%,0)}
+:root{
+  --g:#0b3d2e;
+  --g2:#126b4e;
+  --gold:#d6a83f;
+  --ink:#10231d;
+  --muted:#718079;
+  --bg:#f5f8f6;
+  --card:#fff;
+  --line:#e2ebe7;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+
+.app{
+  max-width:520px;
+  margin:auto;
+  min-height:100vh;
+  padding-bottom:90px;
+}
+
+header{
+  position:sticky;
+  top:0;
+  z-index:10;
+  background:#f5f8f6ee;
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--line);
+}
+
+.top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:15px 18px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-weight:900;
+  font-size:18px;
+}
+
+.logo{
+  width:42px;
+  height:42px;
+  border-radius:13px;
+  background:linear-gradient(145deg,var(--g),#0d5a42);
+  display:grid;
+  place-items:center;
+  color:#fff;
+  font-size:12px;
+  font-weight:900;
+}
+
+.brand small{
+  display:block;
+  color:var(--muted);
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  margin-top:2px;
+}
+
+.tools{
+  display:flex;
+  gap:8px;
+}
+
+.icon{
+  width:42px;
+  height:42px;
+  border:1px solid var(--line);
+  background:#fff;
+  border-radius:13px;
+  font-size:18px;
+}
+
+main{padding:18px}
+
+.hero{
+  background:linear-gradient(135deg,var(--g),#0a5b43);
+  border-radius:26px;
+  padding:22px;
+  color:#fff;
+  box-shadow:0 18px 35px #0b3d2e29;
+}
+
+.herorow{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+}
+
+.eyebrow{
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:.15em;
+  opacity:.7;
+  font-weight:800;
+}
+
+.hero h1{
+  font-size:31px;
+  line-height:1.04;
+  letter-spacing:-.045em;
+  margin:7px 0;
+}
+
+.hero p{
+  font-size:14px;
+  color:#ffffffbb;
+  line-height:1.45;
+  margin:0;
+}
+
+.network{
+  white-space:nowrap;
+  height:max-content;
+  display:flex;
+  align-items:center;
+  gap:7px;
+  padding:9px 11px;
+  border-radius:12px;
+  background:#ffffff1c;
+  font-size:11px;
+  font-weight:800;
+}
+
+.dot{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:#58d68d;
+}
+
+.balance{
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+  border-top:1px solid #ffffff22;
+  margin-top:20px;
+  padding-top:15px;
+}
+
+.balance small{
+  display:block;
+  opacity:.65;
+  font-size:10px;
+  margin-bottom:4px;
+}
+
+.balance strong{
+  font-size:25px;
+}
+
+.connect{
+  background:var(--gold);
+  color:#2c2110;
+  padding:12px 15px;
+  border:0;
+  border-radius:13px;
+  font-weight:900;
+  font-size:14px;
+}
+
+.section{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin:25px 2px 12px;
+}
+
+.section h2{
+  font-size:18px;
+  margin:0;
+}
+
+.section span{
+  font-size:10px;
+  color:var(--muted);
+  font-weight:700;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:11px;
+}
+
+.card{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:20px;
+  padding:17px;
+  min-height:150px;
+  text-align:left;
+  box-shadow:0 5px 16px #10231d09;
+}
+
+.card:active{
+  transform:scale(.985);
+}
+
+.sym{
+  width:40px;
+  height:40px;
+  border-radius:12px;
+  display:grid;
+  place-items:center;
+  font-weight:900;
+  font-size:20px;
+  margin-bottom:15px;
+}
+
+.buy .sym{background:#e3f4ec;color:var(--g2)}
+.swap .sym{background:#eee8ff;color:#6f52c8}
+.sell .sym{background:#fff2d7;color:#986e10}
+.wallet .sym{background:#e3f2f7;color:#18718b}
+
+.card h3{
+  font-size:17px;
+  margin:0 0 5px;
+}
+
+.card p{
+  font-size:12px;
+  color:var(--muted);
+  line-height:1.4;
+  margin:0;
+}
+
+.arrow{
+  float:right;
+  color:#98a59f;
+}
+
+.panel{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:20px;
+  padding:15px;
+}
+
+.price-row{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:8px;
+}
+
+.price{
+  background:#f5f8f6;
+  border-radius:14px;
+  padding:12px;
+}
+
+.price small{
+  display:block;
+  color:var(--muted);
+  font-size:10px;
+}
+
+.price strong{
+  display:block;
+  margin-top:4px;
+  font-size:14px;
+}
+
+.asset{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:12px 0;
+}
+
+.asset+.asset{
+  border-top:1px solid var(--line);
+}
+
+.assetleft{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.coin{
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  background:#eaf1ee;
+  display:grid;
+  place-items:center;
+  font-size:9px;
+  font-weight:900;
+  color:var(--g);
+}
+
+.assetname strong{
+  display:block;
+  font-size:14px;
+}
+
+.assetname small,
+.assetr small{
+  color:var(--muted);
+  font-size:10px;
+}
+
+.assetr{
+  text-align:right;
+}
+
+.assetr strong{
+  font-size:14px;
+  display:block;
+}
+
+.currency{
+  width:100%;
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:13px;
+  background:#fff;
+  font-size:15px;
+  font-weight:700;
+}
+
+.info{
+  margin-top:12px;
+  padding:13px 14px;
+  border-radius:15px;
+  background:#edf7f3;
+  color:#31564a;
+  font-size:11px;
+  line-height:1.5;
+}
+
+.info b{color:var(--g)}
+
+nav{
+  position:fixed;
+  bottom:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:min(520px,100%);
+  z-index:20;
+  background:#fffffff5;
+  backdrop-filter:blur(16px);
+  border-top:1px solid var(--line);
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  padding:8px 12px calc(8px + env(safe-area-inset-bottom));
+}
+
+.nav{
+  border:0;
+  background:transparent;
+  color:#84918c;
+  padding:5px;
+  font-size:11px;
+  font-weight:800;
+}
+
+.nav.active{color:var(--g)}
+
+.nav i{
+  display:block;
+  font-style:normal;
+  font-size:20px;
+  margin-bottom:3px;
+}
+
+.modal{
+  position:fixed;
+  inset:0;
+  background:#06161073;
+  z-index:50;
+  display:none;
+  align-items:end;
+}
+
+.modal.show{display:flex}
+
+.sheet{
+  width:min(520px,100%);
+  margin:auto 0 0;
+  background:#fff;
+  border-radius:26px 26px 0 0;
+  padding:20px;
+  max-height:88vh;
+  overflow:auto;
+}
+
+.head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.head h2{
+  margin:0;
+  font-size:21px;
+}
+
+.close{
+  width:38px;
+  height:38px;
+  border:0;
+  border-radius:11px;
+  background:#f1f5f3;
+  font-size:22px;
+}
+
+.field{margin-top:15px}
+
+.field label{
+  display:block;
+  font-size:10px;
+  font-weight:800;
+  color:var(--muted);
+  margin-bottom:7px;
+}
+
+.input{
+  display:flex;
+  border:1px solid var(--line);
+  border-radius:15px;
+  padding:4px;
+  background:#f8faf9;
+}
+
+.input input{
+  border:0;
+  outline:0;
+  background:transparent;
+  width:100%;
+  padding:12px;
+  font-size:19px;
+}
+
+.token{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:11px;
+  padding:9px;
+  font-weight:800;
+  color:var(--g);
+}
+
+.primary{
+  width:100%;
+  padding:15px;
+  border:0;
+  border-radius:14px;
+  font-weight:900;
+  margin-top:17px;
+  background:var(--g);
+  color:#fff;
+  font-size:15px;
+}
+
+.secondary{
+  width:100%;
+  padding:14px;
+  border:0;
+  border-radius:14px;
+  font-weight:900;
+  margin-top:9px;
+  background:#f0f5f2;
+  color:var(--g);
+}
+
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:94px;
+  transform:translate(-50%,15px);
+  background:#173c31;
+  color:#fff;
+  padding:11px 15px;
+  border-radius:12px;
+  font-size:12px;
+  font-weight:700;
+  opacity:0;
+  pointer-events:none;
+  transition:.2s;
+  z-index:80;
+  white-space:nowrap;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translate(-50%,0);
+}
+
+@media(max-width:380px){
+  .hero h1{font-size:27px}
+  .card{padding:14px}
+  .price-row{grid-template-columns:1fr}
+}
 </style>
 </head>
+
 <body>
+
 <div class="app">
-<header><div class="top"><div class="brand"><div class="logo">GBK</div><div>GBK Swap<small>BNB Chain</small></div></div><div class="tools"><button class="icon" id="lang" aria-label="Language">🌐</button><button class="icon" id="install" hidden aria-label="Install">＋</button></div></div></header>
+
+<header>
+  <div class="top">
+    <div class="brand">
+      <div class="logo">GBK</div>
+      <div>
+        GBK Swap
+        <small>BNB Chain</small>
+      </div>
+    </div>
+
+    <div class="tools">
+      <button class="icon" id="currencyBtn">🌐</button>
+    </div>
+  </div>
+</header>
+
 <main>
-<section class="hero"><div class="herorow"><div><div class="eyebrow">GBK ecosystem</div><h1>Swap simply.<br>Stay in control.</h1><p>Non-custodial trading for GBK on BNB Chain.</p></div><div class="network"><span class="dot"></span>BNB Chain</div></div><div class="balance"><div><small>Portfolio value</small><strong>—</strong></div><button class="connect" onclick="toast('Wallet connector coming next')">Connect Wallet</button></div></section>
-<div class="section"><h2>What do you want to do?</h2><span>GBK first</span></div>
-<section class="grid">
-<button class="card buy" onclick="openBox('buy')"><span class="arrow">↗</span><div class="sym">＋</div><h3>Buy GBK</h3><p>Local currency → USDT → GBK</p></button>
-<button class="card swap" onclick="openBox('swap')"><span class="arrow">↕</span><div class="sym">↕</div><h3>Swap GBK</h3><p>GBK ↔ USDT, BNB & tokens</p></button>
-<button class="card sell" onclick="openBox('sell')"><span class="arrow">↗</span><div class="sym">−</div><h3>Sell GBK</h3><p>GBK → USDT → local currency</p></button>
-<button class="card wallet" onclick="openBox('wallet')"><span class="arrow">→</span><div class="sym">▣</div><h3>Wallet</h3><p>View your on-chain balances</p></button>
+
+<section class="hero">
+
+  <div class="herorow">
+
+    <div>
+      <div class="eyebrow">GBK ecosystem</div>
+
+      <h1>
+        Swap simply.<br>
+        Stay in control.
+      </h1>
+
+      <p>
+        Non-custodial trading for GBK on BNB Chain.
+      </p>
+    </div>
+
+    <div class="network">
+      <span class="dot"></span>
+      BNB Chain
+    </div>
+
+  </div>
+
+  <div class="balance">
+
+    <div>
+      <small>Portfolio value</small>
+      <strong id="portfolio">—</strong>
+    </div>
+
+    <button class="connect" onclick="connectWallet()">
+      Connect Wallet
+    </button>
+
+  </div>
+
 </section>
-<div class="section"><h2>Quick actions</h2></div><div class="quick"><button onclick="openBox('buy')">Buy</button><button onclick="openBox('swap')">Swap</button><button onclick="openBox('sell')">Sell</button><button onclick="openBox('wallet')">Wallet</button></div>
-<div class="section"><h2>On-chain balance</h2><span>Live when connected</span></div>
-<section class="panel">
-<div class="asset"><div class="assetleft"><div class="coin">GBK</div><div class="assetname"><strong>GBK</strong><small>BNB Chain</small></div></div><div class="assetr"><strong>—</strong><small>Token balance</small></div></div>
-<div class="asset"><div class="assetleft"><div class="coin">USDT</div><div class="assetname"><strong>USDT</strong><small>BNB Chain</small></div></div><div class="assetr"><strong>—</strong><small>Stablecoin balance</small></div></div>
-<div class="asset"><div class="assetleft"><div class="coin">BNB</div><div class="assetname"><strong>BNB</strong><small>Gas</small></div></div><div class="assetr"><strong>—</strong><small>Network balance</small></div></div>
-<div class="info"><b>Non-custodial:</b> GBK Swap does not take custody of wallet keys. Verify network, token and transaction details before confirming.</div>
-</section>
-<div class="section"><h2>Fiat access</h2><span>Provider dependent</span></div><section class="panel"><strong style="font-size:13px">Local currency → USDT → GBK</strong><div style="font-size:11px;color:var(--muted);line-height:1.5;margin-top:5px">Supported on-ramp/off-ramp providers can be connected for INR and other local currencies. Availability, fees, limits and eligibility vary by country.</div></section>
-</main>
-<nav><button class="nav active"><i>⌂</i>Home</button><button class="nav" onclick="openBox('swap')"><i>↕</i>Swap</button><button class="nav" onclick="openBox('wallet')"><i>▣</i>Wallet</button><button class="nav" onclick="help()"><i>?</i>Help</button></nav>
+
+
+<div class="section">
+  <h2>Market prices</h2>
+  <span>Live</span>
 </div>
-<div class="modal" id="modal"><div class="sheet"><div class="head"><h2 id="title"></h2><button class="close" onclick="closeBox()">×</button></div><div id="content"></div></div></div><div class="toast" id="toast"></div>
+
+<section class="panel">
+
+  <div class="price-row">
+
+    <div class="price">
+      <small>GBK</small>
+      <strong id="gbkPrice">Loading…</strong>
+    </div>
+
+    <div class="price">
+      <small>BNB</small>
+      <strong id="bnbPrice">Loading…</strong>
+    </div>
+
+    <div class="price">
+      <small>USDT</small>
+      <strong id="usdtPrice">≈ $1.00</strong>
+    </div>
+
+  </div>
+
+</section>
+
+
+<div class="section">
+  <h2>What do you want to do?</h2>
+  <span>GBK first</span>
+</div>
+
+
+<section class="grid">
+
+<button class="card buy" onclick="openBuy()">
+  <span class="arrow">↗</span>
+  <div class="sym">＋</div>
+  <h3>Buy GBK</h3>
+  <p>Local currency → USDT → GBK</p>
+</button>
+
+
+<button class="card swap" onclick="openSwap()">
+  <span class="arrow">↕</span>
+  <div class="sym">↕</div>
+  <h3>Swap GBK</h3>
+  <p>GBK ↔ USDT, BNB & tokens</p>
+</button>
+
+
+<button class="card sell" onclick="openSell()">
+  <span class="arrow">↗</span>
+  <div class="sym">−</div>
+  <h3>Sell GBK</h3>
+  <p>GBK → USDT → local currency</p>
+</button>
+
+
+<button class="card wallet" onclick="openWallet()">
+  <span class="arrow">→</span>
+  <div class="sym">▣</div>
+  <h3>Wallet</h3>
+  <p>View your on-chain balances</p>
+</button>
+
+</section>
+
+
+<div class="section">
+  <h2>On-chain balance</h2>
+  <span id="walletStatus">Not connected</span>
+</div>
+
+
+<section class="panel">
+
+<div class="asset">
+
+  <div class="assetleft">
+    <div class="coin">GBK</div>
+
+    <div class="assetname">
+      <strong>GBK</strong>
+      <small>BNB Chain</small>
+    </div>
+  </div>
+
+  <div class="assetr">
+    <strong id="gbkBalance">—</strong>
+    <small>Balance</small>
+  </div>
+
+</div>
+
+
+<div class="asset">
+
+  <div class="assetleft">
+    <div class="coin">USDT</div>
+
+    <div class="assetname">
+      <strong>USDT</strong>
+      <small>BNB Chain</small>
+    </div>
+  </div>
+
+  <div class="assetr">
+    <strong id="usdtBalance">—</strong>
+    <small>Balance</small>
+  </div>
+
+</div>
+
+
+<div class="asset">
+
+  <div class="assetleft">
+    <div class="coin">BNB</div>
+
+    <div class="assetname">
+      <strong>BNB</strong>
+      <small>Gas</small>
+    </div>
+  </div>
+
+  <div class="assetr">
+    <strong id="bnbBalance">—</strong>
+    <small>Balance</small>
+  </div>
+
+</div>
+
+
+<div class="info">
+  <b>Non-custodial:</b>
+  Your wallet remains under your control.
+  Never share your seed phrase or private key.
+</div>
+
+</section>
+
+
+<div class="section">
+  <h2>Currency</h2>
+  <span id="currencyLabel">INR</span>
+</div>
+
+<section class="panel">
+
+<select class="currency" id="currencySelect">
+  <option value="INR">🇮🇳 INR — Indian Rupee</option>
+  <option value="USD">🇺🇸 USD — US Dollar</option>
+  <option value="EUR">🇪🇺 EUR — Euro</option>
+  <option value="GBP">🇬🇧 GBP — British Pound</option>
+  <option value="AED">🇦🇪 AED — UAE Dirham</option>
+  <option value="SAR">🇸🇦 SAR — Saudi Riyal</option>
+  <option value="SGD">🇸🇬 SGD — Singapore Dollar</option>
+  <option value="AUD">🇦🇺 AUD — Australian Dollar</option>
+  <option value="CAD">🇨🇦 CAD — Canadian Dollar</option>
+  <option value="JPY">🇯🇵 JPY — Japanese Yen</option>
+  <option value="CNY">🇨🇳 CNY — Chinese Yuan</option>
+  <option value="KRW">🇰🇷 KRW — Korean Won</option>
+  <option value="THB">🇹🇭 THB — Thai Baht</option>
+  <option value="MYR">🇲🇾 MYR — Malaysian Ringgit</option>
+  <option value="IDR">🇮🇩 IDR — Indonesian Rupiah</option>
+  <option value="PHP">🇵🇭 PHP — Philippine Peso</option>
+  <option value="BRL">🇧🇷 BRL — Brazilian Real</option>
+  <option value="MXN">🇲🇽 MXN — Mexican Peso</option>
+  <option value="ZAR">🇿🇦 ZAR — South African Rand</option>
+  <option value="TRY">🇹🇷 TRY — Turkish Lira</option>
+</select>
+
+<div class="info">
+  Local currency display is for pricing/conversion.
+  Actual fiat on-ramp availability depends on the payment provider and country.
+</div>
+
+</section>
+
+</main>
+
+
+<nav>
+
+<button class="nav active">
+  <i>⌂</i>
+  Home
+</button>
+
+<button class="nav" onclick="openSwap()">
+  <i>↕</i>
+  Swap
+</button>
+
+<button class="nav" onclick="openWallet()">
+  <i>▣</i>
+  Wallet
+</button>
+
+<button class="nav" onclick="help()">
+  <i>?</i>
+  Help
+</button>
+
+</nav>
+
+</div>
+
+
+<div class="modal" id="modal">
+
+<div class="sheet">
+
+  <div class="head">
+    <h2 id="modalTitle"></h2>
+    <button class="close" onclick="closeModal()">×</button>
+  </div>
+
+  <div id="modalContent"></div>
+
+</div>
+
+</div>
+
+
+<div class="toast" id="toast"></div>
+
+
 <script>
-const M=document.getElementById('modal'),T=document.getElementById('title'),C=document.getElementById('content'),TO=document.getElementById('toast');
-const views={
-buy:['Buy GBK','<div class="field"><label>PAY WITH</label><div class="input"><input placeholder="0.00" inputmode="decimal"><button class="token">INR ▾</button></div></div><div class="field"><label>RECEIVE</label><div class="input"><input placeholder="Estimated GBK" disabled><button class="token">GBK</button></div></div><button class="primary" onclick="toast(\\'Connect a wallet to continue\\')">Connect Wallet</button><div class="info">Fiat conversion is handled by supported providers. Rates, fees, limits and availability are provider dependent.</div>'],
-swap:['Swap GBK','<div class="field"><label>YOU PAY</label><div class="input"><input placeholder="0.00" inputmode="decimal"><button class="token">GBK ▾</button></div></div><div style="text-align:center;margin:9px">↕</div><div class="field"><label>YOU RECEIVE</label><div class="input"><input placeholder="Estimated amount" disabled><button class="token">USDT ▾</button></div></div><button class="primary" onclick="toast(\\'Connect a wallet to continue\\')">Connect Wallet</button><div class="info">Live quotes, route, price impact and gas will appear when the BNB Chain swap engine is connected.</div>'],
-sell:['Sell GBK','<div class="field"><label>SELL</label><div class="input"><input placeholder="0.00" inputmode="decimal"><button class="token">GBK</button></div></div><div class="field"><label>RECEIVE</label><div class="input"><input placeholder="Estimated USDT" disabled><button class="token">USDT</button></div></div><button class="primary" onclick="toast(\\'Connect a wallet to continue\\')">Connect Wallet</button><div class="info">USDT-to-fiat payout is provided by supported off-ramp partners where available.</div>'],
-wallet:['Wallet','<div class="info" style="margin-top:15px"><b>Non-custodial wallet.</b><br>Your keys stay under your control. The production wallet connector will be added here.</div><button class="primary" onclick="toast(\\'Wallet connector coming next\\')">Connect Wallet</button><button class="secondary" onclick="toast(\\'Create wallet flow coming next\\')">Create Wallet</button>']};
-function openBox(k){T.textContent=views[k][0];C.innerHTML=views[k][1];M.classList.add('show')}function closeBox(){M.classList.remove('show')}
-M.onclick=e=>{if(e.target===M)closeBox()};function toast(s){TO.textContent=s;TO.classList.add('show');setTimeout(()=>TO.classList.remove('show'),2300)}
-function help(){T.textContent='GBK Swap Help';C.innerHTML='<div class="info" style="margin-top:15px"><b>Simple flow</b><br><br>Buy GBK → hold or use → swap GBK → USDT → local currency.<br><br>Never share your seed phrase or private key.</div>';M.classList.add('show')}
-const langs=['English','हिन्दी','తెలుగు','தமிழ்','বাংলা','العربية','ไทย','Tiếng Việt','Filipino','Bahasa Indonesia','Türkçe'];
-document.getElementById('lang').onclick=()=>{T.textContent='Choose language';C.innerHTML='<div class="langs">'+langs.map((x,i)=>'<button class="lang '+(i?'':'active')+'" onclick="toast(\\'Language selected: '+x+'\\')">'+x+'</button>').join('')+'</div>';M.classList.add('show')};
-let deferred=null;addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferred=e;document.getElementById('install').hidden=false});document.getElementById('install').onclick=async()=>{if(deferred){deferred.prompt();deferred=null}};if('serviceWorker'in navigator)addEventListener('load',()=>navigator.serviceWorker.register('/sw.js').catch(()=>{}));
+
+/* =========================
+   GBK TOKEN CONFIGURATION
+   ========================= */
+
+const GBK =
+"0xdA0638EA374c4c5bF2914E6F4D5B2335dEb8D80D";
+
+const USDT =
+"0x55d398326f99059fF775485246999027B3197955";
+
+const BNB_CHAIN_ID = "0x38";
+
+
+/* =========================
+   BASIC UI
+   ========================= */
+
+const modal =
+document.getElementById("modal");
+
+const modalTitle =
+document.getElementById("modalTitle");
+
+const modalContent =
+document.getElementById("modalContent");
+
+const toastBox =
+document.getElementById("toast");
+
+
+function toast(message){
+
+  toastBox.textContent = message;
+
+  toastBox.classList.add("show");
+
+  setTimeout(()=>{
+    toastBox.classList.remove("show");
+  },2300);
+}
+
+
+function closeModal(){
+  modal.classList.remove("show");
+}
+
+
+modal.onclick = function(e){
+
+  if(e.target === modal){
+    closeModal();
+  }
+
+};
+
+
+/* =========================
+   WALLET
+   ========================= */
+
+let walletAddress = null;
+
+
+async function connectWallet(){
+
+  if(!window.ethereum){
+
+    toast("Install MetaMask or a compatible wallet");
+
+    return;
+  }
+
+  try{
+
+    const accounts =
+      await window.ethereum.request({
+        method:"eth_requestAccounts"
+      });
+
+    walletAddress =
+      accounts[0];
+
+    document.getElementById("walletStatus")
+      .textContent =
+      walletAddress.slice(0,6)+"..."+
+      walletAddress.slice(-4);
+
+    await loadBalances();
+
+    toast("Wallet connected");
+
+  }catch(error){
+
+    console.log(error);
+
+    toast("Wallet connection cancelled");
+
+  }
+
+}
+
+
+/* =========================
+   NETWORK
+   ========================= */
+
+async function ensureBNBChain(){
+
+  if(!window.ethereum) return false;
+
+  try{
+
+    await window.ethereum.request({
+      method:"wallet_switchEthereumChain",
+      params:[
+        {chainId:BNB_CHAIN_ID}
+      ]
+    });
+
+    return true;
+
+  }catch(error){
+
+    toast("Please switch wallet to BNB Chain");
+
+    return false;
+  }
+
+}
+
+
+/* =========================
+   TOKEN BALANCES
+   ========================= */
+
+async function loadBalances(){
+
+  if(!walletAddress || !window.ethereum)
+    return;
+
+  try{
+
+    const bnb =
+      await window.ethereum.request({
+        method:"eth_getBalance",
+        params:[walletAddress,"latest"]
+      });
+
+    const bnbValue =
+      parseInt(bnb,16)/1e18;
+
+    document.getElementById("bnbBalance")
+      .textContent =
+      bnbValue.toFixed(5);
+
+
+    const gbkData =
+      "0x70a08231"+
+      walletAddress.slice(2).padStart(64,"0");
+
+    const gbkRaw =
+      await window.ethereum.request({
+        method:"eth_call",
+        params:[
+          {
+            to:GBK,
+            data:gbkData
+          },
+          "latest"
+        ]
+      });
+
+    const gbkValue =
+      Number(BigInt(gbkRaw))/1e18;
+
+    document.getElementById("gbkBalance")
+      .textContent =
+      gbkValue.toLocaleString(
+        undefined,
+        {maximumFractionDigits:4}
+      );
+
+
+    const usdtData =
+      "0x70a08231"+
+      walletAddress.slice(2).padStart(64,"0");
+
+    const usdtRaw =
+      await window.ethereum.request({
+        method:"eth_call",
+        params:[
+          {
+            to:USDT,
+            data:usdtData
+          },
+          "latest"
+        ]
+      });
+
+    const usdtValue =
+      Number(BigInt(usdtRaw))/1e18;
+
+    document.getElementById("usdtBalance")
+      .textContent =
+      usdtValue.toLocaleString(
+        undefined,
+        {maximumFractionDigits:2}
+      );
+
+  }catch(error){
+
+    console.log("Balance error:",error);
+
+  }
+
+}
+
+
+/* =========================
+   BNB PRICE
+   ========================= */
+
+async function loadBNBPrice(){
+
+  try{
+
+    const response =
+      await fetch(
+        "https://api.binance.com/api/v3/ticker/price?symbol=BNBUSDT"
+      );
+
+    const data =
+      await response.json();
+
+    const price =
+      Number(data.price);
+
+    document.getElementById("bnbPrice")
+      .textContent =
+      "$"+price.toLocaleString(
+        undefined,
+        {maximumFractionDigits:2}
+      );
+
+  }catch(error){
+
+    document.getElementById("bnbPrice")
+      .textContent="Unavailable";
+
+  }
+
+}
+
+
+/* =========================
+   GBK PRICE
+   ========================= */
+
+async function loadGBKPrice(){
+
+  try{
+
+    const url =
+      "https://api.dexscreener.com/latest/dex/tokens/"
+      +GBK;
+
+    const response =
+      await fetch(url);
+
+    const data =
+      await response.json();
+
+    if(
+      data.pairs &&
+      data.pairs.length
+    ){
+
+      const pair =
+        data.pairs.find(
+          p =>
+          p.chainId === "bsc"
+        ) || data.pairs[0];
+
+      const price =
+        Number(pair.priceUsd);
+
+      document.getElementById("gbkPrice")
+        .textContent =
+        "$"+price.toLocaleString(
+          undefined,
+          {
+            maximumFractionDigits:8
+          }
+        );
+
+    }else{
+
+      document.getElementById("gbkPrice")
+        .textContent="No market";
+
+    }
+
+  }catch(error){
+
+    document.getElementById("gbkPrice")
+      .textContent="Unavailable";
+
+  }
+
+}
+
+
+/* =========================
+   BUY
+   ========================= */
+
+function openBuy(){
+
+  modalTitle.textContent =
+    "Buy GBK";
+
+  modalContent.innerHTML = `
+
+    <div class="field">
+
+      <label>PAY WITH</label>
+
+      <div class="input">
+
+        <input
+          id="buyAmount"
+          type="number"
+          placeholder="0.00"
+        >
+
+        <button class="token">
+          <span id="buyCurrency">INR</span>
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <div class="field">
+
+      <label>RECEIVE</label>
+
+      <div class="input">
+
+        <input
+          placeholder="Estimated GBK"
+          disabled
+        >
+
+        <button class="token">
+          GBK
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <button
+      class="primary"
+      onclick="connectWallet()"
+    >
+      Connect Wallet
+    </button>
+
+
+    <div class="info">
+
+      Local currency → USDT → GBK.
+
+      On-ramp provider, fees, limits,
+      KYC and country availability
+      will be shown when the provider
+      integration is connected.
+
+    </div>
+  `;
+
+  modal.classList.add("show");
+}
+
+
+/* =========================
+   SWAP
+   ========================= */
+
+function openSwap(){
+
+  modalTitle.textContent =
+    "Swap GBK";
+
+  modalContent.innerHTML = `
+
+    <div class="field">
+
+      <label>YOU PAY</label>
+
+      <div class="input">
+
+        <input
+          type="number"
+          placeholder="0.00"
+        >
+
+        <button class="token">
+          GBK ▾
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <div style="
+      text-align:center;
+      font-size:22px;
+      margin:12px
+    ">
+      ↕
+    </div>
+
+
+    <div class="field">
+
+      <label>YOU RECEIVE</label>
+
+      <div class="input">
+
+        <input
+          placeholder="Estimated amount"
+          disabled
+        >
+
+        <button class="token">
+          USDT ▾
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <button
+      class="primary"
+      onclick="connectWallet()"
+    >
+      Connect Wallet
+    </button>
+
+
+    <div class="info">
+
+      Live quote, price impact,
+      minimum received and gas
+      will be displayed here when
+      the BNB Chain swap router
+      is connected.
+
+    </div>
+  `;
+
+  modal.classList.add("show");
+}
+
+
+/* =========================
+   SELL
+   ========================= */
+
+function openSell(){
+
+  modalTitle.textContent =
+    "Sell GBK";
+
+  modalContent.innerHTML = `
+
+    <div class="field">
+
+      <label>SELL</label>
+
+      <div class="input">
+
+        <input
+          type="number"
+          placeholder="0.00"
+        >
+
+        <button class="token">
+          GBK
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <div class="field">
+
+      <label>RECEIVE</label>
+
+      <div class="input">
+
+        <input
+          placeholder="Estimated USDT"
+          disabled
+        >
+
+        <button class="token">
+          USDT
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <button
+      class="primary"
+      onclick="connectWallet()"
+    >
+      Connect Wallet
+    </button>
+
+
+    <div class="info">
+
+      GBK → USDT → local currency.
+
+      Off-ramp availability depends
+      on country and provider.
+
+    </div>
+  `;
+
+  modal.classList.add("show");
+}
+
+
+/* =========================
+   WALLET VIEW
+   ========================= */
+
+function openWallet(){
+
+  modalTitle.textContent =
+    "Wallet";
+
+  modalContent.innerHTML = `
+
+    <div class="info">
+
+      <b>Non-custodial wallet</b><br><br>
+
+      Connect your BNB Chain wallet
+      to view GBK, USDT and BNB balances.
+
+      Your private keys remain with you.
+
+    </div>
+
+
+    <button
+      class="primary"
+      onclick="connectWallet()"
+    >
+      Connect Wallet
+    </button>
+
+  `;
+
+  modal.classList.add("show");
+}
+
+
+/* =========================
+   HELP
+   ========================= */
+
+function help(){
+
+  modalTitle.textContent =
+    "GBK Swap Help";
+
+  modalContent.innerHTML = `
+
+    <div class="info">
+
+      <b>Simple GBK flow</b><br><br>
+
+      Buy GBK<br>
+      ↓<br>
+      Hold or use GBK<br>
+      ↓<br>
+      Swap GBK → USDT / BNB<br>
+      ↓<br>
+      Sell through an available
+      off-ramp provider.
+
+      <br><br>
+
+      Never share your seed phrase
+      or private key.
+
+    </div>
+
+  `;
+
+  modal.classList.add("show");
+}
+
+
+/* =========================
+   CURRENCY
+   ========================= */
+
+const currencySelect =
+  document.getElementById("currencySelect");
+
+currencySelect.addEventListener(
+  "change",
+  function(){
+
+    document.getElementById(
+      "currencyLabel"
+    ).textContent =
+      this.value;
+
+    document.getElementById(
+      "buyCurrency"
+    ).textContent =
+      this.value;
+
+    toast(
+      "Currency: "+this.value
+    );
+
+  }
+);
+
+
+/* =========================
+   INITIAL LOAD
+   ========================= */
+
+loadBNBPrice();
+
+loadGBKPrice();
+
+setInterval(
+  loadBNBPrice,
+  30000
+);
+
+setInterval(
+  loadGBKPrice,
+  30000
+);
+
+
+/* =========================
+   WALLET EVENTS
+   ========================= */
+
+if(window.ethereum){
+
+  window.ethereum.on(
+    "accountsChanged",
+    function(accounts){
+
+      if(accounts.length){
+
+        walletAddress =
+          accounts[0];
+
+        loadBalances();
+
+      }else{
+
+        walletAddress=null;
+
+        document.getElementById(
+          "walletStatus"
+        ).textContent=
+        "Not connected";
+
+      }
+
+    }
+  );
+
+  window.ethereum.on(
+    "chainChanged",
+    function(){
+
+      if(walletAddress)
+        loadBalances();
+
+    }
+  );
+
+}
+
 </script>
-</body></html>
+
+</body>
+</html>
