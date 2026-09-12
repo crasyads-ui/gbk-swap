@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0b3d2e">
+<meta name="description" content="GBK Swap on BNB Chain">
 <title>GBK Swap</title>
 
 <style>
@@ -25,6 +26,14 @@ body{
   background:var(--bg);
   color:var(--ink);
   font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+
+button,input,select{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
 }
 
 .app{
@@ -93,7 +102,9 @@ header{
   font-size:18px;
 }
 
-main{padding:18px}
+main{
+  padding:18px;
+}
 
 .hero{
   background:linear-gradient(135deg,var(--g),#0a5b43);
@@ -230,10 +241,25 @@ main{padding:18px}
   margin-bottom:15px;
 }
 
-.buy .sym{background:#e3f4ec;color:var(--g2)}
-.swap .sym{background:#eee8ff;color:#6f52c8}
-.sell .sym{background:#fff2d7;color:#986e10}
-.wallet .sym{background:#e3f2f7;color:#18718b}
+.buy .sym{
+  background:#e3f4ec;
+  color:var(--g2);
+}
+
+.swap .sym{
+  background:#eee8ff;
+  color:#6f52c8;
+}
+
+.sell .sym{
+  background:#fff2d7;
+  color:#986e10;
+}
+
+.wallet .sym{
+  background:#e3f2f7;
+  color:#18718b;
+}
 
 .card h3{
   font-size:17px;
@@ -352,7 +378,19 @@ main{padding:18px}
   line-height:1.5;
 }
 
-.info b{color:var(--g)}
+.info b{
+  color:var(--g);
+}
+
+.warning{
+  background:#fff6df;
+  color:#76550b;
+}
+
+.danger{
+  background:#fff0f0;
+  color:#8b3030;
+}
 
 nav{
   position:fixed;
@@ -378,7 +416,9 @@ nav{
   font-weight:800;
 }
 
-.nav.active{color:var(--g)}
+.nav.active{
+  color:var(--g);
+}
 
 .nav i{
   display:block;
@@ -396,7 +436,9 @@ nav{
   align-items:end;
 }
 
-.modal.show{display:flex}
+.modal.show{
+  display:flex;
+}
 
 .sheet{
   width:min(520px,100%);
@@ -428,7 +470,9 @@ nav{
   font-size:22px;
 }
 
-.field{margin-top:15px}
+.field{
+  margin-top:15px;
+}
 
 .field label{
   display:block;
@@ -462,6 +506,7 @@ nav{
   padding:9px;
   font-weight:800;
   color:var(--g);
+  white-space:nowrap;
 }
 
 .primary{
@@ -485,6 +530,42 @@ nav{
   margin-top:9px;
   background:#f0f5f2;
   color:var(--g);
+}
+
+.slip-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+
+.slip-button{
+  border:1px solid var(--line);
+  background:#f5f8f6;
+  color:var(--g);
+  padding:12px;
+  border-radius:12px;
+  font-weight:900;
+}
+
+.slip-button.active{
+  background:var(--g);
+  color:#fff;
+}
+
+.quote{
+  display:flex;
+  justify-content:space-between;
+  padding:9px 0;
+  border-bottom:1px solid var(--line);
+  font-size:12px;
+}
+
+.quote:last-child{
+  border-bottom:0;
+}
+
+.quote span:last-child{
+  font-weight:800;
 }
 
 .toast{
@@ -511,9 +592,17 @@ nav{
 }
 
 @media(max-width:380px){
-  .hero h1{font-size:27px}
-  .card{padding:14px}
-  .price-row{grid-template-columns:1fr}
+  .hero h1{
+    font-size:27px;
+  }
+
+  .card{
+    padding:14px;
+  }
+
+  .price-row{
+    grid-template-columns:1fr;
+  }
 }
 </style>
 </head>
@@ -523,241 +612,316 @@ nav{
 <div class="app">
 
 <header>
-  <div class="top">
-    <div class="brand">
-      <div class="logo">GBK</div>
-      <div>
-        GBK Swap
-        <small>BNB Chain</small>
-      </div>
-    </div>
+<div class="top">
 
-    <div class="tools">
-      <button class="icon" id="currencyBtn">🌐</button>
-    </div>
-  </div>
+<div class="brand">
+<div class="logo">GBK</div>
+
+<div>
+GBK Swap
+<small>BNB Chain</small>
+</div>
+
+</div>
+
+<div class="tools">
+<button class="icon" id="currencyBtn">🌐</button>
+</div>
+
+</div>
 </header>
+
 
 <main>
 
 <section class="hero">
 
-  <div class="herorow">
+<div class="herorow">
 
-    <div>
-      <div class="eyebrow">GBK ecosystem</div>
+<div>
 
-      <h1>
-        Swap simply.<br>
-        Stay in control.
-      </h1>
+<div class="eyebrow">
+GBK ecosystem
+</div>
 
-      <p>
-        Non-custodial trading for GBK on BNB Chain.
-      </p>
-    </div>
+<h1>
+Swap simply.<br>
+Stay in control.
+</h1>
 
-    <div class="network">
-      <span class="dot"></span>
-      BNB Chain
-    </div>
+<p>
+Non-custodial trading for GBK on BNB Chain.
+</p>
 
-  </div>
+</div>
 
-  <div class="balance">
+<div class="network">
+<span class="dot"></span>
+BNB Chain
+</div>
 
-    <div>
-      <small>Portfolio value</small>
-      <strong id="portfolio">—</strong>
-    </div>
+</div>
 
-    <button class="connect" onclick="connectWallet()">
-      Connect Wallet
-    </button>
 
-  </div>
+<div class="balance">
+
+<div>
+
+<small>Portfolio value</small>
+
+<strong id="portfolio">—</strong>
+
+</div>
+
+<button class="connect" onclick="connectWallet()">
+Connect Wallet
+</button>
+
+</div>
 
 </section>
 
 
 <div class="section">
-  <h2>Market prices</h2>
-  <span>Live</span>
+
+<h2>Market prices</h2>
+
+<span>Live</span>
+
 </div>
+
 
 <section class="panel">
 
-  <div class="price-row">
+<div class="price-row">
 
-    <div class="price">
-      <small>GBK</small>
-      <strong id="gbkPrice">Loading…</strong>
-    </div>
+<div class="price">
+<small>GBK</small>
+<strong id="gbkPrice">Loading…</strong>
+</div>
 
-    <div class="price">
-      <small>BNB</small>
-      <strong id="bnbPrice">Loading…</strong>
-    </div>
+<div class="price">
+<small>BNB</small>
+<strong id="bnbPrice">Loading…</strong>
+</div>
 
-    <div class="price">
-      <small>USDT</small>
-      <strong id="usdtPrice">≈ $1.00</strong>
-    </div>
+<div class="price">
+<small>USDT</small>
+<strong id="usdtPrice">≈ $1.00</strong>
+</div>
 
-  </div>
+</div>
 
 </section>
 
 
 <div class="section">
-  <h2>What do you want to do?</h2>
-  <span>GBK first</span>
+
+<h2>What do you want to do?</h2>
+
+<span>GBK first</span>
+
 </div>
 
 
 <section class="grid">
 
+
 <button class="card buy" onclick="openBuy()">
-  <span class="arrow">↗</span>
-  <div class="sym">＋</div>
-  <h3>Buy GBK</h3>
-  <p>Local currency → USDT → GBK</p>
+
+<span class="arrow">↗</span>
+
+<div class="sym">＋</div>
+
+<h3>Buy GBK</h3>
+
+<p>
+Local currency → USDT → GBK
+</p>
+
 </button>
 
 
 <button class="card swap" onclick="openSwap()">
-  <span class="arrow">↕</span>
-  <div class="sym">↕</div>
-  <h3>Swap GBK</h3>
-  <p>GBK ↔ USDT, BNB & tokens</p>
+
+<span class="arrow">↕</span>
+
+<div class="sym">↕</div>
+
+<h3>Swap GBK</h3>
+
+<p>
+GBK ↔ USDT, BNB & tokens
+</p>
+
 </button>
 
 
 <button class="card sell" onclick="openSell()">
-  <span class="arrow">↗</span>
-  <div class="sym">−</div>
-  <h3>Sell GBK</h3>
-  <p>GBK → USDT → local currency</p>
+
+<span class="arrow">↗</span>
+
+<div class="sym">−</div>
+
+<h3>Sell GBK</h3>
+
+<p>
+GBK → USDT → local currency
+</p>
+
 </button>
 
 
 <button class="card wallet" onclick="openWallet()">
-  <span class="arrow">→</span>
-  <div class="sym">▣</div>
-  <h3>Wallet</h3>
-  <p>View your on-chain balances</p>
+
+<span class="arrow">→</span>
+
+<div class="sym">▣</div>
+
+<h3>Wallet</h3>
+
+<p>
+View your on-chain balances
+</p>
+
 </button>
 
 </section>
 
 
 <div class="section">
-  <h2>On-chain balance</h2>
-  <span id="walletStatus">Not connected</span>
+
+<h2>On-chain balance</h2>
+
+<span id="walletStatus">
+Not connected
+</span>
+
 </div>
 
 
 <section class="panel">
 
+
 <div class="asset">
 
-  <div class="assetleft">
-    <div class="coin">GBK</div>
+<div class="assetleft">
 
-    <div class="assetname">
-      <strong>GBK</strong>
-      <small>BNB Chain</small>
-    </div>
-  </div>
+<div class="coin">GBK</div>
 
-  <div class="assetr">
-    <strong id="gbkBalance">—</strong>
-    <small>Balance</small>
-  </div>
+<div class="assetname">
+<strong>GBK</strong>
+<small>BNB Chain</small>
+</div>
+
+</div>
+
+<div class="assetr">
+<strong id="gbkBalance">—</strong>
+<small>Balance</small>
+</div>
 
 </div>
 
 
 <div class="asset">
 
-  <div class="assetleft">
-    <div class="coin">USDT</div>
+<div class="assetleft">
 
-    <div class="assetname">
-      <strong>USDT</strong>
-      <small>BNB Chain</small>
-    </div>
-  </div>
+<div class="coin">USDT</div>
 
-  <div class="assetr">
-    <strong id="usdtBalance">—</strong>
-    <small>Balance</small>
-  </div>
+<div class="assetname">
+<strong>USDT</strong>
+<small>BNB Chain</small>
+</div>
+
+</div>
+
+<div class="assetr">
+<strong id="usdtBalance">—</strong>
+<small>Balance</small>
+</div>
 
 </div>
 
 
 <div class="asset">
 
-  <div class="assetleft">
-    <div class="coin">BNB</div>
+<div class="assetleft">
 
-    <div class="assetname">
-      <strong>BNB</strong>
-      <small>Gas</small>
-    </div>
-  </div>
+<div class="coin">BNB</div>
 
-  <div class="assetr">
-    <strong id="bnbBalance">—</strong>
-    <small>Balance</small>
-  </div>
+<div class="assetname">
+<strong>BNB</strong>
+<small>Gas</small>
+</div>
+
+</div>
+
+<div class="assetr">
+<strong id="bnbBalance">—</strong>
+<small>Balance</small>
+</div>
 
 </div>
 
 
 <div class="info">
-  <b>Non-custodial:</b>
-  Your wallet remains under your control.
-  Never share your seed phrase or private key.
+
+<b>Non-custodial:</b>
+
+Your wallet remains under your control.
+
+Never share your seed phrase or private key.
+
 </div>
 
 </section>
 
 
 <div class="section">
-  <h2>Currency</h2>
-  <span id="currencyLabel">INR</span>
+
+<h2>Currency</h2>
+
+<span id="currencyLabel">INR</span>
+
 </div>
+
 
 <section class="panel">
 
 <select class="currency" id="currencySelect">
-  <option value="INR">🇮🇳 INR — Indian Rupee</option>
-  <option value="USD">🇺🇸 USD — US Dollar</option>
-  <option value="EUR">🇪🇺 EUR — Euro</option>
-  <option value="GBP">🇬🇧 GBP — British Pound</option>
-  <option value="AED">🇦🇪 AED — UAE Dirham</option>
-  <option value="SAR">🇸🇦 SAR — Saudi Riyal</option>
-  <option value="SGD">🇸🇬 SGD — Singapore Dollar</option>
-  <option value="AUD">🇦🇺 AUD — Australian Dollar</option>
-  <option value="CAD">🇨🇦 CAD — Canadian Dollar</option>
-  <option value="JPY">🇯🇵 JPY — Japanese Yen</option>
-  <option value="CNY">🇨🇳 CNY — Chinese Yuan</option>
-  <option value="KRW">🇰🇷 KRW — Korean Won</option>
-  <option value="THB">🇹🇭 THB — Thai Baht</option>
-  <option value="MYR">🇲🇾 MYR — Malaysian Ringgit</option>
-  <option value="IDR">🇮🇩 IDR — Indonesian Rupiah</option>
-  <option value="PHP">🇵🇭 PHP — Philippine Peso</option>
-  <option value="BRL">🇧🇷 BRL — Brazilian Real</option>
-  <option value="MXN">🇲🇽 MXN — Mexican Peso</option>
-  <option value="ZAR">🇿🇦 ZAR — South African Rand</option>
-  <option value="TRY">🇹🇷 TRY — Turkish Lira</option>
+
+<option value="INR">🇮🇳 INR — Indian Rupee</option>
+<option value="USD">🇺🇸 USD — US Dollar</option>
+<option value="EUR">🇪🇺 EUR — Euro</option>
+<option value="GBP">🇬🇧 GBP — British Pound</option>
+<option value="AED">🇦🇪 AED — UAE Dirham</option>
+<option value="SAR">🇸🇦 SAR — Saudi Riyal</option>
+<option value="SGD">🇸🇬 SGD — Singapore Dollar</option>
+<option value="AUD">🇦🇺 AUD — Australian Dollar</option>
+<option value="CAD">🇨🇦 CAD — Canadian Dollar</option>
+<option value="JPY">🇯🇵 JPY — Japanese Yen</option>
+<option value="CNY">🇨🇳 CNY — Chinese Yuan</option>
+<option value="KRW">🇰🇷 KRW — Korean Won</option>
+<option value="THB">🇹🇭 THB — Thai Baht</option>
+<option value="MYR">🇲🇾 MYR — Malaysian Ringgit</option>
+<option value="IDR">🇮🇩 IDR — Indonesian Rupiah</option>
+<option value="PHP">🇵🇭 PHP — Philippine Peso</option>
+<option value="BRL">🇧🇷 BRL — Brazilian Real</option>
+<option value="MXN">🇲🇽 MXN — Mexican Peso</option>
+<option value="ZAR">🇿🇦 ZAR — South African Rand</option>
+<option value="TRY">🇹🇷 TRY — Turkish Lira</option>
+
 </select>
 
+
 <div class="info">
-  Local currency display is for pricing/conversion.
-  Actual fiat on-ramp availability depends on the payment provider and country.
+
+Local currency display is for pricing/conversion.
+
+Actual fiat on-ramp availability depends on the payment provider and country.
+
 </div>
 
 </section>
@@ -768,23 +932,23 @@ nav{
 <nav>
 
 <button class="nav active">
-  <i>⌂</i>
-  Home
+<i>⌂</i>
+Home
 </button>
 
 <button class="nav" onclick="openSwap()">
-  <i>↕</i>
-  Swap
+<i>↕</i>
+Swap
 </button>
 
 <button class="nav" onclick="openWallet()">
-  <i>▣</i>
-  Wallet
+<i>▣</i>
+Wallet
 </button>
 
 <button class="nav" onclick="help()">
-  <i>?</i>
-  Help
+<i>?</i>
+Help
 </button>
 
 </nav>
@@ -796,12 +960,17 @@ nav{
 
 <div class="sheet">
 
-  <div class="head">
-    <h2 id="modalTitle"></h2>
-    <button class="close" onclick="closeModal()">×</button>
-  </div>
+<div class="head">
 
-  <div id="modalContent"></div>
+<h2 id="modalTitle"></h2>
+
+<button class="close" onclick="closeModal()">
+×
+</button>
+
+</div>
+
+<div id="modalContent"></div>
 
 </div>
 
@@ -814,7 +983,7 @@ nav{
 <script>
 
 /* =========================
-   GBK TOKEN CONFIGURATION
+   GBK CONFIG
    ========================= */
 
 const GBK =
@@ -823,11 +992,22 @@ const GBK =
 const USDT =
 "0x55d398326f99059fF775485246999027B3197955";
 
-const BNB_CHAIN_ID = "0x38";
+/* PancakeSwap V2 Router on BNB Chain */
+const ROUTER =
+"0x10ED43C718714eb63d5aA57B78B54704E256024E";
+
+const BNB_CHAIN_ID =
+"0x38";
+
+const ZERO =
+"0x0000000000000000000000000000000000000000";
+
+const GBK_DECIMALS = 18;
+const USDT_DECIMALS = 18;
 
 
 /* =========================
-   BASIC UI
+   UI
    ========================= */
 
 const modal =
@@ -849,20 +1029,25 @@ function toast(message){
 
   toastBox.classList.add("show");
 
-  setTimeout(()=>{
+  setTimeout(function(){
+
     toastBox.classList.remove("show");
+
   },2300);
+
 }
 
 
 function closeModal(){
+
   modal.classList.remove("show");
+
 }
 
 
-modal.onclick = function(e){
+modal.onclick=function(e){
 
-  if(e.target === modal){
+  if(e.target===modal){
     closeModal();
   }
 
@@ -873,17 +1058,23 @@ modal.onclick = function(e){
    WALLET
    ========================= */
 
-let walletAddress = null;
+let walletAddress=null;
+
+let swapSlippageMode="auto";
 
 
 async function connectWallet(){
 
   if(!window.ethereum){
 
-    toast("Install MetaMask or a compatible wallet");
+    toast(
+      "Open GBK Swap in Bitget, Trust or Binance Wallet"
+    );
 
     return;
+
   }
+
 
   try{
 
@@ -892,17 +1083,30 @@ async function connectWallet(){
         method:"eth_requestAccounts"
       });
 
-    walletAddress =
-      accounts[0];
 
-    document.getElementById("walletStatus")
-      .textContent =
-      walletAddress.slice(0,6)+"..."+
-      walletAddress.slice(-4);
+    if(!accounts.length){
+
+      toast("No wallet account found");
+
+      return;
+
+    }
+
+
+    walletAddress=accounts[0];
+
+
+    await ensureBNBChain();
+
+
+    updateWalletUI();
+
 
     await loadBalances();
 
+
     toast("Wallet connected");
+
 
   }catch(error){
 
@@ -915,37 +1119,128 @@ async function connectWallet(){
 }
 
 
+function updateWalletUI(){
+
+  if(!walletAddress){
+
+    document.getElementById(
+      "walletStatus"
+    ).textContent="Not connected";
+
+    return;
+
+  }
+
+
+  document.getElementById(
+    "walletStatus"
+  ).textContent=
+    walletAddress.slice(0,6)+
+    "..."+
+    walletAddress.slice(-4);
+
+}
+
+
 /* =========================
-   NETWORK
+   BNB CHAIN
    ========================= */
 
 async function ensureBNBChain(){
 
-  if(!window.ethereum) return false;
+  if(!window.ethereum)
+    return false;
+
 
   try{
 
+    const chain =
+      await window.ethereum.request({
+        method:"eth_chainId"
+      });
+
+
+    if(chain.toLowerCase()===BNB_CHAIN_ID)
+      return true;
+
+
     await window.ethereum.request({
+
       method:"wallet_switchEthereumChain",
+
       params:[
-        {chainId:BNB_CHAIN_ID}
+        {
+          chainId:BNB_CHAIN_ID
+        }
       ]
+
     });
+
 
     return true;
 
+
   }catch(error){
 
-    toast("Please switch wallet to BNB Chain");
+    console.log(error);
+
+    toast(
+      "Please switch wallet to BNB Chain"
+    );
 
     return false;
+
   }
 
 }
 
 
 /* =========================
-   TOKEN BALANCES
+   ERC20 HELPERS
+   ========================= */
+
+function encodeAddress(address){
+
+  return address
+    .toLowerCase()
+    .replace("0x","")
+    .padStart(64,"0");
+
+}
+
+
+function encodeUint256(value){
+
+  return BigInt(value)
+    .toString(16)
+    .padStart(64,"0");
+
+}
+
+
+function dataBalanceOf(address){
+
+  return (
+    "0x70a08231"+
+    encodeAddress(address)
+  );
+
+}
+
+
+function dataApprove(spender,amount){
+
+  return (
+    "0x095ea7b3"+
+    encodeAddress(spender)+
+    encodeUint256(amount)
+  );
+
+}
+
+
+/* =========================
+   BALANCES
    ========================= */
 
 async function loadBalances(){
@@ -953,78 +1248,110 @@ async function loadBalances(){
   if(!walletAddress || !window.ethereum)
     return;
 
+
   try{
 
     const bnb =
       await window.ethereum.request({
+
         method:"eth_getBalance",
-        params:[walletAddress,"latest"]
+
+        params:[
+          walletAddress,
+          "latest"
+        ]
+
       });
 
-    const bnbValue =
-      parseInt(bnb,16)/1e18;
 
-    document.getElementById("bnbBalance")
-      .textContent =
+    const bnbValue =
+      Number(
+        BigInt(bnb)
+      )/1e18;
+
+
+    document.getElementById(
+      "bnbBalance"
+    ).textContent=
       bnbValue.toFixed(5);
 
 
-    const gbkData =
-      "0x70a08231"+
-      walletAddress.slice(2).padStart(64,"0");
-
     const gbkRaw =
       await window.ethereum.request({
+
         method:"eth_call",
+
         params:[
           {
             to:GBK,
-            data:gbkData
+            data:dataBalanceOf(
+              walletAddress
+            )
           },
           "latest"
         ]
+
       });
 
-    const gbkValue =
-      Number(BigInt(gbkRaw))/1e18;
 
-    document.getElementById("gbkBalance")
-      .textContent =
+    const gbkValue =
+      Number(
+        BigInt(gbkRaw)
+      )/1e18;
+
+
+    document.getElementById(
+      "gbkBalance"
+    ).textContent=
       gbkValue.toLocaleString(
         undefined,
-        {maximumFractionDigits:4}
+        {
+          maximumFractionDigits:4
+        }
       );
 
-
-    const usdtData =
-      "0x70a08231"+
-      walletAddress.slice(2).padStart(64,"0");
 
     const usdtRaw =
       await window.ethereum.request({
+
         method:"eth_call",
+
         params:[
           {
             to:USDT,
-            data:usdtData
+            data:dataBalanceOf(
+              walletAddress
+            )
           },
           "latest"
         ]
+
       });
 
-    const usdtValue =
-      Number(BigInt(usdtRaw))/1e18;
 
-    document.getElementById("usdtBalance")
-      .textContent =
+    const usdtValue =
+      Number(
+        BigInt(usdtRaw)
+      )/1e18;
+
+
+    document.getElementById(
+      "usdtBalance"
+    ).textContent=
       usdtValue.toLocaleString(
         undefined,
-        {maximumFractionDigits:2}
+        {
+          maximumFractionDigits:2
+        }
       );
+
 
   }catch(error){
 
-    console.log("Balance error:",error);
+    console.log(
+      "Balance error:",
+      error
+    );
 
   }
 
@@ -1032,7 +1359,7 @@ async function loadBalances(){
 
 
 /* =========================
-   BNB PRICE
+   MARKET PRICES
    ========================= */
 
 async function loadBNBPrice(){
@@ -1044,46 +1371,53 @@ async function loadBNBPrice(){
         "https://api.binance.com/api/v3/ticker/price?symbol=BNBUSDT"
       );
 
+
     const data =
       await response.json();
+
 
     const price =
       Number(data.price);
 
-    document.getElementById("bnbPrice")
-      .textContent =
-      "$"+price.toLocaleString(
+
+    document.getElementById(
+      "bnbPrice"
+    ).textContent=
+      "$"+
+      price.toLocaleString(
         undefined,
-        {maximumFractionDigits:2}
+        {
+          maximumFractionDigits:2
+        }
       );
+
 
   }catch(error){
 
-    document.getElementById("bnbPrice")
-      .textContent="Unavailable";
+    document.getElementById(
+      "bnbPrice"
+    ).textContent=
+      "Unavailable";
 
   }
 
 }
 
 
-/* =========================
-   GBK PRICE
-   ========================= */
-
 async function loadGBKPrice(){
 
   try{
 
-    const url =
-      "https://api.dexscreener.com/latest/dex/tokens/"
-      +GBK;
-
     const response =
-      await fetch(url);
+      await fetch(
+        "https://api.dexscreener.com/latest/dex/tokens/"+
+        GBK
+      );
+
 
     const data =
       await response.json();
+
 
     if(
       data.pairs &&
@@ -1092,33 +1426,44 @@ async function loadGBKPrice(){
 
       const pair =
         data.pairs.find(
-          p =>
-          p.chainId === "bsc"
+          function(p){
+            return p.chainId==="bsc";
+          }
         ) || data.pairs[0];
+
 
       const price =
         Number(pair.priceUsd);
 
-      document.getElementById("gbkPrice")
-        .textContent =
-        "$"+price.toLocaleString(
+
+      document.getElementById(
+        "gbkPrice"
+      ).textContent=
+        "$"+
+        price.toLocaleString(
           undefined,
           {
             maximumFractionDigits:8
           }
         );
 
+
     }else{
 
-      document.getElementById("gbkPrice")
-        .textContent="No market";
+      document.getElementById(
+        "gbkPrice"
+      ).textContent=
+        "No market";
 
     }
 
+
   }catch(error){
 
-    document.getElementById("gbkPrice")
-      .textContent="Unavailable";
+    document.getElementById(
+      "gbkPrice"
+    ).textContent=
+      "Unavailable";
 
   }
 
@@ -1131,73 +1476,78 @@ async function loadGBKPrice(){
 
 function openBuy(){
 
-  modalTitle.textContent =
-    "Buy GBK";
-
-  modalContent.innerHTML = `
-
-    <div class="field">
-
-      <label>PAY WITH</label>
-
-      <div class="input">
-
-        <input
-          id="buyAmount"
-          type="number"
-          placeholder="0.00"
-        >
-
-        <button class="token">
-          <span id="buyCurrency">INR</span>
-        </button>
-
-      </div>
-
-    </div>
+  modalTitle.textContent="Buy GBK";
 
 
-    <div class="field">
+  modalContent.innerHTML=`
 
-      <label>RECEIVE</label>
+<div class="field">
 
-      <div class="input">
+<label>PAY WITH</label>
 
-        <input
-          placeholder="Estimated GBK"
-          disabled
-        >
+<div class="input">
 
-        <button class="token">
-          GBK
-        </button>
+<input
+id="buyAmount"
+type="number"
+placeholder="0.00"
+>
 
-      </div>
+<button class="token">
+<span id="buyCurrency">
+INR
+</span>
+</button>
 
-    </div>
+</div>
 
-
-    <button
-      class="primary"
-      onclick="connectWallet()"
-    >
-      Connect Wallet
-    </button>
+</div>
 
 
-    <div class="info">
+<div class="field">
 
-      Local currency → USDT → GBK.
+<label>RECEIVE</label>
 
-      On-ramp provider, fees, limits,
-      KYC and country availability
-      will be shown when the provider
-      integration is connected.
+<div class="input">
 
-    </div>
-  `;
+<input
+placeholder="Estimated GBK"
+disabled
+>
+
+<button class="token">
+GBK
+</button>
+
+</div>
+
+</div>
+
+
+<button
+class="primary"
+onclick="connectWallet()"
+>
+Connect Wallet
+</button>
+
+
+<div class="info">
+
+Local currency → USDT → GBK.
+
+On-ramp provider, fees, limits,
+KYC and country availability
+will be shown when the provider
+integration is connected.
+
+</div>
+
+`;
+
 
   modal.classList.add("show");
+
 }
 
 
@@ -1207,80 +1557,879 @@ function openBuy(){
 
 function openSwap(){
 
-  modalTitle.textContent =
-    "Swap GBK";
-
-  modalContent.innerHTML = `
-
-    <div class="field">
-
-      <label>YOU PAY</label>
-
-      <div class="input">
-
-        <input
-          type="number"
-          placeholder="0.00"
-        >
-
-        <button class="token">
-          GBK ▾
-        </button>
-
-      </div>
-
-    </div>
+  modalTitle.textContent=
+    "Swap GBK → USDT";
 
 
-    <div style="
-      text-align:center;
-      font-size:22px;
-      margin:12px
-    ">
-      ↕
-    </div>
+  modalContent.innerHTML=`
+
+<div class="field">
+
+<label>YOU PAY</label>
+
+<div class="input">
+
+<input
+id="swapAmount"
+type="number"
+min="0"
+step="any"
+placeholder="0.00"
+oninput="updateSwapQuote()"
+>
+
+<button class="token">
+GBK
+</button>
+
+</div>
+
+</div>
 
 
-    <div class="field">
-
-      <label>YOU RECEIVE</label>
-
-      <div class="input">
-
-        <input
-          placeholder="Estimated amount"
-          disabled
-        >
-
-        <button class="token">
-          USDT ▾
-        </button>
-
-      </div>
-
-    </div>
+<div style="
+text-align:center;
+font-size:23px;
+margin:12px;
+color:#126b4e;
+">
+↓
+</div>
 
 
-    <button
-      class="primary"
-      onclick="connectWallet()"
-    >
-      Connect Wallet
-    </button>
+<div class="field">
+
+<label>YOU RECEIVE</label>
+
+<div class="input">
+
+<input
+id="swapReceive"
+placeholder="Estimated USDT"
+disabled
+>
+
+<button class="token">
+USDT
+</button>
+
+</div>
+
+</div>
 
 
-    <div class="info">
+<div class="field">
 
-      Live quote, price impact,
-      minimum received and gas
-      will be displayed here when
-      the BNB Chain swap router
-      is connected.
+<label>SLIPPAGE</label>
 
-    </div>
-  `;
+<div class="slip-grid">
+
+<button
+id="autoSlip"
+class="slip-button active"
+onclick="setSlippage('auto')"
+>
+⚡ Auto
+</button>
+
+<button
+id="manualSlip"
+class="slip-button"
+onclick="setSlippage('manual')"
+>
+Manual
+</button>
+
+</div>
+
+</div>
+
+
+<div id="manualSlippage"
+style="display:none"
+>
+
+<div class="field">
+
+<label>BUY SLIPPAGE</label>
+
+<div class="input">
+
+<input
+id="buySlippage"
+type="number"
+value="14"
+min="0.1"
+max="50"
+step="0.1"
+>
+
+<button class="token">%</button>
+
+</div>
+
+</div>
+
+
+<div class="field">
+
+<label>SELL SLIPPAGE</label>
+
+<div class="input">
+
+<input
+id="sellSlippage"
+type="number"
+value="18"
+min="0.1"
+max="50"
+step="0.1"
+>
+
+<button class="token">%</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div id="slippageInfo"
+class="info">
+
+⚡ <b>Automatic slippage</b><br>
+
+The swap will calculate the live quote
+and automatically apply a protection
+against price movement.
+
+</div>
+
+
+<div id="swapQuote"
+class="panel"
+style="margin-top:12px;display:none"
+>
+
+<div class="quote">
+<span>Rate</span>
+<span id="quoteRate">—</span>
+</div>
+
+<div class="quote">
+<span>Price impact</span>
+<span id="quoteImpact">Checking…</span>
+</div>
+
+<div class="quote">
+<span>Minimum received</span>
+<span id="quoteMinimum">—</span>
+</div>
+
+</div>
+
+
+<div class="info">
+
+<b>Supported wallets</b><br>
+
+Bitget Wallet • Trust Wallet • Binance Wallet
+• MetaMask and compatible BNB Chain wallets.
+
+</div>
+
+
+<button
+class="primary"
+onclick="executeGBKSwap()"
+>
+Connect Wallet & Swap
+</button>
+
+`;
+
 
   modal.classList.add("show");
+
+  swapSlippageMode="auto";
+
+}
+
+
+/* =========================
+   SLIPPAGE
+   ========================= */
+
+function setSlippage(mode){
+
+  swapSlippageMode=mode;
+
+
+  const auto =
+    document.getElementById(
+      "autoSlip"
+    );
+
+  const manual =
+    document.getElementById(
+      "manualSlip"
+    );
+
+  const box =
+    document.getElementById(
+      "manualSlippage"
+    );
+
+  const info =
+    document.getElementById(
+      "slippageInfo"
+    );
+
+
+  if(mode==="manual"){
+
+    auto.classList.remove("active");
+
+    manual.classList.add("active");
+
+    box.style.display="block";
+
+
+    info.innerHTML=`
+      <b>Manual slippage</b><br>
+      Buy: 14% • Sell: 18%
+    `;
+
+
+  }else{
+
+    manual.classList.remove("active");
+
+    auto.classList.add("active");
+
+    box.style.display="none";
+
+
+    info.innerHTML=`
+      ⚡ <b>Automatic slippage</b><br>
+      Live price movement will be checked
+      before the transaction is submitted.
+    `;
+
+  }
+
+}
+
+
+/* =========================
+   PANCAKE ROUTER ABI
+   ========================= */
+
+function dataGetAmountsOut(amount,path){
+
+  return (
+    "0xd06ca61f"+
+    encodeUint256(amount)+
+    encodeUint256(2)+
+    encodeAddress(path[0])+
+    encodeAddress(path[1])
+  );
+
+}
+
+
+/* =========================
+   LIVE SWAP QUOTE
+   ========================= */
+
+let lastQuote=null;
+
+
+async function getGBKQuote(amount){
+
+  if(!window.ethereum)
+    return null;
+
+
+  try{
+
+    const raw =
+      await window.ethereum.request({
+
+        method:"eth_call",
+
+        params:[
+          {
+            to:ROUTER,
+            data:dataGetAmountsOut(
+              amount,
+              [GBK,USDT]
+            )
+          },
+          "latest"
+        ]
+
+      });
+
+
+    const hex =
+      raw.replace("0x","");
+
+
+    const first =
+      BigInt(
+        "0x"+
+        hex.slice(0,64)
+      );
+
+
+    const second =
+      BigInt(
+        "0x"+
+        hex.slice(64,128)
+      );
+
+
+    return {
+      input:first,
+      output:second
+    };
+
+
+  }catch(error){
+
+    console.log(
+      "Quote error:",
+      error
+    );
+
+    return null;
+
+  }
+
+}
+
+
+/* =========================
+   UPDATE QUOTE
+   ========================= */
+
+let quoteTimer=null;
+
+
+async function updateSwapQuote(){
+
+  const input =
+    document.getElementById(
+      "swapAmount"
+    );
+
+
+  if(!input)
+    return;
+
+
+  const value =
+    Number(input.value);
+
+
+  if(!value || value<=0){
+
+    const receive =
+      document.getElementById(
+        "swapReceive"
+      );
+
+    if(receive)
+      receive.value="";
+
+
+    return;
+
+  }
+
+
+  try{
+
+    const amount =
+      BigInt(
+        Math.floor(
+          value*1e18
+        )
+      );
+
+
+    const quote =
+      await getGBKQuote(amount);
+
+
+    if(!quote)
+      return;
+
+
+    lastQuote=quote;
+
+
+    const usdt =
+      Number(
+        quote.output
+      )/1e18;
+
+
+    const receive =
+      document.getElementById(
+        "swapReceive"
+      );
+
+
+    if(receive){
+
+      receive.value=
+        usdt.toFixed(6);
+
+    }
+
+
+    const quotePanel =
+      document.getElementById(
+        "swapQuote"
+      );
+
+
+    if(quotePanel)
+      quotePanel.style.display="block";
+
+
+    const rate =
+      value/usdt;
+
+
+    document.getElementById(
+      "quoteRate"
+    ).textContent=
+      "1 USDT ≈ "+
+      rate.toLocaleString(
+        undefined,
+        {
+          maximumFractionDigits:2
+        }
+      )+
+      " GBK";
+
+
+    document.getElementById(
+      "quoteImpact"
+    ).textContent=
+      "Live router quote";
+
+
+    const minimum =
+      calculateMinimum(
+        quote.output
+      );
+
+
+    document.getElementById(
+      "quoteMinimum"
+    ).textContent=
+      (
+        Number(minimum)/1e18
+      ).toFixed(6)+
+      " USDT";
+
+
+  }catch(error){
+
+    console.log(error);
+
+  }
+
+}
+
+
+function calculateMinimum(amountOut){
+
+  let slippage=18;
+
+
+  if(
+    swapSlippageMode==="manual"
+  ){
+
+    slippage =
+      Number(
+        document.getElementById(
+          "sellSlippage"
+        )?.value || 18
+      );
+
+  }
+
+
+  /*
+    Automatic mode uses 18% protection
+    for GBK → USDT until a dedicated
+    dynamic slippage engine is connected.
+  */
+
+
+  const numerator =
+    BigInt(
+      Math.round(
+        (100-slippage)*100
+      )
+    );
+
+
+  return (
+    amountOut*numerator/
+    BigInt(10000)
+  );
+
+}
+
+
+/* =========================
+   HEX ENCODING
+   ========================= */
+
+function padHex(value){
+
+  return BigInt(value)
+    .toString(16)
+    .padStart(64,"0");
+
+}
+
+
+/* =========================
+   PANCAKE SWAP DATA
+   ========================= */
+
+function swapExactTokensForTokensSupportingFeeOnTransferTokensData(
+  amountIn,
+  amountOutMin,
+  path,
+  to,
+  deadline
+){
+
+  /*
+    Function:
+    swapExactTokensForTokensSupportingFeeOnTransferTokens
+
+    selector:
+    0x5c11d795
+  */
+
+  return (
+    "0x5c11d795"+
+    padHex(amountIn)+
+    padHex(amountOutMin)+
+    padHex(2)+
+    encodeAddress(path[0])+
+    encodeAddress(path[1])+
+    encodeAddress(to)+
+    padHex(deadline)
+  );
+
+}
+
+
+/* =========================
+   APPROVAL
+   ========================= */
+
+async function approveGBK(amount){
+
+  const txData =
+    dataApprove(
+      ROUTER,
+      amount
+    );
+
+
+  const txHash =
+    await window.ethereum.request({
+
+      method:"eth_sendTransaction",
+
+      params:[
+        {
+          from:walletAddress,
+          to:GBK,
+          data:txData
+        }
+      ]
+
+    });
+
+
+  return txHash;
+
+}
+
+
+/* =========================
+   CHECK ALLOWANCE
+   ========================= */
+
+function dataAllowance(owner,spender){
+
+  return (
+    "0xdd62ed3e"+
+    encodeAddress(owner)+
+    encodeAddress(spender)
+  );
+
+}
+
+
+async function getAllowance(){
+
+  const raw =
+    await window.ethereum.request({
+
+      method:"eth_call",
+
+      params:[
+        {
+          to:GBK,
+          data:dataAllowance(
+            walletAddress,
+            ROUTER
+          )
+        },
+        "latest"
+      ]
+
+    });
+
+
+  return BigInt(raw);
+
+}
+
+
+/* =========================
+   EXECUTE GBK → USDT
+   ========================= */
+
+async function executeGBKSwap(){
+
+  if(!window.ethereum){
+
+    toast(
+      "Open GBK Swap in a compatible wallet"
+    );
+
+    return;
+
+  }
+
+
+  try{
+
+    const accounts =
+      await window.ethereum.request({
+
+        method:"eth_requestAccounts"
+
+      });
+
+
+    if(!accounts.length){
+
+      toast("Connect your wallet first");
+
+      return;
+
+    }
+
+
+    walletAddress=
+      accounts[0];
+
+
+    const correctNetwork =
+      await ensureBNBChain();
+
+
+    if(!correctNetwork)
+      return;
+
+
+    const amountInput =
+      document.getElementById(
+        "swapAmount"
+      );
+
+
+    const value =
+      Number(
+        amountInput?.value || 0
+      );
+
+
+    if(!value || value<=0){
+
+      toast("Enter GBK amount");
+
+      return;
+
+    }
+
+
+    const amountIn =
+      BigInt(
+        Math.floor(
+          value*1e18
+        )
+      );
+
+
+    toast("Getting live GBK → USDT quote…");
+
+
+    const quote =
+      await getGBKQuote(
+        amountIn
+      );
+
+
+    if(!quote){
+
+      toast(
+        "Unable to get live swap quote"
+      );
+
+      return;
+
+    }
+
+
+    lastQuote=quote;
+
+
+    const amountOutMin =
+      calculateMinimum(
+        quote.output
+      );
+
+
+    const allowance =
+      await getAllowance();
+
+
+    if(allowance<amountIn){
+
+      toast(
+        "Approve GBK in your wallet…"
+      );
+
+
+      await approveGBK(
+        amountIn
+      );
+
+
+      toast(
+        "Approval submitted. Confirm it first."
+      );
+
+
+      /*
+        The user can press Swap again after
+        approval confirmation.
+      */
+
+      return;
+
+    }
+
+
+    const deadline =
+      Math.floor(
+        Date.now()/1000
+      )+1200;
+
+
+    const data =
+      swapExactTokensForTokensSupportingFeeOnTransferTokensData(
+
+        amountIn,
+
+        amountOutMin,
+
+        [GBK,USDT],
+
+        walletAddress,
+
+        deadline
+
+      );
+
+
+    const txHash =
+      await window.ethereum.request({
+
+        method:"eth_sendTransaction",
+
+        params:[
+          {
+            from:walletAddress,
+            to:ROUTER,
+            data:data,
+            value:"0x0"
+          }
+        ]
+
+      });
+
+
+    toast(
+      "Swap submitted successfully"
+    );
+
+
+    console.log(
+      "GBK Swap transaction:",
+      txHash
+    );
+
+
+    await loadBalances();
+
+
+  }catch(error){
+
+    console.log(
+      "Swap error:",
+      error
+    );
+
+
+    if(
+      error &&
+      error.code===4001
+    ){
+
+      toast(
+        "Transaction rejected"
+      );
+
+    }else{
+
+      toast(
+        error?.message ||
+        "Swap failed"
+      );
+
+    }
+
+  }
+
 }
 
 
@@ -1290,70 +2439,73 @@ function openSwap(){
 
 function openSell(){
 
-  modalTitle.textContent =
+  modalTitle.textContent=
     "Sell GBK";
 
-  modalContent.innerHTML = `
 
-    <div class="field">
+  modalContent.innerHTML=`
 
-      <label>SELL</label>
+<div class="field">
 
-      <div class="input">
+<label>SELL</label>
 
-        <input
-          type="number"
-          placeholder="0.00"
-        >
+<div class="input">
 
-        <button class="token">
-          GBK
-        </button>
+<input
+type="number"
+placeholder="0.00"
+>
 
-      </div>
+<button class="token">
+GBK
+</button>
 
-    </div>
+</div>
 
-
-    <div class="field">
-
-      <label>RECEIVE</label>
-
-      <div class="input">
-
-        <input
-          placeholder="Estimated USDT"
-          disabled
-        >
-
-        <button class="token">
-          USDT
-        </button>
-
-      </div>
-
-    </div>
+</div>
 
 
-    <button
-      class="primary"
-      onclick="connectWallet()"
-    >
-      Connect Wallet
-    </button>
+<div class="field">
+
+<label>RECEIVE</label>
+
+<div class="input">
+
+<input
+placeholder="Estimated USDT"
+disabled
+>
+
+<button class="token">
+USDT
+</button>
+
+</div>
+
+</div>
 
 
-    <div class="info">
+<div class="info">
 
-      GBK → USDT → local currency.
+GBK → USDT → local currency.
 
-      Off-ramp availability depends
-      on country and provider.
+The on-chain GBK → USDT swap uses the
+same BNB Chain swap system.
 
-    </div>
-  `;
+</div>
+
+
+<button
+class="primary"
+onclick="openSwap()"
+>
+Swap GBK → USDT
+</button>
+
+`;
 
   modal.classList.add("show");
+
 }
 
 
@@ -1363,33 +2515,35 @@ function openSell(){
 
 function openWallet(){
 
-  modalTitle.textContent =
+  modalTitle.textContent=
     "Wallet";
 
-  modalContent.innerHTML = `
 
-    <div class="info">
+  modalContent.innerHTML=`
 
-      <b>Non-custodial wallet</b><br><br>
+<div class="info">
 
-      Connect your BNB Chain wallet
-      to view GBK, USDT and BNB balances.
+<b>Non-custodial wallet</b><br><br>
 
-      Your private keys remain with you.
+Connect your BNB Chain wallet
+to view GBK, USDT and BNB balances.
 
-    </div>
+Your private keys remain with you.
+
+</div>
 
 
-    <button
-      class="primary"
-      onclick="connectWallet()"
-    >
-      Connect Wallet
-    </button>
+<button
+class="primary"
+onclick="connectWallet()"
+>
+Connect Wallet
+</button>
 
-  `;
+`;
 
   modal.classList.add("show");
+
 }
 
 
@@ -1399,34 +2553,46 @@ function openWallet(){
 
 function help(){
 
-  modalTitle.textContent =
+  modalTitle.textContent=
     "GBK Swap Help";
 
-  modalContent.innerHTML = `
 
-    <div class="info">
+  modalContent.innerHTML=`
 
-      <b>Simple GBK flow</b><br><br>
+<div class="info">
 
-      Buy GBK<br>
-      ↓<br>
-      Hold or use GBK<br>
-      ↓<br>
-      Swap GBK → USDT / BNB<br>
-      ↓<br>
-      Sell through an available
-      off-ramp provider.
+<b>Simple GBK flow</b><br><br>
 
-      <br><br>
+Buy GBK<br>
+↓<br>
+Hold or use GBK<br>
+↓<br>
+Swap GBK → USDT / BNB<br>
+↓<br>
+Sell through an available
+off-ramp provider.
 
-      Never share your seed phrase
-      or private key.
+<br><br>
 
-    </div>
+Never share your seed phrase
+or private key.
 
-  `;
+</div>
+
+<div class="warning info">
+
+<b>Important:</b><br>
+
+Always check the token, amount,
+minimum received and wallet transaction
+before signing.
+
+</div>
+
+`;
 
   modal.classList.add("show");
+
 }
 
 
@@ -1435,7 +2601,10 @@ function help(){
    ========================= */
 
 const currencySelect =
-  document.getElementById("currencySelect");
+document.getElementById(
+  "currencySelect"
+);
+
 
 currencySelect.addEventListener(
   "change",
@@ -1443,16 +2612,27 @@ currencySelect.addEventListener(
 
     document.getElementById(
       "currencyLabel"
-    ).textContent =
+    ).textContent=
       this.value;
 
-    document.getElementById(
-      "buyCurrency"
-    ).textContent =
-      this.value;
+
+    const buyCurrency =
+      document.getElementById(
+        "buyCurrency"
+      );
+
+
+    if(buyCurrency){
+
+      buyCurrency.textContent=
+        this.value;
+
+    }
+
 
     toast(
-      "Currency: "+this.value
+      "Currency: "+
+      this.value
     );
 
   }
@@ -1460,17 +2640,37 @@ currencySelect.addEventListener(
 
 
 /* =========================
-   INITIAL LOAD
+   CURRENCY BUTTON
+   ========================= */
+
+document.getElementById(
+  "currencyBtn"
+).onclick=function(){
+
+  document.getElementById(
+    "currencySelect"
+  ).scrollIntoView({
+    behavior:"smooth",
+    block:"center"
+  });
+
+};
+
+
+/* =========================
+   INITIAL PRICE LOAD
    ========================= */
 
 loadBNBPrice();
 
 loadGBKPrice();
 
+
 setInterval(
   loadBNBPrice,
   30000
 );
+
 
 setInterval(
   loadGBKPrice,
@@ -1490,8 +2690,10 @@ if(window.ethereum){
 
       if(accounts.length){
 
-        walletAddress =
+        walletAddress=
           accounts[0];
+
+        updateWalletUI();
 
         loadBalances();
 
@@ -1499,22 +2701,23 @@ if(window.ethereum){
 
         walletAddress=null;
 
-        document.getElementById(
-          "walletStatus"
-        ).textContent=
-        "Not connected";
+        updateWalletUI();
 
       }
 
     }
   );
 
+
   window.ethereum.on(
     "chainChanged",
     function(){
 
-      if(walletAddress)
+      if(walletAddress){
+
         loadBalances();
+
+      }
 
     }
   );
