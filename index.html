@@ -1063,37 +1063,53 @@ let walletAddress=null;
 let swapSlippageMode="auto";
 
 
-async function connectWallet() {
+    async function connectWallet() {
   try {
+    // Get injected wallet provider
+    const provider =
+      window.ethereum ||
+      window.BinanceChain ||
+      window.trustwallet ||
+      window.bitkeep?.ethereum ||
+      window.okxwallet;
 
-    // Check for an injected EVM wallet
-    if (!window.ethereum) {
+    if (!provider) {
       toast(
-        "Wallet not detected. Open GBK Swap inside your wallet's DApp browser."
+        "Wallet not detected. Please open GBK Swap inside your wallet browser."
       );
       return;
     }
 
+    // Make provider available to the rest of the app
+    if (!window.ethereum) {
+      window.ethereum = provider;
+    }
+
     // Request wallet connection
-    const accounts = await window.ethereum.request({
+    const accounts = await provider.request({
       method: "eth_requestAccounts"
     });
 
-    if (!accounts || !accounts.length) {
+    if (!accounts || accounts.length === 0) {
       toast("No wallet account found");
       return;
     }
 
-    // Save connected address
+    // Save wallet address
     walletAddress = accounts[0];
 
     // Switch to BNB Smart Chain
-    await ensureBNBChain();
+    const connected = await ensureBNBChain();
 
-    // Update interface
+    if (connected === false) {
+      toast("Please switch to BNB Smart Chain");
+      return;
+    }
+
+    // Update wallet interface
     updateWalletUI();
 
-    // Load balances
+    // Load on-chain balances
     await loadBalances();
 
     toast(
@@ -1109,7 +1125,7 @@ async function connectWallet() {
     if (error && error.code === 4001) {
       toast("Wallet connection rejected");
     } else {
-      toast("Wallet connection failed");
+      toast("Wallet connection failed. Please reopen GBK Swap.");
     }
   }
 }
