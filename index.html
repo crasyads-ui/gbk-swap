@@ -1065,10 +1065,11 @@ let swapSlippageMode="auto";
 
 async function connectWallet() {
   try {
+
     // Check for an injected EVM wallet
     if (!window.ethereum) {
       toast(
-        "Wallet not detected. Open GBK Swap inside Trust Wallet, Bitget Wallet, Binance Wallet or MetaMask."
+        "Wallet not detected. Open GBK Swap inside your wallet's DApp browser."
       );
       return;
     }
@@ -1087,12 +1088,7 @@ async function connectWallet() {
     walletAddress = accounts[0];
 
     // Switch to BNB Smart Chain
-    const chainReady = await ensureBNBChain();
-
-    if (!chainReady) {
-      toast("Please switch your wallet to BNB Chain");
-      return;
-    }
+    await ensureBNBChain();
 
     // Update interface
     updateWalletUI();
@@ -1117,6 +1113,9 @@ async function connectWallet() {
     }
   }
 }
+    
+  
+
 
 
     
