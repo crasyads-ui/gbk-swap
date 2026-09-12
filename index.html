@@ -1063,73 +1063,87 @@ let walletAddress=null;
 let swapSlippageMode="auto";
 
 
-async function connectWallet(){
-
-  if(!window.ethereum){
-
-    toast(
-      "Open GBK Swap in Bitget, Trust or Binance Wallet"
-    );
-
-    return;
-
-  }
-
-
-  try{
-
-    const accounts =
-      await window.ethereum.request({
-        method:"eth_requestAccounts"
-      });
-
-
-    if(!accounts.length){
-
-      toast("No wallet account found");
-
+async function connectWallet() {
+  try {
+    // Check for an injected EVM wallet
+    if (!window.ethereum) {
+      toast(
+        "Wallet not detected. Open GBK Swap inside Trust Wallet, Bitget Wallet, Binance Wallet or MetaMask."
+      );
       return;
-
     }
 
+    // Request wallet connection
+    const accounts = await window.ethereum.request({
+      method: "eth_requestAccounts"
+    });
 
-    walletAddress=accounts[0];
+    if (!accounts || !accounts.length) {
+      toast("No wallet account found");
+      return;
+    }
 
+    // Save connected address
+    walletAddress = accounts[0];
 
-    await ensureBNBChain();
+    // Switch to BNB Smart Chain
+    const chainReady = await ensureBNBChain();
 
+    if (!chainReady) {
+      toast("Please switch your wallet to BNB Chain");
+      return;
+    }
 
+    // Update interface
     updateWalletUI();
 
-
+    // Load balances
     await loadBalances();
 
+    toast(
+      "Wallet connected: " +
+      walletAddress.slice(0, 6) +
+      "..." +
+      walletAddress.slice(-4)
+    );
 
-    toast("Wallet connected");
+  } catch (error) {
+    console.error("Wallet connection error:", error);
 
-
-  }catch(error){
-
-    console.log(error);
-
-    toast("Wallet connection cancelled");
-
+    if (error && error.code === 4001) {
+      toast("Wallet connection rejected");
+    } else {
+      toast("Wallet connection failed");
+    }
   }
-
 }
 
 
-function updateWalletUI(){
+    
 
-  if(!walletAddress){
 
-    document.getElementById(
-      "walletStatus"
-    ).textContent="Not connected";
+  
 
-    return;
+    
 
-  }
+    
+
+  
+
+
+
+
+
+
+  
+
+    
+      
+    
+
+    
+
+  
 
 
   document.getElementById(
