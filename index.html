@@ -1003,27 +1003,38 @@ modal.addEventListener("click",function(e){
 
 function getWalletProvider(){
 
-  if(window.ethereum)
+  // Standard injected EIP-1193 provider
+  if(window.ethereum){
     return window.ethereum;
+  }
 
-  if(window.BinanceChain)
-    return window.BinanceChain;
-
-  if(window.trustwallet)
+  // Trust Wallet browser/mobile provider
+  if(window.trustwallet){
     return window.trustwallet;
+  }
 
-  if(
-    window.bitkeep &&
-    window.bitkeep.ethereum
-  ){
+  // Bitget Wallet
+  if(window.bitkeep && window.bitkeep.ethereum){
     return window.bitkeep.ethereum;
   }
 
-  if(window.okxwallet)
+  if(window.bitget && window.bitget.ethereum){
+    return window.bitget.ethereum;
+  }
+
+  // OKX
+  if(window.okxwallet){
     return window.okxwallet;
+  }
+
+  // Binance Wallet
+  if(window.BinanceChain){
+    return window.BinanceChain;
+  }
 
   return null;
 }
+
 
 
 /* =========================================================
@@ -1258,17 +1269,17 @@ function updateWalletUI(){
    CONNECT WALLET
    ========================================================= */
 
-async function connectWallet(){
+
+  async function connectWallet(){
 
   try{
 
-    const provider =
-      getWalletProvider();
+    const provider = getWalletProvider();
 
     if(!provider){
 
       toast(
-        "Wallet not detected. Open GBK Swap inside your Web3 wallet."
+        "No browser wallet detected. Open this page inside your wallet browser or install a compatible wallet extension."
       );
 
       return false;
@@ -1276,17 +1287,25 @@ async function connectWallet(){
 
     walletProvider = provider;
 
-    const accounts =
-      await provider.request({
-        method:"eth_requestAccounts"
+    // Check current network first
+    let chainId;
+
+    try{
+      chainId = await provider.request({
+        method:"eth_chainId"
       });
+    }catch(e){
+      chainId = null;
+    }
 
-    if(
-      !accounts ||
-      !accounts.length
-    ){
+    // Request account access
+    const accounts = await provider.request({
+      method:"eth_requestAccounts"
+    });
 
-      toast("No wallet account found.");
+    if(!accounts || !accounts.length){
+
+      toast("No wallet account returned.");
 
       return false;
     }
@@ -1294,10 +1313,14 @@ async function connectWallet(){
     walletAccounts = accounts;
     walletAddress = accounts[0];
 
-    const correctNetwork =
+    // Switch to BNB Smart Chain
+    const networkOK =
       await ensureBNBChain(provider);
 
-    if(!correctNetwork){
+    if(!networkOK){
+
+      walletAddress = null;
+      walletAccounts = [];
 
       updateWalletUI();
 
@@ -1315,6 +1338,8 @@ async function connectWallet(){
       walletAddress.slice(-4)
     );
 
+    setupWalletEvents();
+
     return true;
 
   }catch(error){
@@ -1324,12 +1349,9 @@ async function connectWallet(){
       error
     );
 
-    if(
-      error &&
-      error.code === 4001
-    ){
+    if(error && error.code === 4001){
 
-      toast("Wallet connection rejected.");
+      toast("Connection rejected in wallet.");
 
     }else{
 
@@ -1343,6 +1365,7 @@ async function connectWallet(){
     return false;
   }
 }
+
 
 
 /* =========================================================
