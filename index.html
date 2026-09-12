@@ -1735,39 +1735,18 @@ async function getGBKQuote(amount){
 
 function getSlippage(){
 
-  if(
-    swapSlippageMode ===
-    "manual"
-  ){
+  if(swapSlippageMode==="manual"){
 
-    const input =
-      document.getElementById(
-        "sellSlippage"
-      );
-
-    let value =
+    const sell =
       Number(
-        input?.value || 18
+        document.getElementById("sellSlippage")?.value || 5
       );
 
-    if(!Number.isFinite(value))
-      value = 18;
-
-    value =
-      Math.max(
-        0.1,
-        Math.min(50,value)
-      );
-
-    return value;
+    return Math.max(0.1, Math.min(50, sell));
   }
 
-  /*
-    Safe fallback while dynamic
-    slippage engine is not connected.
-  */
-
-  return 18;
+  // GBK → USDT sell default
+  return 5;
 }
 
 
