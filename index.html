@@ -7,7 +7,36 @@
 <title>GBK Swap — BNB Chain</title>
 
 <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.5/dist/ethers.umd.min.js"></script>
+<script type="module">
+import { createAppKit } from "https://cdn.jsdelivr.net/npm/@reown/appkit@1.8.23/+esm";
+import { EthersAdapter } from "https://cdn.jsdelivr.net/npm/@reown/appkit-adapter-ethers@1.8.23/+esm";
+import { bsc } from "https://cdn.jsdelivr.net/npm/@reown/appkit@1.8.23/networks/+esm";
 
+const GBK_REOWN_PROJECT_ID =
+  "19d21bb0657b8a691c0ea8f4976ce26e";
+
+const reownAdapter = new EthersAdapter();
+
+const reownModal = createAppKit({
+  adapters: [reownAdapter],
+  networks: [bsc],
+  defaultNetwork: bsc,
+  projectId: GBK_REOWN_PROJECT_ID,
+
+  metadata: {
+    name: "GBK Swap",
+    description: "GBK Swap on BNB Smart Chain",
+    url: "https://swap.gbkai.com",
+    icons: []
+  },
+
+  features: {
+    analytics: false
+  }
+});
+
+window.gbkReown = reownModal;
+</script>
 <style>
 :root{
   --green:#006b50;
