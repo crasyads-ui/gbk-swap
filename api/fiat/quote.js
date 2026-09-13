@@ -1,10 +1,32 @@
-export default async function handler(req,res){
-  try{
-    const key=process.env.TRANSAK_API_KEY;
-    if(!key) return res.status(500).json({error:"TRANSAK_API_KEY is not configured"});
-    const q=new URLSearchParams(req.query||{});
-    const url="https://api.transak.com/api/v1/pricing/public/quotes?"+q.toString();
-    const r=await fetch(url,{headers:{"x-api-key":key}});
-    const j=await r.json();return res.status(r.status).json(j);
-  }catch(e){return res.status(500).json({error:e.message})}
+export default async function handler(req, res) {
+  const providers = [];
+
+  if (process.env.ONRAMP_WIDGET_URL) {
+    providers.push({
+      type: "onramp",
+      name:
+        process.env.ONRAMP_PROVIDER_NAME ||
+        "Configured On-Ramp",
+      widgetUrl:
+        process.env.ONRAMP_WIDGET_URL
+    });
+  }
+
+  if (process.env.OFFRAMP_WIDGET_URL) {
+    providers.push({
+      type: "offramp",
+      name:
+        process.env.OFFRAMP_PROVIDER_NAME ||
+        "Configured Off-Ramp",
+      widgetUrl:
+        process.env.OFFRAMP_WIDGET_URL
+    });
+  }
+
+  return res.status(200).json({
+    ok: true,
+    chain: "BNB Smart Chain",
+    asset: "USDT",
+    providers
+  });
 }
