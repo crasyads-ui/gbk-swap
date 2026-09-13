@@ -3,280 +3,181 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#071d18">
-<meta name="description" content="GBK Swap — simple global GBK trading on BNB Chain.">
 <title>GBK Swap — BNB Chain</title>
+<meta name="theme-color" content="#075f48">
 
 <style>
-:root{
-  --navy:#071d18;
-  --navy2:#0b2b24;
-  --green:#087a5b;
-  --green2:#10a878;
-  --mint:#e8f7f1;
-  --gold:#f2c94c;
-  --text:#10231f;
-  --muted:#6b7d77;
-  --line:#e4ebe8;
-  --bg:#f5f8f7;
-  --white:#fff;
-}
-
-*{
-  box-sizing:border-box;
-}
-
-html{
-  scroll-behavior:smooth;
-}
-
+*{box-sizing:border-box}
 body{
   margin:0;
-  font-family:
-    Inter,
-    ui-sans-serif,
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    sans-serif;
-  background:var(--bg);
-  color:var(--text);
+  font-family:Inter,Arial,sans-serif;
+  background:#f4f8f6;
+  color:#12352d;
 }
-
-button,
-input,
-select{
-  font:inherit;
-}
-
-button{
-  cursor:pointer;
-}
-
-.top{
-  background:var(--navy);
+button,input{font:inherit}
+button{cursor:pointer}
+.header{
+  background:#075f48;
   color:white;
-  padding:14px 18px;
+  padding:18px 16px;
   position:sticky;
   top:0;
-  z-index:20;
+  z-index:10;
 }
-
-.nav{
-  max-width:1100px;
+.headerInner{
+  max-width:720px;
   margin:auto;
   display:flex;
-  align-items:center;
   justify-content:space-between;
-  gap:12px;
+  align-items:center;
 }
-
 .brand{
   display:flex;
   align-items:center;
   gap:10px;
-  font-size:20px;
-  font-weight:800;
 }
-
 .logo{
-  width:40px;
-  height:40px;
+  width:44px;
+  height:44px;
   border-radius:13px;
-  background:linear-gradient(145deg,#10a878,#04583f);
+  background:white;
+  color:#075f48;
   display:grid;
   place-items:center;
-  box-shadow:
-    inset 0 0 0 1px #ffffff30,
-    0 5px 16px #00000025;
-}
-
-.logo span{
-  font-size:12px;
   font-weight:900;
 }
-
+.brand b{font-size:20px}
+.brand small{
+  display:block;
+  opacity:.75;
+  margin-top:2px;
+}
 .network{
-  font-size:12px;
-  color:#c2ded6;
-  border:1px solid #ffffff25;
-  border-radius:999px;
+  background:#ffffff18;
+  border:1px solid #ffffff30;
   padding:9px 12px;
+  border-radius:999px;
+  font-size:12px;
 }
-
-.network-dot{
-  color:#79e0bd;
-  margin-right:5px;
-}
-
 main{
-  max-width:1100px;
-  margin:0 auto;
-  padding:28px 18px 60px;
+  max-width:720px;
+  margin:auto;
+  padding:18px 14px 50px;
 }
-
 .hero{
   background:
-    radial-gradient(circle at 90% 10%,#19a87b33,transparent 35%),
-    linear-gradient(135deg,var(--navy),#07583f);
-  border-radius:28px;
-  padding:30px;
+    radial-gradient(circle at 90% 10%,#19a87a55,transparent 32%),
+    linear-gradient(135deg,#075f48,#0b8062);
   color:white;
-  display:flex;
-  justify-content:space-between;
-  gap:28px;
-  align-items:end;
-  box-shadow:0 18px 45px #071d1818;
+  border-radius:24px;
+  padding:22px;
+  margin-bottom:15px;
 }
-
-.eyebrow{
+.hero .tag{
   font-size:11px;
-  letter-spacing:.16em;
-  text-transform:uppercase;
-  color:#a9d9cc;
-  font-weight:800;
+  opacity:.75;
+  letter-spacing:1px;
 }
-
 .hero h1{
-  font-size:clamp(32px,6vw,54px);
-  line-height:1;
-  margin:10px 0 14px;
-  letter-spacing:-1.5px;
+  margin:8px 0 5px;
+  font-size:30px;
 }
-
 .hero p{
   margin:0;
-  color:#c5e0d8;
-  max-width:620px;
-  line-height:1.55;
+  opacity:.82;
+  font-size:14px;
 }
-
-.wallet{
-  background:var(--gold);
-  border:0;
-  color:#17251f;
-  font-weight:850;
-  border-radius:13px;
-  padding:14px 20px;
-  white-space:nowrap;
-  min-width:160px;
-  box-shadow:0 7px 18px #00000018;
-}
-
-.wallet:hover{
-  filter:brightness(.97);
-}
-
-.tabs{
+.walletBar{
+  margin-top:16px;
   display:flex;
   gap:8px;
-  margin:22px 0;
 }
-
-.tab{
-  border:1px solid var(--line);
-  background:white;
-  padding:11px 18px;
-  border-radius:999px;
-  color:#4b625b;
-  font-weight:750;
+.walletAddress{
+  flex:1;
+  background:#ffffff16;
+  border:1px solid #ffffff25;
+  border-radius:12px;
+  padding:10px;
+  font-size:12px;
+  overflow:hidden;
+  text-overflow:ellipsis;
 }
-
-.tab.active{
-  background:var(--navy);
+.disconnect{
+  border:1px solid #ffffff35;
+  background:#ffffff12;
   color:white;
-  border-color:var(--navy);
+  border-radius:12px;
+  padding:10px 12px;
 }
-
-.grid{
-  display:grid;
-  grid-template-columns:minmax(0,1.1fr) minmax(280px,.7fr);
-  gap:20px;
-}
-
 .card{
   background:white;
-  border:1px solid var(--line);
-  border-radius:24px;
-  padding:20px;
-  box-shadow:0 8px 30px #10231f08;
+  border:1px solid #dce9e4;
+  border-radius:22px;
+  padding:18px;
+  box-shadow:0 8px 25px #0a513510;
+  margin-bottom:14px;
 }
-
-.card h2{
-  margin:0 0 5px;
-  font-size:21px;
-}
-
-.sub{
-  color:var(--muted);
-  font-size:13px;
-  margin-bottom:18px;
-}
-
-.swapbox{
-  border:1px solid var(--line);
-  border-radius:18px;
-  padding:15px;
-  margin:10px 0;
-  background:#fbfcfc;
-}
-
-.row{
+.cardTitle{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  gap:10px;
+  margin-bottom:4px;
 }
-
-.label{
+.cardTitle h2{
+  margin:0;
+  font-size:20px;
+}
+.sub{
+  color:#71847e;
   font-size:12px;
-  color:var(--muted);
-  font-weight:750;
 }
-
+.tokenBox{
+  margin-top:16px;
+}
+.rowTop{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:7px;
+  font-size:13px;
+}
 .balance{
-  font-size:12px;
-  color:var(--muted);
+  color:#71847e;
 }
-
+.inputBox{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  background:#f6faf8;
+  border:1px solid #dce9e4;
+  border-radius:17px;
+  padding:10px 12px;
+}
 .amount{
   width:100%;
   min-width:0;
   border:0;
   outline:0;
-  font-size:29px;
-  font-weight:750;
-  color:var(--text);
   background:transparent;
-  padding:8px 0;
+  font-size:28px;
+  font-weight:800;
+  color:#12352d;
 }
-
-.amount::placeholder{
-  color:#bdc8c4;
-}
-
+.amount::placeholder{color:#b5c3be}
 .token{
-  border:1px solid var(--line);
-  background:#f5f8f7;
-  border-radius:12px;
+  flex-shrink:0;
+  border:1px solid #cddfd8;
+  background:white;
+  border-radius:13px;
   padding:10px 12px;
   font-weight:800;
-  min-width:105px;
-  color:var(--text);
+  color:#12352d;
 }
-
-.token.green{
-  background:var(--mint);
-  color:#075f48;
-}
-
 .flip{
   width:42px;
   height:42px;
   border-radius:50%;
   border:4px solid white;
-  background:var(--navy);
+  background:#075f48;
   color:white;
   display:block;
   margin:-2px auto;
@@ -284,58 +185,1058 @@ main{
   z-index:2;
   font-size:18px;
 }
-
 .quote{
+  margin-top:15px;
+  border-top:1px solid #e3ece8;
+  padding-top:14px;
+}
+.quoteRow{
   display:flex;
   justify-content:space-between;
-  gap:15px;
-  border-top:1px solid var(--line);
-  margin-top:15px;
-  padding-top:14px;
+  gap:10px;
+  padding:7px 0;
   font-size:13px;
 }
-
-.muted{
-  color:var(--muted);
+.quoteRow span:first-child{color:#71847e}
+.quoteRow span:last-child{text-align:right;font-weight:700}
+.status{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  font-size:12px;
+  color:#137253;
+  margin-top:8px;
 }
-
+.dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:#19a87a;
+}
+.slippage{
+  margin-top:15px;
+}
+.slipButtons{
+  display:flex;
+  gap:8px;
+  margin-top:8px;
+}
+.slipButtons button{
+  flex:1;
+  padding:10px;
+  border-radius:12px;
+  border:1px solid #d6e5df;
+  background:white;
+  color:#416058;
+}
+.slipButtons button.active{
+  background:#075f48;
+  color:white;
+  border-color:#075f48;
+}
 .primary{
   width:100%;
   border:0;
-  border-radius:14px;
-  background:var(--green);
+  border-radius:15px;
+  background:#075f48;
   color:white;
   font-weight:850;
-  padding:15px;
+  padding:16px;
   margin-top:16px;
 }
-
-.primary:hover{
-  background:#06684d;
+.primary:disabled{
+  opacity:.5;
+  cursor:not-allowed;
 }
-
+.secondary{
+  width:100%;
+  border:1px solid #cfe0d9;
+  border-radius:14px;
+  background:white;
+  color:#075f48;
+  font-weight:750;
+  padding:13px;
+  margin-top:9px;
+}
+.pairs{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-top:16px;
+}
+.pair{
+  border:1px solid #dce9e4;
+  background:#f7faf8;
+  border-radius:13px;
+  padding:12px;
+  text-align:left;
+}
+.pair.active{
+  background:#075f48;
+  color:white;
+  border-color:#075f48;
+}
+.pair b{display:block}
+.pair small{opacity:.7}
 .info{
-  background:var(--mint);
-  border:1px solid #ccecdf;
-  border-radius:16px;
-  padding:14px;
-  margin-top:16px;
-  font-size:13px;
+  background:#eef8f4;
+  border:1px solid #cee5dc;
+  border-radius:15px;
+  padding:13px;
+  margin-top:15px;
+  color:#255c4d;
+  font-size:12px;
   line-height:1.45;
-  color:#145844;
+}
+.message{
+  display:none;
+  margin-top:12px;
+  border-radius:13px;
+  padding:12px;
+  background:#f1f6f4;
+  font-size:13px;
+}
+.message.show{display:block}
+.historyItem{
+  border-bottom:1px solid #e4ece9;
+  padding:12px 0;
+  font-size:12px;
+}
+.historyItem:last-child{border-bottom:0}
+.tx{
+  color:#075f48;
+  word-break:break-all;
+}
+.footer{
+  text-align:center;
+  color:#83938e;
+  font-size:11px;
+  padding:10px 15px 30px;
+}
+@media(max-width:480px){
+  main{padding:14px 10px 40px}
+  .hero{padding:18px}
+  .card{padding:15px}
+  .amount{font-size:25px}
+}
+</style>
+</head>
+
+<body>
+
+<header class="header">
+  <div class="headerInner">
+    <div class="brand">
+      <div class="logo">GBK</div>
+      <div>
+        <b>GBK Swap</b>
+        <small>BNB CHAIN</small>
+      </div>
+    </div>
+    <div class="network">🟡 BNB Chain</div>
+  </div>
+</header>
+
+<main>
+
+<section class="hero">
+  <div class="tag">GBK ECOSYSTEM</div>
+  <h1>Swap simply.</h1>
+  <p>Non-custodial GBK trading on BNB Chain through PancakeSwap V2.</p>
+
+  <div class="walletBar">
+    <div class="walletAddress" id="walletAddress">
+      Wallet not connected
+    </div>
+    <button class="disconnect" onclick="connectWallet()">
+      Connect
+    </button>
+  </div>
+</section>
+
+<section class="card">
+
+  <div class="cardTitle">
+    <div>
+      <h2>Swap Tokens</h2>
+      <div class="sub">Trade through PancakeSwap V2</div>
+    </div>
+  </div>
+
+  <div class="tokenBox">
+
+    <div class="rowTop">
+      <span>From</span>
+      <span class="balance" id="fromBalance">Balance: —</span>
+    </div>
+
+    <div class="inputBox">
+      <input
+        id="fromAmount"
+        class="amount"
+        type="number"
+        min="0"
+        step="any"
+        placeholder="0.00"
+        oninput="updateQuote()"
+      >
+
+      <button class="token" id="fromToken" onclick="togglePair()">
+        GBK ▾
+      </button>
+    </div>
+
+  </div>
+
+  <button class="flip" onclick="flipPair()">↕</button>
+
+  <div class="tokenBox">
+
+    <div class="rowTop">
+      <span>To</span>
+      <span class="balance" id="toBalance">Balance: —</span>
+    </div>
+
+    <div class="inputBox">
+      <input
+        id="toAmount"
+        class="amount"
+        type="text"
+        placeholder="0.00"
+        readonly
+      >
+
+      <button class="token" id="toToken">
+        USDT
+      </button>
+    </div>
+
+  </div>
+
+  <div class="quote">
+
+    <div class="quoteRow">
+      <span>Rate</span>
+      <span id="rate">—</span>
+    </div>
+
+    <div class="quoteRow">
+      <span>Route</span>
+      <span>PancakeSwap V2</span>
+    </div>
+
+    <div class="quoteRow">
+      <span>Slippage</span>
+      <span id="slipDisplay">14%</span>
+    </div>
+
+    <div class="quoteRow">
+      <span>Minimum received</span>
+      <span id="minimumReceived">—</span>
+    </div>
+
+    <div class="status">
+      <span class="dot"></span>
+      <span id="quoteStatus">Waiting for amount</span>
+    </div>
+
+  </div>
+
+  <div class="slippage">
+    <b>Slippage tolerance</b>
+
+    <div class="slipButtons">
+      <button class="active" id="autoSlip" onclick="setSlippage(14)">
+        ⚡ Auto 14%
+      </button>
+
+      <button onclick="setSlippage(18)">
+        18%
+      </button>
+
+      <button onclick="setSlippage(20)">
+        20%
+      </button>
+    </div>
+  </div>
+
+  <div class="pairs">
+
+    <button class="pair active" onclick="selectPair('GBK','USDT')">
+      <b>GBK → USDT</b>
+      <small>Sell GBK</small>
+    </button>
+
+    <button class="pair" onclick="selectPair('USDT','GBK')">
+      <b>USDT → GBK</b>
+      <small>Buy GBK</small>
+    </button>
+
+    <button class="pair" onclick="selectPair('BNB','GBK')">
+      <b>BNB → GBK</b>
+      <small>Buy GBK</small>
+    </button>
+
+    <button class="pair" onclick="selectPair('GBK','BNB')">
+      <b>GBK → BNB</b>
+      <small>Sell GBK</small>
+    </button>
+
+  </div>
+
+  <button
+    class="primary"
+    id="swapButton"
+    onclick="executeSwap()"
+  >
+    Connect Wallet
+  </button>
+
+  <button
+    class="secondary"
+    onclick="approveToken()"
+    id="approveButton"
+    style="display:none"
+  >
+    Approve Token
+  </button>
+
+  <div class="message" id="message"></div>
+
+  <div class="info">
+    <b>Supported wallets</b><br>
+    MetaMask · Trust Wallet · Bitget Wallet · Binance Wallet
+    and compatible BNB Chain wallets.
+    <br><br>
+    Your wallet remains under your control. Never share your seed phrase
+    or private key.
+  </div>
+
+</section>
+
+<section class="card">
+  <div class="cardTitle">
+    <h2>Recent Transactions</h2>
+  </div>
+  <div id="history">
+    No transactions yet.
+  </div>
+</section>
+
+</main>
+
+<div class="footer">
+  GBK Swap • BNB Smart Chain • PancakeSwap V2
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+
+<script>
+
+/* =========================================================
+   GBK SWAP — BNB CHAIN
+   ========================================================= */
+
+const CHAIN_ID = 56;
+
+const GBK  = '0xda0638ea374c4c5bf2914e6f4d5b2335deb8d80d';
+const USDT = '0x55d398326f99059fF775485246999027B3197955';
+const WBNB = '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c';
+
+/* PancakeSwap V2 Router */
+const ROUTER = '0x10ED43C718714eb63d5aA57B78B54704E256024E';
+
+const providerRpc =
+  new ethers.providers.JsonRpcProvider(
+    'https://bsc-dataseed.binance.org/'
+  );
+
+let provider = null;
+let signer = null;
+let wallet = null;
+
+let fromToken = 'GBK';
+let toToken = 'USDT';
+
+let slippage = 14;
+let currentQuote = null;
+
+const ERC20_ABI = [
+  'function balanceOf(address) view returns(uint256)',
+  'function decimals() view returns(uint8)',
+  'function symbol() view returns(string)',
+  'function allowance(address,address) view returns(uint256)',
+  'function approve(address,uint256) returns(bool)'
+];
+
+const ROUTER_ABI = [
+  'function getAmountsOut(uint256,address[]) view returns(uint256[])',
+
+  'function swapExactTokensForTokensSupportingFeeOnTransferTokens(uint256,uint256,address[],address,uint256) returns(uint256[])',
+
+  'function swapExactETHForTokensSupportingFeeOnTransferTokens(uint256,address[],address,uint256) payable',
+
+  'function swapExactTokensForETHSupportingFeeOnTransferTokens(uint256,uint256,address[],address,uint256)'
+];
+
+/* ---------- UI ---------- */
+
+function msg(text, error=false){
+  const el=document.getElementById('message');
+  el.textContent=text;
+  el.style.display='block';
+  el.style.background=error ? '#fff0f0' : '#eef8f4';
+  el.style.color=error ? '#a33' : '#255c4d';
 }
 
-.sideitem{
-  display:flex;
-  justify-content:space-between;
-  gap:15px;
-  padding:14px 0;
-  border-bottom:1px solid var(--line);
-  font-size:14px;
+function shortAddress(a){
+  return a.slice(0,7)+'…'+a.slice(-5);
 }
 
-.sideitem:last-of-type{
-  border-bottom:0;
+function tokenAddress(symbol){
+  if(symbol==='GBK') return GBK;
+  if(symbol==='USDT') return USDT;
+  if(symbol==='BNB') return WBNB;
+  return symbol;
 }
 
-.dot
+function isNative(symbol){
+  return symbol==='BNB';
+}
+
+function pairPath(){
+  if(fromToken==='BNB' && toToken==='GBK'){
+    return [WBNB,GBK];
+  }
+
+  if(fromToken==='GBK' && toToken==='BNB'){
+    return [GBK,WBNB];
+  }
+
+  if(fromToken==='USDT' && toToken==='GBK'){
+    return [USDT,GBK];
+  }
+
+  if(fromToken==='GBK' && toToken==='USDT'){
+    return [GBK,USDT];
+  }
+
+  return [tokenAddress(fromToken),tokenAddress(toToken)];
+}
+
+function decimalsFor(symbol){
+  if(symbol==='BNB') return 18;
+  if(symbol==='GBK') return 18;
+  if(symbol==='USDT') return 18;
+  return 18;
+}
+
+/* ---------- Pair selection ---------- */
+
+function selectPair(from,to){
+
+  fromToken=from;
+  toToken=to;
+
+  document.getElementById('fromToken').textContent=from+' ▾';
+  document.getElementById('toToken').textContent=to;
+
+  document.getElementById('fromAmount').value='';
+  document.getElementById('toAmount').value='';
+
+  document.querySelectorAll('.pair').forEach(x=>{
+    x.classList.remove('active');
+  });
+
+  const buttons=document.querySelectorAll('.pair');
+
+  buttons.forEach(b=>{
+    if(b.textContent.includes(from+' → '+to)){
+      b.classList.add('active');
+    }
+  });
+
+  updateLabels();
+  updateQuote();
+  refreshBalances();
+}
+
+function flipPair(){
+  const oldFrom=fromToken;
+  fromToken=toToken;
+  toToken=oldFrom;
+
+  document.getElementById('fromToken').textContent=fromToken+' ▾';
+  document.getElementById('toToken').textContent=toToken;
+
+  const oldAmount=document.getElementById('fromAmount').value;
+  document.getElementById('fromAmount').value=
+    document.getElementById('toAmount').value || '';
+
+  document.getElementById('toAmount').value=oldAmount ? '' : '';
+
+  updateLabels();
+  updateQuote();
+  refreshBalances();
+}
+
+function togglePair(){
+  flipPair();
+}
+
+function updateLabels(){
+  document.getElementById('rate').textContent='—';
+  document.getElementById('minimumReceived').textContent='—';
+  document.getElementById('quoteStatus').textContent='Waiting for amount';
+}
+
+/* ---------- Slippage ---------- */
+
+function setSlippage(value){
+
+  slippage=value;
+
+  document.getElementById('slipDisplay').textContent=value+'%';
+
+  document.querySelectorAll('.slipButtons button')
+    .forEach(b=>b.classList.remove('active'));
+
+  if(value===14)
+    document.getElementById('autoSlip').classList.add('active');
+
+  updateQuote();
+}
+
+/* ---------- Wallet ---------- */
+
+async function connectWallet(){
+
+  if(!window.ethereum){
+    msg(
+      'No compatible wallet detected. Open this page inside MetaMask, Trust Wallet, Bitget Wallet or another BNB Chain wallet.',
+      true
+    );
+    return;
+  }
+
+  try{
+
+    provider = new ethers.providers.Web3Provider(
+      window.ethereum,
+      'any'
+    );
+
+    await provider.send('eth_requestAccounts',[]);
+
+    signer = provider.getSigner();
+    wallet = await signer.getAddress();
+
+    const network=await provider.getNetwork();
+
+    if(network.chainId!==CHAIN_ID){
+
+      try{
+        await window.ethereum.request({
+          method:'wallet_switchEthereumChain',
+          params:[{chainId:'0x38'}]
+        });
+      }catch(e){
+
+        msg(
+          'Please switch your wallet to BNB Smart Chain (Chain ID 56).',
+          true
+        );
+
+        return;
+      }
+    }
+
+    document.getElementById('walletAddress').textContent=
+      shortAddress(wallet);
+
+    document.querySelector('.disconnect').textContent='Connected';
+
+    document.getElementById('swapButton').textContent=
+      'Enter Amount';
+
+    await refreshBalances();
+
+    msg('Wallet connected successfully.');
+
+  }catch(e){
+
+    console.error(e);
+
+    msg(
+      e?.message || 'Wallet connection failed.',
+      true
+    );
+  }
+}
+
+/* ---------- Balances ---------- */
+
+async function getBalance(symbol){
+
+  if(!wallet) return '—';
+
+  try{
+
+    if(symbol==='BNB'){
+      const b=await providerRpc.getBalance(wallet);
+      return ethers.utils.formatEther(b);
+    }
+
+    const token=new ethers.Contract(
+      tokenAddress(symbol),
+      ERC20_ABI,
+      providerRpc
+    );
+
+    const b=await token.balanceOf(wallet);
+    const d=await token.decimals();
+
+    return ethers.utils.formatUnits(b,d);
+
+  }catch(e){
+
+    return '—';
+  }
+}
+
+async function refreshBalances(){
+
+  if(!wallet) return;
+
+  const from=await getBalance(fromToken);
+  const to=await getBalance(toToken);
+
+  document.getElementById('fromBalance').textContent=
+    'Balance: '+Number(from).toFixed(6)+' '+fromToken;
+
+  document.getElementById('toBalance').textContent=
+    'Balance: '+Number(to).toFixed(6)+' '+toToken;
+}
+
+/* ---------- Quote ---------- */
+
+async function updateQuote(){
+
+  const amount=document.getElementById('fromAmount').value;
+
+  if(!amount || Number(amount)<=0){
+
+    document.getElementById('toAmount').value='';
+    document.getElementById('rate').textContent='—';
+    document.getElementById('minimumReceived').textContent='—';
+    document.getElementById('quoteStatus').textContent=
+      'Waiting for amount';
+
+    currentQuote=null;
+
+    return;
+  }
+
+  try{
+
+    const router=new ethers.Contract(
+      ROUTER,
+      ROUTER_ABI,
+      providerRpc
+    );
+
+    const decimals=decimalsFor(fromToken);
+
+    const amountIn=ethers.utils.parseUnits(
+      amount,
+      decimals
+    );
+
+    const path=pairPath();
+
+    const amounts=await router.getAmountsOut(
+      amountIn,
+      path
+    );
+
+    const output=amounts[amounts.length-1];
+
+    const outputFormatted=
+      ethers.utils.formatUnits(
+        output,
+        decimalsFor(toToken)
+      );
+
+    document.getElementById('toAmount').value=
+      Number(outputFormatted).toFixed(8);
+
+    const minimum=
+      output.mul(
+        ethers.BigNumber.from(
+          String(100-slippage)
+        )
+      ).div(100);
+
+    const minFormatted=
+      ethers.utils.formatUnits(
+        minimum,
+        decimalsFor(toToken)
+      );
+
+    document.getElementById('minimumReceived').textContent=
+      Number(minFormatted).toFixed(8)+' '+toToken;
+
+    const rate=
+      Number(outputFormatted)/Number(amount);
+
+    document.getElementById('rate').textContent=
+      '1 '+fromToken+' ≈ '+rate.toFixed(8)+' '+toToken;
+
+    document.getElementById('quoteStatus').textContent=
+      'Live PancakeSwap router quote';
+
+    currentQuote={
+      amountIn,
+      output,
+      minimum
+    };
+
+  }catch(e){
+
+    console.error(e);
+
+    document.getElementById('toAmount').value='';
+    document.getElementById('rate').textContent='No route';
+
+    document.getElementById('minimumReceived').textContent='—';
+
+    document.getElementById('quoteStatus').textContent=
+      'Liquidity/route unavailable';
+
+    currentQuote=null;
+  }
+}
+
+/* ---------- Approval ---------- */
+
+async function needsApproval(){
+
+  if(!wallet) return true;
+
+  if(isNative(fromToken)) return false;
+
+  const token=new ethers.Contract(
+    tokenAddress(fromToken),
+    ERC20_ABI,
+    provider
+  );
+
+  const allowance=await token.allowance(
+    wallet,
+    ROUTER
+  );
+
+  return allowance.lt(currentQuote.amountIn);
+}
+
+async function approveToken(){
+
+  if(!wallet){
+    await connectWallet();
+    return;
+  }
+
+  if(!currentQuote){
+    msg('Enter an amount first.',true);
+    return;
+  }
+
+  if(isNative(fromToken)){
+    msg('BNB does not require approval.');
+    return;
+  }
+
+  try{
+
+    msg('Waiting for wallet approval...');
+
+    const token=new ethers.Contract(
+      tokenAddress(fromToken),
+      ERC20_ABI,
+      signer
+    );
+
+    const tx=await token.approve(
+      ROUTER,
+      ethers.constants.MaxUint256
+    );
+
+    msg('Approval submitted: '+tx.hash);
+
+    await tx.wait();
+
+    msg('Token approved. You can now swap.');
+
+    document.getElementById('approveButton').style.display='none';
+
+    document.getElementById('swapButton').textContent=
+      'Swap '+fromToken+' → '+toToken;
+
+  }catch(e){
+
+    console.error(e);
+
+    msg(
+      e?.data?.message ||
+      e?.message ||
+      'Approval failed.',
+      true
+    );
+  }
+}
+
+/* ---------- Swap ---------- */
+
+async function executeSwap(){
+
+  if(!wallet){
+
+    await connectWallet();
+
+    return;
+  }
+
+  const amountText=
+    document.getElementById('fromAmount').value;
+
+  if(!amountText || Number(amountText)<=0){
+
+    msg('Enter the amount to swap.',true);
+    return;
+  }
+
+  await updateQuote();
+
+  if(!currentQuote){
+
+    msg(
+      'No PancakeSwap route is available for this pair.',
+      true
+    );
+
+    return;
+  }
+
+  try{
+
+    if(!isNative(fromToken)){
+
+      const approval=await needsApproval();
+
+      if(approval){
+
+        document.getElementById('approveButton').style.display=
+          'block';
+
+        msg(
+          'Token approval required. Tap "Approve Token" first.'
+        );
+
+        return;
+      }
+    }
+
+    const router=new ethers.Contract(
+      ROUTER,
+      ROUTER_ABI,
+      signer
+    );
+
+    const deadline=
+      Math.floor(Date.now()/1000)+1200;
+
+    const path=pairPath();
+
+    let tx;
+
+    msg('Confirm the swap in your wallet...');
+
+    if(fromToken==='BNB'){
+
+      tx=await router
+        .swapExactETHForTokensSupportingFeeOnTransferTokens(
+          currentQuote.minimum,
+          path,
+          wallet,
+          deadline,
+          {
+            value:currentQuote.amountIn
+          }
+        );
+
+    }else if(toToken==='BNB'){
+
+      tx=await router
+        .swapExactTokensForETHSupportingFeeOnTransferTokens(
+          currentQuote.amountIn,
+          currentQuote.minimum,
+          path,
+          wallet,
+          deadline
+        );
+
+    }else{
+
+      tx=await router
+        .swapExactTokensForTokensSupportingFeeOnTransferTokens(
+          currentQuote.amountIn,
+          currentQuote.minimum,
+          path,
+          wallet,
+          deadline
+        );
+    }
+
+    msg(
+      'Transaction submitted. Waiting for confirmation...'
+    );
+
+    await tx.wait();
+
+    msg(
+      'Swap confirmed successfully.'
+    );
+
+    saveHistory({
+      hash:tx.hash,
+      from:fromToken,
+      to:toToken,
+      amount:amountText,
+      time:new Date().toLocaleString()
+    });
+
+    document.getElementById('fromAmount').value='';
+    document.getElementById('toAmount').value='';
+
+    currentQuote=null;
+
+    await refreshBalances();
+
+  }catch(e){
+
+    console.error(e);
+
+    msg(
+      e?.reason ||
+      e?.data?.message ||
+      e?.message ||
+      'Swap failed or was rejected.',
+      true
+    );
+  }
+}
+
+/* ---------- History ---------- */
+
+function saveHistory(item){
+
+  const old=
+    JSON.parse(
+      localStorage.getItem('gbk_swap_history') || '[]'
+    );
+
+  old.unshift(item);
+
+  localStorage.setItem(
+    'gbk_swap_history',
+    JSON.stringify(old.slice(0,20))
+  );
+
+  renderHistory();
+}
+
+function renderHistory(){
+
+  const history=
+    JSON.parse(
+      localStorage.getItem('gbk_swap_history') || '[]'
+    );
+
+  const el=document.getElementById('history');
+
+  if(!history.length){
+
+    el.textContent='No transactions yet.';
+    return;
+  }
+
+  el.innerHTML=history.map(x=>`
+
+    <div class="historyItem">
+
+      <b>${x.amount} ${x.from} → ${x.to}</b>
+
+      <div>${x.time}</div>
+
+      <div class="tx">
+        ${x.hash}
+      </div>
+
+      <a
+        href="https://bscscan.com/tx/${x.hash}"
+        target="_blank"
+        rel="noopener"
+        style="color:#075f48"
+      >
+        View on BscScan
+      </a>
+
+    </div>
+
+  `).join('');
+}
+
+/* ---------- Wallet events ---------- */
+
+if(window.ethereum){
+
+  window.ethereum.on(
+    'accountsChanged',
+    accounts=>{
+
+      if(accounts && accounts[0]){
+
+        wallet=accounts[0];
+
+        document.getElementById(
+          'walletAddress'
+        ).textContent=shortAddress(wallet);
+
+        refreshBalances();
+
+      }else{
+
+        wallet=null;
+
+        document.getElementById(
+          'walletAddress'
+        ).textContent='Wallet not connected';
+
+      }
+    }
+  );
+
+  window.ethereum.on(
+    'chainChanged',
+    ()=>{
+      window.location.reload();
+    }
+  );
+}
+
+renderHistory();
+
+</script>
+
+</body>
+</html>
