@@ -134,7 +134,7 @@ main{padding:20px}
   width:100%;border:0;outline:0;background:transparent;font-size:31px;
   font-weight:850;min-width:0;color:var(--dark)
 }
-.amount::placeholder{color:#b7c1bd}
+.amount::placeholder{color:#b7cp1bd}
 .token-select{
   border:1px solid #d7e2dd;background:#fff;border-radius:19px;padding:15px 14px;
   font-size:17px;font-weight:900;min-width:125px
@@ -540,7 +540,7 @@ const ROUTER_ABI=[
 let provider=null;
 let signer=null;
 let account=null;
-let gbkDecimals=18;
+let gbkDecimals=8;
 let usdtDecimals=18;
 let slippage=1;
 let bnbUsd=0;
@@ -645,33 +645,116 @@ async function ensureBSC(){
 async function connectWallet(){
   showMessage("");
 
-  try{
-    if(!window.ethereum){
-      showMessage("No compatible wallet detected. Open swap.gbkai.com inside your wallet browser.");
+  try {
+    let injectedProvider = window.ethereum;
+
+    if (!injectedProvider) {
+      showMessage(
+        "No compatible wallet detected. Open swap.gbkai.com inside your wallet browser.",
+        "error"
+      );
       return;
     }
 
-    provider=await ensureBSC();
+    // Make sure the wallet is on BNB Smart Chain
+    const chainId = await injectedProvider.request({
+      method: "eth_chainId"
+    });
 
-    await provider.send("eth_requestAccounts",[]);
+    if (chainId.toLowerCase() !== "0x38") {
+      try {
+        await injectedProvider.request({
+          method: "wallet_switchEthereumChain",
+          params: [{ chainId: "0x38" }]
+        });
+      } catch (switchError) {
 
-    signer=await provider.getSigner();
-    account=await signer.getAddress();
+        // BNB Smart Chain is not added to the wallet
+        if (
+          switchError.code === 4902 ||
+          switchError.code === -32603
+        ) {
+          await injectedProvider.request({
+            method: "wallet_addEthereumChain",
+            params: [{
+              chainId: "0x38",
+              chainName: "BNB Smart Chain",
+              nativeCurrency: {
+                name: "BNB",
+                symbol: "BNB",
+                decimals: 18
+              },
+              rpcUrls: [
+                CONFIG.rpc
+              ],
+              blockExplorerUrls: [
+                "https://bscscan.com"
+              ]
+            }]
+          });
+        } else {
+          throw switchError;
+        }
+      }
+    }
 
-    $("connectBtn").textContent=shortAddress(account);
-    $("swapBtn").textContent="Enter amount";
+    // Create ethers provider from the injected wallet
+    provider = new ethers.BrowserProvider(injectedProvider);
 
+    // Ask wallet for account
+    const accounts = await injectedProvider.request({
+      method: "eth_requestAccounts"
+    });
+
+    if (!accounts || !accounts.length) {
+      throw new Error("No wallet account was returned.");
+    }
+
+    account = accounts[0];
+
+    signer = await provider.getSigner();
+
+    // Verify signer address
+    account = await signer.getAddress();
+
+    // Load balances and token information
     await loadTokenInfo();
-    await refreshBalances();
     await refreshPrices();
-    await updateQuote();
+    await refreshWallet();
 
-    showMessage("Wallet connected to BNB Chain.","success");
-  }catch(e){
-    console.error(e);
-    showMessage(cleanError(e));
+    $("connectBtn").textContent =
+      account.slice(0, 6) + "..." + account.slice(-4);
+
+    $("swapBtn").textContent = "Swap";
+
+    $("walletAddress").textContent = account;
+
+    showMessage("Wallet connected successfully.", "success");
+
+  } catch (e) {
+    console.error("Wallet connection error:", e);
+
+    signer = null;
+    account = null;
+
+    $("connectBtn").textContent = "Connect Wallet";
+    $("swapBtn").textContent = "Connect Wallet";
+
+    $("walletAddress").textContent = "Not connected";
+    $("walletBNB").textContent = "—";
+    $("walletGBK").textContent = "—";
+    $("walletUSDT").textContent = "—";
+
+    showMessage(
+      e && e.message
+        ? "Wallet connection failed: " + e.message
+        : "Wallet connection failed.",
+      "error"
+    );
   }
 }
+  
+
 
 function cleanError(e){
   if(!e)return "Something went wrong.";
@@ -1134,10 +1217,18 @@ if(window.ethereum){
     await connectWallet();
   });
 
-  window.ethereum.on("chainChanged",()=>{
+  if (window.ethereum) {
+  window.ethereum.on("chainChanged", () => {
+    window.location.reload();
+  });
+
+  window.ethereum.on("accountsChanged", () => {
     window.location.reload();
   });
 }
+    
+
+
 
 (async function init(){
   try{
