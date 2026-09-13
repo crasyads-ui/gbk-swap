@@ -7,36 +7,7 @@
 <title>GBK Swap — BNB Chain</title>
 
 <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.5/dist/ethers.umd.min.js"></script>
-<script type="module">
-import { createAppKit } from "https://cdn.jsdelivr.net/npm/@reown/appkit@1.8.23/+esm";
-import { EthersAdapter } from "https://cdn.jsdelivr.net/npm/@reown/appkit-adapter-ethers@1.8.23/+esm";
-import { bsc } from "https://cdn.jsdelivr.net/npm/@reown/appkit@1.8.23/networks/+esm";
 
-const GBK_REOWN_PROJECT_ID =
-  "19d21bb0657b8a691c0ea8f4976ce26e";
-
-const reownAdapter = new EthersAdapter();
-
-const reownModal = createAppKit({
-  adapters: [reownAdapter],
-  networks: [bsc],
-  defaultNetwork: bsc,
-  projectId: GBK_REOWN_PROJECT_ID,
-
-  metadata: {
-    name: "GBK Swap",
-    description: "GBK Swap on BNB Smart Chain",
-    url: "https://swap.gbkai.com",
-    icons: []
-  },
-
-  features: {
-    analytics: false
-  }
-});
-
-window.gbkReown = reownModal;
-</script>
 <style>
 :root{
   --green:#006b50;
@@ -51,8 +22,11 @@ window.gbkReown = reownModal;
   --red:#9c4747;
   --shadow:0 12px 35px rgba(0,70,52,.08)
 }
+
 *{box-sizing:border-box}
+
 html{scroll-behavior:smooth}
+
 body{
   margin:0;
   background:var(--bg);
@@ -61,14 +35,17 @@ body{
   "Segoe UI",Roboto,Arial,sans-serif;
   font-weight:500
 }
+
 button,input,select{font:inherit}
 button{cursor:pointer}
+
 .app{
   max-width:760px;
   margin:auto;
   min-height:100vh;
   padding-bottom:110px
 }
+
 .header{
   background:var(--green);
   color:#fff;
@@ -81,11 +58,13 @@ button{cursor:pointer}
   z-index:50;
   box-shadow:0 3px 15px rgba(0,0,0,.12)
 }
+
 .brand{
   display:flex;
   align-items:center;
   gap:13px
 }
+
 .logo{
   width:60px;
   height:60px;
@@ -96,14 +75,15 @@ button{cursor:pointer}
   align-items:center;
   justify-content:center;
   font-size:23px;
-  font-weight:900;
-  letter-spacing:-1px
+  font-weight:900
 }
+
 .brand-title{
   font-size:25px;
   line-height:1;
   font-weight:900
 }
+
 .brand-sub{
   margin-top:7px;
   font-size:14px;
@@ -111,6 +91,7 @@ button{cursor:pointer}
   letter-spacing:1px;
   opacity:.8
 }
+
 .network{
   border:1px solid rgba(255,255,255,.2);
   background:rgba(255,255,255,.08);
@@ -122,68 +103,41 @@ button{cursor:pointer}
   font-weight:800;
   white-space:nowrap
 }
+
 .dot{
   width:10px;
   height:10px;
   border-radius:50%;
   background:#54e5a4
 }
+
 main{padding:20px}
+
 .hero{
   background:linear-gradient(135deg,#006b50,#008c69);
   color:#fff;
   border-radius:34px;
   padding:38px 38px 30px;
   box-shadow:var(--shadow);
-  overflow:hidden;
-  position:relative
+  overflow:hidden
 }
-.hero:after{
-  content:"";
-  position:absolute;
-  width:280px;
-  height:280px;
-  right:-130px;
-  top:-120px;
-  background:rgba(255,255,255,.08);
-  border-radius:50%
-}
-.hero-top{
-  position:relative;
-  z-index:2;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:15px
-}
-.eyebrow{
-  font-size:14px;
-  letter-spacing:3px;
-  font-weight:800;
-  opacity:.75
-}
+
 .hero h1{
-  position:relative;
-  z-index:2;
   font-size:55px;
   line-height:.98;
   letter-spacing:-2.5px;
   margin:30px 0 20px;
-  font-weight:950;
-  max-width:620px
+  font-weight:950
 }
+
 .hero p{
-  position:relative;
-  z-index:2;
   font-size:20px;
   line-height:1.45;
   margin:0;
-  max-width:650px;
   color:rgba(255,255,255,.8)
 }
+
 .hero-bottom{
-  position:relative;
-  z-index:2;
   margin-top:28px;
   padding-top:25px;
   border-top:1px solid rgba(255,255,255,.2);
@@ -192,17 +146,21 @@ main{padding:20px}
   justify-content:space-between;
   gap:20px
 }
+
 .portfolio-label{
   font-size:15px;
   color:rgba(255,255,255,.7);
   margin-bottom:5px
 }
+
 .portfolio-value{
   font-size:45px;
   line-height:1;
   font-weight:950
 }
-.connect{
+
+.connect,
+.swap-button{
   border:0;
   background:var(--yellow);
   color:#17251f;
@@ -213,23 +171,32 @@ main{padding:20px}
   font-weight:950;
   box-shadow:0 7px 18px rgba(0,0,0,.12)
 }
-.connect:hover{background:var(--yellow2)}
+
+.connect:hover,
+.swap-button:hover{
+  background:var(--yellow2)
+}
+
 .section{margin-top:28px}
+
 .section-head{
   display:flex;
   align-items:center;
   justify-content:space-between;
   margin-bottom:15px
 }
+
 .section-title{
   font-size:30px;
   font-weight:950;
   letter-spacing:-1px
 }
+
 .live{
   color:var(--green2);
   font-weight:900
 }
+
 .market{
   background:#fff;
   border:1px solid var(--line);
@@ -240,85 +207,92 @@ main{padding:20px}
   grid-template-columns:repeat(3,1fr);
   gap:12px
 }
+
 .market-card{
   background:#f3f6f5;
   border-radius:24px;
-  padding:20px 16px;
-  min-width:0
+  padding:20px 16px
 }
+
 .market-label{
   color:#77827e;
   font-size:15px;
   margin-bottom:5px
 }
+
 .market-value{
   font-size:22px;
-  font-weight:950;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis
+  font-weight:950
 }
+
 .actions-title{
   display:flex;
   justify-content:space-between;
   align-items:center;
   margin-bottom:16px
 }
+
 .actions-title h2{
   margin:0;
-  font-size:34px;
-  letter-spacing:-1px
+  font-size:34px
 }
+
 .actions-title span{
   color:var(--green2);
   font-weight:900
 }
+
 .actions{
   display:grid;
   grid-template-columns:repeat(2,1fr);
   gap:14px
 }
+
 .action{
   background:#fff;
   border:1px solid var(--line);
   border-radius:28px;
   padding:30px;
   text-align:left;
-  min-height:155px;
-  transition:.2s
+  min-height:155px
 }
-.action:hover{
-  transform:translateY(-2px);
-  box-shadow:var(--shadow)
-}
+
 .action strong{
   display:block;
   font-size:25px;
   font-weight:950
 }
+
 .action small{
   display:block;
   margin-top:10px;
   font-size:18px;
   color:#74817d
 }
-.swap-card{
+
+.swap-card,
+.wallet-card,
+.recent,
+.onramp{
   background:#fff;
   border:1px solid var(--line);
   border-radius:34px;
   padding:32px;
   box-shadow:var(--shadow)
 }
+
 .swap-title{
   font-size:36px;
   font-weight:950;
   margin:0 0 5px
 }
+
 .swap-sub{
   color:#77827e;
   font-size:18px;
   margin-bottom:28px
 }
+
 .field-label{
   display:flex;
   justify-content:space-between;
@@ -327,7 +301,9 @@ main{padding:20px}
   margin-bottom:10px;
   font-weight:700
 }
+
 .balance{font-size:14px}
+
 .input-row{
   border:1px solid #d8e2de;
   background:#f8faf9;
@@ -337,6 +313,7 @@ main{padding:20px}
   align-items:center;
   padding:8px 10px 8px 20px
 }
+
 .amount{
   width:100%;
   border:0;
@@ -344,9 +321,9 @@ main{padding:20px}
   background:transparent;
   font-size:31px;
   font-weight:850;
-  min-width:0;
-  color:var(--dark)
+  min-width:0
 }
+
 .token-select{
   border:1px solid #d7e2dd;
   background:#fff;
@@ -354,8 +331,9 @@ main{padding:20px}
   padding:15px 14px;
   font-size:17px;
   font-weight:900;
-  min-width:125px
+  min-width:120px
 }
+
 .switch{
   display:flex;
   align-items:center;
@@ -369,11 +347,13 @@ main{padding:20px}
   color:#fff;
   font-size:22px
 }
+
 .quote{
   margin-top:22px;
   border-top:1px solid var(--line);
   padding-top:18px
 }
+
 .quote-row{
   display:flex;
   justify-content:space-between;
@@ -381,13 +361,16 @@ main{padding:20px}
   padding:7px 0;
   color:#76817d
 }
+
 .quote-row strong{color:var(--dark)}
+
 .slippage{
   display:grid;
   grid-template-columns:repeat(4,1fr);
   gap:9px;
   margin-top:12px
 }
+
 .slip{
   border:1px solid #d7e2dd;
   background:#fff;
@@ -395,47 +378,45 @@ main{padding:20px}
   padding:13px 8px;
   font-weight:900
 }
+
 .slip.active{
   background:var(--green);
   color:#fff;
   border-color:var(--green)
 }
+
 .custom-slip{
   margin-top:10px;
   display:flex;
   align-items:center;
   gap:8px
 }
+
 .custom-slip input{
   width:100%;
   border:1px solid #d7e2dd;
   background:#f8faf9;
   border-radius:16px;
   padding:13px;
-  font-weight:800;
   outline:0
 }
-.custom-slip span{font-weight:900}
+
 .slip-note{
   font-size:12px;
   color:#7b8782;
   margin-top:7px
 }
+
 .swap-button{
   width:100%;
-  margin-top:22px;
-  min-height:62px;
-  border:0;
-  border-radius:22px;
-  background:var(--yellow);
-  color:#18251f;
-  font-size:20px;
-  font-weight:950
+  margin-top:22px
 }
+
 .swap-button:disabled{
   opacity:.5;
   cursor:not-allowed
 }
+
 .notice{
   margin-top:15px;
   padding:15px;
@@ -443,52 +424,55 @@ main{padding:20px}
   font-size:14px;
   line-height:1.45
 }
+
 .notice.error{
   background:#fff0ef;
   color:var(--red)
 }
+
 .notice.success{
   background:#e9f8f0;
   color:#17654c
 }
-.wallet-card,.recent,.onramp{
-  background:#fff;
-  border:1px solid var(--line);
-  border-radius:30px;
-  padding:25px;
-  box-shadow:var(--shadow)
-}
+
 .wallet-row{
   display:flex;
   justify-content:space-between;
   padding:17px 0;
   border-bottom:1px solid var(--line)
 }
+
 .wallet-row:last-child{border-bottom:0}
+
 .wallet-row span:first-child{color:#71807a}
+
 .wallet-row strong{text-align:right}
+
 .empty{
   color:#75817d;
-  font-size:18px
+  font-size:18px;
+  margin-top:10px
 }
+
 .tx{
   padding:16px 0;
   border-bottom:1px solid var(--line)
 }
-.tx:last-child{border-bottom:0}
+
 .tx-main{
   display:flex;
   justify-content:space-between;
   gap:10px;
   font-weight:850
 }
+
 .tx-link{
   display:inline-block;
   margin-top:6px;
   color:var(--green2);
-  font-size:13px;
-  word-break:break-all
+  font-size:13px
 }
+
 .currency-card{
   background:#fff;
   border:1px solid var(--line);
@@ -499,20 +483,22 @@ main{padding:20px}
   justify-content:space-between;
   gap:15px
 }
+
 .currency-title{
   font-size:19px;
   font-weight:900
 }
+
 .currency-select{
   min-width:210px;
   border:2px solid var(--green2);
   background:#fff;
-  color:var(--dark);
   border-radius:20px;
   padding:16px 18px;
   font-size:17px;
   font-weight:900
 }
+
 .info{
   background:var(--mint);
   border:1px solid #cce7dc;
@@ -521,12 +507,14 @@ main{padding:20px}
   color:#36574c;
   line-height:1.55
 }
+
 .provider-grid{
   display:grid;
   grid-template-columns:repeat(2,1fr);
   gap:12px;
   margin-top:15px
 }
+
 .provider{
   border:1px solid var(--line);
   border-radius:20px;
@@ -535,16 +523,18 @@ main{padding:20px}
   font-weight:900;
   text-align:left
 }
+
 .provider small{
   display:block;
   color:#77827e;
-  margin-top:7px;
-  font-weight:600
+  margin-top:7px
 }
+
 .provider.active{
   border:2px solid var(--green2);
   background:var(--mint)
 }
+
 .bottom-nav{
   position:fixed;
   left:50%;
@@ -559,6 +549,7 @@ main{padding:20px}
   z-index:100;
   padding-bottom:env(safe-area-inset-bottom)
 }
+
 .nav-btn{
   border:0;
   background:transparent;
@@ -567,110 +558,148 @@ main{padding:20px}
   font-weight:800;
   font-size:13px
 }
+
 .nav-icon{
   display:block;
   font-size:24px;
   line-height:25px;
   margin-bottom:4px
 }
+
 .nav-btn.active{color:var(--green)}
 
 @media(max-width:600px){
+
   .header{padding:15px 17px}
-  .logo{width:58px;height:58px}
-  .brand-title{font-size:24px}
-  .network{padding:10px 12px;font-size:14px}
+
+  .network{
+    padding:10px 12px;
+    font-size:14px
+  }
+
   main{padding:14px}
-  .hero{padding:30px 27px 25px;border-radius:30px}
-  .hero h1{font-size:47px;margin-top:27px}
+
+  .hero{
+    padding:30px 27px 25px;
+    border-radius:30px
+  }
+
+  .hero h1{
+    font-size:47px;
+    margin-top:27px
+  }
+
   .hero p{font-size:18px}
+
   .hero-bottom{
     align-items:stretch;
     flex-direction:column
   }
-  .portfolio-value{font-size:42px}
+
   .connect{
-    width:100%;
-    font-size:20px
+    width:100%
   }
-  .section-title{font-size:29px}
+
   .market{
     padding:10px;
     gap:8px
   }
+
   .market-card{
     padding:17px 12px;
     border-radius:19px
   }
+
   .market-value{font-size:18px}
-  .actions-title h2{font-size:31px}
+
   .action{
     padding:23px 18px;
     min-height:140px
   }
-  .action strong{font-size:22px}
-  .action small{font-size:16px}
-  .swap-card{
+
+  .swap-card,
+  .wallet-card,
+  .recent,
+  .onramp{
     padding:24px 18px;
     border-radius:28px
   }
+
   .swap-title{font-size:32px}
+
   .amount{font-size:27px}
-  .token-select{min-width:110px}
+
+  .slippage{
+    grid-template-columns:repeat(2,1fr)
+  }
+
   .currency-card{
     flex-direction:column;
     align-items:stretch
   }
-  .currency-select{width:100%}
-  .slippage{
-    grid-template-columns:repeat(2,1fr)
+
+  .currency-select{
+    width:100%
   }
 }
+
 @media(max-width:380px){
+
   .network{display:none}
+
   .hero h1{font-size:40px}
+
   .actions{gap:9px}
+
   .action{padding:20px 14px}
 }
 </style>
 </head>
 
 <body>
+
 <div class="app">
 
 <header class="header">
+
   <div class="brand">
+
     <div class="logo">GBK</div>
+
     <div>
       <div class="brand-title">GBK Swap</div>
       <div class="brand-sub">BNB CHAIN</div>
     </div>
+
   </div>
 
   <div class="network">
     <span class="dot"></span>
     BNB Chain
   </div>
+
 </header>
 
 <main>
 
 <section class="hero">
-  <div class="hero-top">
-    <div class="eyebrow">GBK ECOSYSTEM</div>
-    <div class="network">
-      <span class="dot"></span>
-      BNB Chain
-    </div>
+
+  <div class="network">
+    <span class="dot"></span>
+    BNB Chain
   </div>
 
-  <h1>Swap simply.<br>Stay in control.</h1>
+  <h1>
+    Swap simply.<br>
+    Stay in control.
+  </h1>
 
   <p>
     Non-custodial trading for GBK on BNB Chain through PancakeSwap V2.
   </p>
 
   <div class="hero-bottom">
+
     <div>
       <div class="portfolio-label">Portfolio value</div>
       <div class="portfolio-value" id="portfolioValue">$0.00</div>
@@ -679,16 +708,20 @@ main{padding:20px}
     <button class="connect" id="connectBtn">
       Connect Wallet
     </button>
+
   </div>
+
 </section>
 
 <section class="section">
+
   <div class="section-head">
     <div class="section-title">Market prices</div>
     <div class="live">Live</div>
   </div>
 
   <div class="market">
+
     <div class="market-card">
       <div class="market-label">GBK</div>
       <div class="market-value" id="gbkPrice">$—</div>
@@ -703,10 +736,13 @@ main{padding:20px}
       <div class="market-label">USDT</div>
       <div class="market-value">$1.00</div>
     </div>
+
   </div>
+
 </section>
 
 <section class="section">
+
   <div class="actions-title">
     <h2>What do you want to do?</h2>
     <span>GBK first</span>
@@ -735,6 +771,7 @@ main{padding:20px}
     </button>
 
   </div>
+
 </section>
 
 <section class="section" id="swapSection">
@@ -755,6 +792,7 @@ main{padding:20px}
   </div>
 
   <div class="input-row">
+
     <input
       id="amountIn"
       class="amount"
@@ -770,9 +808,10 @@ main{padding:20px}
       <option value="USDT">USDT</option>
       <option value="BNB">BNB</option>
     </select>
+
   </div>
 
-  <button class="switch" id="switchBtn" aria-label="Reverse">
+  <button class="switch" id="switchBtn">
     ↕
   </button>
 
@@ -784,6 +823,7 @@ main{padding:20px}
   </div>
 
   <div class="input-row">
+
     <input
       id="amountOut"
       class="amount"
@@ -797,6 +837,7 @@ main{padding:20px}
       <option value="GBK">GBK</option>
       <option value="BNB">BNB</option>
     </select>
+
   </div>
 
   <div class="quote">
@@ -818,25 +859,15 @@ main{padding:20px}
 
     <div class="slippage">
 
-      <button class="slip" data-slip="0.5">
-        0.5%
-      </button>
-
-      <button class="slip active" data-slip="1">
-        1%
-      </button>
-
-      <button class="slip" data-slip="2">
-        2%
-      </button>
-
-      <button class="slip" data-slip="5">
-        5%
-      </button>
+      <button class="slip" data-slip="0.5">0.5%</button>
+      <button class="slip active" data-slip="1">1%</button>
+      <button class="slip" data-slip="2">2%</button>
+      <button class="slip" data-slip="5">5%</button>
 
     </div>
 
     <div class="custom-slip">
+
       <input
         id="customSlippage"
         type="number"
@@ -845,7 +876,9 @@ main{padding:20px}
         step="0.1"
         placeholder="Custom slippage"
       >
+
       <span>%</span>
+
     </div>
 
     <div class="slip-note">
@@ -861,6 +894,7 @@ main{padding:20px}
   <div id="message"></div>
 
 </div>
+
 </section>
 
 <section class="section">
@@ -873,9 +907,7 @@ main{padding:20px}
 
     <div class="wallet-row">
       <span>Address</span>
-      <strong id="walletAddress">
-        Not connected
-      </strong>
+      <strong id="walletAddress">Not connected</strong>
     </div>
 
     <div class="wallet-row">
@@ -894,6 +926,7 @@ main{padding:20px}
     </div>
 
   </div>
+
 </section>
 
 <section class="section">
@@ -921,6 +954,7 @@ main{padding:20px}
     </div>
 
     <select id="currency" class="currency-select">
+
       <option value="INR">🇮🇳 INR ₹</option>
       <option value="USD">🇺🇸 USD $</option>
       <option value="EUR">🇪🇺 EUR €</option>
@@ -930,6 +964,7 @@ main{padding:20px}
       <option value="SGD">🇸🇬 SGD $</option>
       <option value="AUD">🇦🇺 AUD $</option>
       <option value="CAD">🇨🇦 CAD $</option>
+
     </select>
 
   </div>
@@ -963,7 +998,7 @@ main{padding:20px}
 
     </div>
 
-    <button class="swap-button" id="buyUsdtBtn" style="margin-top:15px">
+    <button class="swap-button" id="buyUsdtBtn">
       Buy USDT
     </button>
 
@@ -1021,36 +1056,36 @@ main{padding:20px}
 <script>
 
 /* =========================================================
-   GBK SWAP CONFIGURATION
+   CONFIG
    ========================================================= */
 
 const CONFIG = {
 
-  chainId: 56,
+  chainId:56,
 
-  chainHex: "0x38",
+  chainHex:"0x38",
 
-  chainName: "BNB Smart Chain",
+  chainName:"BNB Smart Chain",
 
-  native: "BNB",
+  native:"BNB",
 
-  gbk: "0xdA0638EA374c4c5bF2914E6F4D5B2335dEb8D80D",
+  gbk:"0xdA0638EA374c4c5bF2914E6F4D5B2335dEb8D80D",
 
-  usdt: "0x55d398326f99059fF775485246999027B3197955b",
+  usdt:"0x55d398326f99059fF775485246999027B3197955b",
 
-  wbnb: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
+  wbnb:"0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
 
-  router: "0x10ED43C718714eb63d5aA57B78B54704E256024E",
+  router:"0x10ED43C718714eb63d5aA57B78B54704E256024E",
 
-  rpc: "https://bsc-dataseed.bnbchain.org",
+  rpc:"https://bsc-dataseed.bnbchain.org",
 
-  explorer: "https://bscscan.com"
+  explorer:"https://bscscan.com"
 
 };
 
 
 /* =========================================================
-   CONTRACT ABIs
+   ABIS
    ========================================================= */
 
 const ERC20_ABI = [
@@ -1064,7 +1099,6 @@ const ERC20_ABI = [
   "function approve(address,uint256) returns(bool)"
 
 ];
-
 
 const ROUTER_ABI = [
 
@@ -1085,115 +1119,130 @@ const ROUTER_ABI = [
    STATE
    ========================================================= */
 
-let provider = null;
+let provider=null;
+let signer=null;
+let account=null;
+let injectedProvider=null;
 
-let signer = null;
+let selectedWalletName="";
 
-let account = null;
+let discoveredWallets=[];
 
-let injectedProvider = null;
+let gbkDecimals=8;
+let usdtDecimals=18;
 
-let selectedWalletName = "";
+let slippage=1;
 
-let discoveredWallets = [];
+let bnbUsd=0;
+let gbkUsd=0;
 
-let gbkDecimals = 8;
-
-let usdtDecimals = 18;
-
-let slippage = 1;
-
-let bnbUsd = 0;
-
-let gbkUsd = 0;
-
-let selectedProvider = "onramp";
+let selectedProvider="onramp";
 
 
 /* =========================================================
    DOM
    ========================================================= */
 
-const $ = id => document.getElementById(id);
+const $=id=>document.getElementById(id);
 
 
 /* =========================================================
-   GENERAL HELPERS
+   HELPERS
    ========================================================= */
-
-function showMessage(text,type="error"){
-
-  $("message").innerHTML = text
-    ? `<div class="notice ${type}">
-         ${escapeHtml(text)}
-       </div>`
-    : "";
-
-}
-
-
-function showOnrampMessage(text,type="error"){
-
-  $("onrampMessage").innerHTML = text
-    ? `<div class="notice ${type}">
-         ${escapeHtml(text)}
-       </div>`
-    : "";
-
-}
-
 
 function escapeHtml(value){
 
   return String(value)
-
     .replaceAll("&","&amp;")
-
     .replaceAll("<","&lt;")
-
     .replaceAll(">","&gt;")
-
     .replaceAll('"',"&quot;")
-
     .replaceAll("'","&#039;");
 
 }
 
-
 function shortAddress(address){
 
-  if(!address)return "Not connected";
+  if(!address)
+    return "Not connected";
 
   return address.slice(0,6)+"…"+address.slice(-4);
 
 }
 
-
 function fmt(value,decimals=4){
 
-  const number = Number(value);
+  const n=Number(value);
 
-  if(!Number.isFinite(number))
+  if(!Number.isFinite(n))
     return "—";
 
-  return number.toLocaleString(undefined,{
+  return n.toLocaleString(undefined,{
     maximumFractionDigits:decimals
   });
 
 }
 
-
 function money(value){
 
-  const number = Number(value);
+  const n=Number(value);
 
-  if(!Number.isFinite(number))
+  if(!Number.isFinite(n))
     return "$—";
 
-  return "$"+number.toLocaleString(undefined,{
+  return "$"+n.toLocaleString(undefined,{
     minimumFractionDigits:2,
     maximumFractionDigits:2
   });
+
+}
+
+function showMessage(text,type="error"){
+
+  $("message").innerHTML=text
+    ? `<div class="notice ${type}">
+         ${escapeHtml(text)}
+       </div>`
+    : "";
+
+}
+
+function showOnrampMessage(text,type="error"){
+
+  $("onrampMessage").innerHTML=text
+    ? `<div class="notice ${type}">
+         ${escapeHtml(text)}
+       </div>`
+    : "";
+
+}
+
+function cleanError(error){
+
+  if(!error)
+    return "Something went wrong.";
+
+  if(
+    error.code===4001 ||
+    error.code==="ACTION_REJECTED"
+  )
+    return "Request rejected in wallet.";
+
+  const message=
+    error.message ||
+    String(error);
+
+  if(
+    message.toLowerCase().includes("user rejected")
+  )
+    return "Request rejected in wallet.";
+
+  if(
+    message.toLowerCase().includes("already pending")
+  )
+    return "A wallet request is already pending. Open your wallet and complete it.";
+
+  return message.slice(0,350);
 
 }
 
@@ -1217,7 +1266,6 @@ function tokenAddress(symbol){
 
 }
 
-
 function tokenDecimals(symbol){
 
   if(symbol==="GBK")
@@ -1230,20 +1278,25 @@ function tokenDecimals(symbol){
 
 }
 
-
 function pathFor(from,to){
 
-  if(from==="BNB")
+  if(from==="BNB"){
+
     return [
       CONFIG.wbnb,
       tokenAddress(to)
     ];
 
-  if(to==="BNB")
+  }
+
+  if(to==="BNB"){
+
     return [
       tokenAddress(from),
       CONFIG.wbnb
     ];
+
+  }
 
   return [
     tokenAddress(from),
@@ -1254,12 +1307,38 @@ function pathFor(from,to){
 
 
 /* =========================================================
-   EIP-6963 WALLET DISCOVERY
+   WALLET DISCOVERY
    ========================================================= */
+
+function registerWallet(detail){
+
+  if(!detail || !detail.provider)
+    return;
+
+  const uuid=detail.info?.uuid;
+
+  if(
+    uuid &&
+    discoveredWallets.some(
+      x=>x.info?.uuid===uuid
+    )
+  )
+    return;
+
+  discoveredWallets.push(detail);
+
+}
+
+window.addEventListener(
+  "eip6963:announceProvider",
+  event=>{
+    registerWallet(event.detail);
+  }
+);
 
 function discoverWallets(){
 
-  discoveredWallets = [];
+  discoveredWallets=[];
 
   try{
 
@@ -1269,82 +1348,42 @@ function discoverWallets(){
 
   }catch(error){
 
-    console.log(
-      "EIP-6963 discovery request failed",
-      error
-    );
+    console.log(error);
 
   }
 
 }
-
-
-function registerWallet(detail){
-
-  if(!detail || !detail.provider)
-    return;
-
-  const uuid = detail.info?.uuid;
-
-  if(
-    uuid &&
-    discoveredWallets.some(
-      wallet => wallet.info?.uuid === uuid
-    )
-  ){
-    return;
-  }
-
-  discoveredWallets.push(detail);
-
-}
-
-
-window.addEventListener(
-  "eip6963:announceProvider",
-  event => {
-
-    registerWallet(event.detail);
-
-  }
-);
-
-
-/* =========================================================
-   FIND BEST WALLET PROVIDER
-   ========================================================= */
 
 async function findWalletProvider(){
 
   discoverWallets();
 
   await new Promise(
-    resolve => setTimeout(resolve,250)
+    resolve=>setTimeout(resolve,300)
   );
 
   if(
-    discoveredWallets.length > 0 &&
+    discoveredWallets.length &&
     discoveredWallets[0].provider
   ){
 
-    const wallet = discoveredWallets[0];
+    const wallet=discoveredWallets[0];
 
-    selectedWalletName =
-      wallet.info?.name || "Wallet";
+    selectedWalletName=
+      wallet.info?.name ||
+      "Wallet";
 
     return wallet.provider;
 
   }
 
-
   if(window.ethereum){
 
-    selectedWalletName = "Browser Wallet";
+    selectedWalletName="Browser Wallet";
 
     return window.ethereum;
 
   }
-
 
   return null;
 
@@ -1352,27 +1391,22 @@ async function findWalletProvider(){
 
 
 /* =========================================================
-   BNB CHAIN SWITCH
+   BNB NETWORK
    ========================================================= */
 
 async function ensureBSC(wallet){
 
-  if(!wallet){
-
-    throw new Error(
-      "No compatible wallet provider detected."
-    );
-
-  }
-
+  if(!wallet)
+    throw new Error("No compatible wallet provider detected.");
 
   let chainId;
 
   try{
 
-    chainId = await wallet.request({
-      method:"eth_chainId"
-    });
+    chainId=
+      await wallet.request({
+        method:"eth_chainId"
+      });
 
   }catch(error){
 
@@ -1382,16 +1416,14 @@ async function ensureBSC(wallet){
 
   }
 
-
   if(
-    String(chainId).toLowerCase() ===
+    String(chainId).toLowerCase()===
     CONFIG.chainHex
   ){
 
     return new ethers.BrowserProvider(wallet);
 
   }
-
 
   try{
 
@@ -1410,20 +1442,17 @@ async function ensureBSC(wallet){
   }catch(error){
 
     if(
-      error.code === 4902 ||
-      error.code === -32603
+      error.code===4902 ||
+      error.code===-32603
     ){
 
-      try{
+      await wallet.request({
 
-        await wallet.request({
+        method:"wallet_addEthereumChain",
 
-          method:"wallet_addEthereumChain",
-
-          params:[{
-
+        params:[
+          {
             chainId:CONFIG.chainHex,
-
             chainName:"BNB Smart Chain",
 
             nativeCurrency:{
@@ -1432,25 +1461,15 @@ async function ensureBSC(wallet){
               decimals:18
             },
 
-            rpcUrls:[
-              CONFIG.rpc
-            ],
+            rpcUrls:[CONFIG.rpc],
 
             blockExplorerUrls:[
               CONFIG.explorer
             ]
+          }
+        ]
 
-          }]
-
-        });
-
-      }catch(addError){
-
-        throw new Error(
-          "Please add BNB Smart Chain to your wallet."
-        );
-
-      }
+      });
 
     }else{
 
@@ -1462,7 +1481,6 @@ async function ensureBSC(wallet){
 
   }
 
-
   return new ethers.BrowserProvider(wallet);
 
 }
@@ -1472,7 +1490,10 @@ async function ensureBSC(wallet){
    CONNECT WALLET
    ========================================================= */
 
-async function connectWallet(wallet=null,walletName=""){
+async function connectWallet(
+  wallet=null,
+  walletName=""
+){
 
   showMessage("");
 
@@ -1480,18 +1501,17 @@ async function connectWallet(wallet=null,walletName=""){
 
     if(wallet){
 
-      injectedProvider = wallet;
+      injectedProvider=wallet;
 
       if(walletName)
-        selectedWalletName = walletName;
+        selectedWalletName=walletName;
 
     }else{
 
-      injectedProvider =
+      injectedProvider=
         await findWalletProvider();
 
     }
-
 
     if(!injectedProvider){
 
@@ -1501,20 +1521,22 @@ async function connectWallet(wallet=null,walletName=""){
 
     }
 
+    /*
+      IMPORTANT:
+      provider is now the connected wallet's
+      BrowserProvider. Balance reads below use this
+      provider instead of the public RPC.
+    */
 
-    provider =
+    provider=
       await ensureBSC(
         injectedProvider
       );
 
-
-    const accounts =
+    const accounts=
       await injectedProvider.request({
-
         method:"eth_requestAccounts"
-
       });
-
 
     if(
       !accounts ||
@@ -1527,17 +1549,11 @@ async function connectWallet(wallet=null,walletName=""){
 
     }
 
-
-    account = accounts[0];
-
-
-    signer =
+    signer=
       await provider.getSigner();
 
-
-    account =
+    account=
       await signer.getAddress();
-
 
     await loadTokenInfo();
 
@@ -1545,31 +1561,32 @@ async function connectWallet(wallet=null,walletName=""){
 
     await refreshBalances();
 
+    /*
+      FIX:
+      The original page kept swapBtn disabled even
+      after successful wallet connection.
+    */
 
-    $("connectBtn").textContent =
+    $("swapBtn").disabled=false;
+
+    $("connectBtn").textContent=
       shortAddress(account);
 
-
-    $("swapBtn").textContent =
+    $("swapBtn").textContent=
       "Enter amount";
 
-
-    $("walletAddress").textContent =
+    $("walletAddress").textContent=
       shortAddress(account);
 
-
     showMessage(
-
-      (selectedWalletName
-        ? selectedWalletName+" "
-        : ""
+      (
+        selectedWalletName
+          ? selectedWalletName+" "
+          : ""
       )+
       "wallet connected successfully.",
-
       "success"
-
     );
-
 
   }catch(error){
 
@@ -1578,41 +1595,33 @@ async function connectWallet(wallet=null,walletName=""){
       error
     );
 
+    provider=null;
+    signer=null;
+    account=null;
 
-    provider = null;
+    $("swapBtn").disabled=true;
 
-    signer = null;
-
-    account = null;
-
-
-    $("connectBtn").textContent =
+    $("connectBtn").textContent=
       "Connect Wallet";
 
-
-    $("swapBtn").textContent =
+    $("swapBtn").textContent=
       "Connect Wallet";
 
-
-    $("walletAddress").textContent =
+    $("walletAddress").textContent=
       "Not connected";
 
+    $("walletBNB").textContent="—";
+    $("walletGBK").textContent="—";
+    $("walletUSDT").textContent="—";
 
-    $("walletBNB").textContent =
-      "—";
+    $("fromBalance").textContent=
+      "Balance: —";
 
+    $("toBalance").textContent=
+      "Balance: —";
 
-    $("walletGBK").textContent =
-      "—";
-
-
-    $("walletUSDT").textContent =
-      "—";
-
-
-    $("portfolioValue").textContent =
+    $("portfolioValue").textContent=
       "$0.00";
-
 
     showMessage(
       cleanError(error),
@@ -1622,43 +1631,25 @@ async function connectWallet(wallet=null,walletName=""){
   }
 
 }
-      
-
-    
-
-
-    
-    
-
-
-    
-
-  
-
-
 
 
 /* =========================================================
-   WALLET EVENT LISTENERS
+   WALLET EVENTS
    ========================================================= */
 
 function attachWalletEvents(wallet){
 
   if(
     !wallet ||
-    typeof wallet.on !== "function"
-  ){
-
+    typeof wallet.on!=="function"
+  )
     return;
-
-  }
-
 
   try{
 
     wallet.on(
       "accountsChanged",
-      async accounts => {
+      async accounts=>{
 
         if(
           !accounts ||
@@ -1666,11 +1657,9 @@ function attachWalletEvents(wallet){
         ){
 
           disconnectWalletUI();
-
           return;
 
         }
-
 
         await connectWallet(
           wallet,
@@ -1680,13 +1669,12 @@ function attachWalletEvents(wallet){
       }
     );
 
-
     wallet.on(
       "chainChanged",
-      async chainId => {
+      async chainId=>{
 
         if(
-          String(chainId).toLowerCase() !==
+          String(chainId).toLowerCase()!==
           CONFIG.chainHex
         ){
 
@@ -1698,7 +1686,6 @@ function attachWalletEvents(wallet){
           return;
 
         }
-
 
         if(account){
 
@@ -1714,34 +1701,26 @@ function attachWalletEvents(wallet){
 
   }catch(error){
 
-    console.log(
-      "Wallet event listener error",
-      error
-    );
+    console.log(error);
 
   }
 
 }
 
-
 window.addEventListener(
   "eip6963:announceProvider",
-  event => {
+  event=>{
 
-    const detail = event.detail;
+    if(event.detail?.provider){
 
-    if(!detail?.provider)
-      return;
+      attachWalletEvents(
+        event.detail.provider
+      );
 
-    registerWallet(detail);
-
-    attachWalletEvents(
-      detail.provider
-    );
+    }
 
   }
 );
-
 
 if(window.ethereum){
 
@@ -1758,96 +1737,33 @@ if(window.ethereum){
 
 function disconnectWalletUI(){
 
-  provider = null;
+  provider=null;
+  signer=null;
+  account=null;
 
-  signer = null;
-
-  account = null;
-
-
-  $("connectBtn").textContent =
+  $("connectBtn").textContent=
     "Connect Wallet";
 
+  $("swapBtn").disabled=true;
 
-  $("swapBtn").textContent =
+  $("swapBtn").textContent=
     "Connect Wallet";
 
-
-  $("walletAddress").textContent =
+  $("walletAddress").textContent=
     "Not connected";
 
+  $("walletBNB").textContent="—";
+  $("walletGBK").textContent="—";
+  $("walletUSDT").textContent="—";
 
-  $("walletBNB").textContent =
-    "—";
+  $("fromBalance").textContent=
+    "Balance: —";
 
+  $("toBalance").textContent=
+    "Balance: —";
 
-  $("walletGBK").textContent =
-    "—";
-
-
-  $("walletUSDT").textContent =
-    "—";
-
-
-  $("portfolioValue").textContent =
+  $("portfolioValue").textContent=
     "$0.00";
-
-
-  $("fromBalance").textContent =
-    "Balance: —";
-
-
-  $("toBalance").textContent =
-    "Balance: —";
-
-}
-
-
-/* =========================================================
-   ERROR HANDLING
-   ========================================================= */
-
-function cleanError(error){
-
-  if(!error)
-    return "Something went wrong.";
-
-  if(
-    error.code === 4001 ||
-    error.code === "ACTION_REJECTED"
-  ){
-
-    return "Request rejected in wallet.";
-
-  }
-
-
-  const message =
-    error.message ||
-    String(error);
-
-
-  if(
-    message.toLowerCase()
-      .includes("user rejected")
-  ){
-
-    return "Request rejected in wallet.";
-
-  }
-
-
-  if(
-    message.toLowerCase()
-      .includes("already pending")
-  ){
-
-    return "A wallet request is already pending. Open your wallet and complete it.";
-
-  }
-
-
-  return message.slice(0,350);
 
 }
 
@@ -1858,53 +1774,64 @@ function cleanError(error){
 
 async function loadTokenInfo(){
 
-  const readProvider =
+  /*
+    If wallet is connected, use it.
+    Otherwise use public BSC RPC.
+  */
+
+  const readProvider=
     provider ||
     new ethers.JsonRpcProvider(
       CONFIG.rpc
     );
 
-
-  const gbk =
+  const gbk=
     new ethers.Contract(
       CONFIG.gbk,
       ERC20_ABI,
       readProvider
     );
 
-
-  const usdt =
+  const usdt=
     new ethers.Contract(
       CONFIG.usdt,
       ERC20_ABI,
       readProvider
     );
 
-
   try{
 
-    gbkDecimals =
+    gbkDecimals=
       Number(
         await gbk.decimals()
       );
 
-  }catch{
+  }catch(error){
 
-    gbkDecimals = 8;
+    console.warn(
+      "GBK decimals unavailable; using 8.",
+      error
+    );
+
+    gbkDecimals=8;
 
   }
 
-
   try{
 
-    usdtDecimals =
+    usdtDecimals=
       Number(
         await usdt.decimals()
       );
 
-  }catch{
+  }catch(error){
 
-    usdtDecimals = 18;
+    console.warn(
+      "USDT decimals unavailable; using 18.",
+      error
+    );
+
+    usdtDecimals=18;
 
   }
 
@@ -1914,69 +1841,99 @@ async function loadTokenInfo(){
 /* =========================================================
    BALANCES
    ========================================================= */
+
 async function refreshBalances(){
 
-  if(!account){
+  if(!account)
     return;
-  }
 
   try{
 
-    const readProvider =
+    /*
+      MAIN FIX:
+
+      After wallet connection, use the wallet's
+      BrowserProvider.
+
+      The previous version created a new public
+      JsonRpcProvider here. That could fail/rate-limit
+      even though the wallet itself was connected.
+    */
+
+    const readProvider=
+      provider ||
       new ethers.JsonRpcProvider(
         CONFIG.rpc
       );
 
-    const bnb =
+    const bnb=
       await readProvider.getBalance(
         account
       );
 
-    const gbk =
+    const gbk=
       new ethers.Contract(
         CONFIG.gbk,
         ERC20_ABI,
         readProvider
       );
 
-    const usdt =
+    const usdt=
       new ethers.Contract(
         CONFIG.usdt,
         ERC20_ABI,
         readProvider
       );
 
-    const gbkBalance =
-      await gbk.balanceOf(account);
+    const results=
+      await Promise.all([
+        gbk.balanceOf(account),
+        usdt.balanceOf(account)
+      ]);
 
-    const usdtBalance =
-      await usdt.balanceOf(account);
+    const gbkBalance=
+      results[0];
 
-    const bnbFormatted =
+    const usdtBalance=
+      results[1];
+
+    const bnbFormatted=
       ethers.formatEther(bnb);
 
-    const gbkFormatted =
+    const gbkFormatted=
       ethers.formatUnits(
         gbkBalance,
         gbkDecimals
       );
 
-    const usdtFormatted =
+    const usdtFormatted=
       ethers.formatUnits(
         usdtBalance,
         usdtDecimals
       );
 
-    $("walletBNB").textContent =
-      fmt(bnbFormatted,6)+" BNB";
+    $("walletBNB").textContent=
+      fmt(
+        bnbFormatted,
+        6
+      )+
+      " BNB";
 
-    $("walletGBK").textContent =
-      fmt(gbkFormatted,4)+" GBK";
+    $("walletGBK").textContent=
+      fmt(
+        gbkFormatted,
+        4
+      )+
+      " GBK";
 
-    $("walletUSDT").textContent =
-      fmt(usdtFormatted,2)+" USDT";
+    $("walletUSDT").textContent=
+      fmt(
+        usdtFormatted,
+        2
+      )+
+      " USDT";
 
-    $("walletAddress").textContent =
+    $("walletAddress").textContent=
       shortAddress(account);
 
     updateBalanceLabels(
@@ -1998,15 +1955,19 @@ async function refreshBalances(){
       error
     );
 
+    /*
+      Keep the wallet connected even if a balance
+      request temporarily fails.
+    */
+
+    showMessage(
+      "Wallet connected, but balances could not be read. Please refresh or reconnect.",
+      "error"
+    );
+
   }
 
 }
-
-    
-
-  
-
-
 
 
 /* =========================================================
@@ -2019,7 +1980,7 @@ function updateBalanceLabels(
   usdt
 ){
 
-  const balances = {
+  const balances={
 
     BNB:Number(bnb),
 
@@ -2029,28 +1990,28 @@ function updateBalanceLabels(
 
   };
 
-
-  const from =
+  const from=
     $("fromToken").value;
 
-
-  const to =
+  const to=
     $("toToken").value;
 
-
-  $("fromBalance").textContent =
+  $("fromBalance").textContent=
     "Balance: "+
     fmt(
       balances[from],
-      from==="USDT"?2:6
+      from==="USDT"
+        ? 2
+        : 6
     );
 
-
-  $("toBalance").textContent =
+  $("toBalance").textContent=
     "Balance: "+
     fmt(
       balances[to],
-      to==="USDT"?2:6
+      to==="USDT"
+        ? 2
+        : 6
     );
 
 }
@@ -2066,20 +2027,19 @@ function updatePortfolio(
   usdt
 ){
 
-  const value =
-    bnb*bnbUsd +
-    gbk*gbkUsd +
+  const value=
+    bnb*bnbUsd+
+    gbk*gbkUsd+
     usdt;
 
-
-  $("portfolioValue").textContent =
+  $("portfolioValue").textContent=
     money(value);
 
 }
 
 
 /* =========================================================
-   ROUTER QUOTES
+   QUOTE
    ========================================================= */
 
 async function quotePath(
@@ -2087,20 +2047,18 @@ async function quotePath(
   path
 ){
 
-  const readProvider =
+  const readProvider=
     provider ||
     new ethers.JsonRpcProvider(
       CONFIG.rpc
     );
 
-
-  const router =
+  const router=
     new ethers.Contract(
       CONFIG.router,
       ROUTER_ABI,
       readProvider
     );
-
 
   try{
 
@@ -2131,14 +2089,13 @@ async function refreshPrices(){
 
   try{
 
-    const oneUsdt =
+    const oneUsdt=
       ethers.parseUnits(
         "1",
         usdtDecimals
       );
 
-
-    const usdtToBnb =
+    const usdtToBnb=
       await quotePath(
         oneUsdt,
         [
@@ -2147,41 +2104,34 @@ async function refreshPrices(){
         ]
       );
 
-
     if(usdtToBnb){
 
-      const bnbPerUsdt =
+      const bnbPerUsdt=
         Number(
           ethers.formatEther(
             usdtToBnb.at(-1)
           )
         );
 
+      if(bnbPerUsdt>0){
 
-      if(
-        bnbPerUsdt > 0
-      ){
+        bnbUsd=
+          1/bnbPerUsdt;
 
-        bnbUsd =
-          1 / bnbPerUsdt;
-
-
-        $("bnbPrice").textContent =
+        $("bnbPrice").textContent=
           money(bnbUsd);
 
       }
 
     }
 
-
-    const oneGbk =
+    const oneGbk=
       ethers.parseUnits(
         "1",
         gbkDecimals
       );
 
-
-    const gbkToUsdt =
+    const gbkToUsdt=
       await quotePath(
         oneGbk,
         [
@@ -2190,10 +2140,9 @@ async function refreshPrices(){
         ]
       );
 
-
     if(gbkToUsdt){
 
-      gbkUsd =
+      gbkUsd=
         Number(
           ethers.formatUnits(
             gbkToUsdt.at(-1),
@@ -2201,16 +2150,13 @@ async function refreshPrices(){
           )
         );
 
-
-      $("gbkPrice").textContent =
+      $("gbkPrice").textContent=
         money(gbkUsd);
 
     }
 
-
     if(account)
       await refreshBalances();
-
 
   }catch(error){
 
@@ -2230,32 +2176,25 @@ async function refreshPrices(){
 
 async function updateQuote(){
 
-  const from =
+  const from=
     $("fromToken").value;
 
-
-  const to =
+  const to=
     $("toToken").value;
 
-
-  const amount =
+  const amount=
     $("amountIn").value.trim();
 
+  $("amountOut").value="";
 
-  $("amountOut").value =
-    "";
-
-
-  $("rate").textContent =
-    "—";
-
+  $("rate").textContent="—";
 
   if(
     !amount ||
     Number(amount)<=0
   ){
 
-    $("swapBtn").textContent =
+    $("swapBtn").textContent=
       account
         ? "Enter amount"
         : "Connect Wallet";
@@ -2264,80 +2203,70 @@ async function updateQuote(){
 
   }
 
-
   if(from===to){
 
-    $("swapBtn").textContent =
+    $("swapBtn").textContent=
       "Choose different tokens";
 
     return;
 
   }
 
-
   try{
 
-    const parsed =
+    const parsed=
       ethers.parseUnits(
         amount,
         tokenDecimals(from)
       );
 
-
-    const result =
+    const result=
       await quotePath(
         parsed,
         pathFor(from,to)
       );
 
-
     if(!result){
 
-      $("amountOut").value =
+      $("amountOut").value=
         "No liquidity";
 
-
-      $("swapBtn").textContent =
+      $("swapBtn").textContent=
         "No route available";
-
 
       return;
 
     }
 
-
-    const output =
+    const output=
       ethers.formatUnits(
         result.at(-1),
         tokenDecimals(to)
       );
 
-
-    $("amountOut").value =
+    $("amountOut").value=
       formatOutput(output);
 
-
-    const rate =
-      Number(output) /
+    const rate=
+      Number(output)/
       Number(amount);
-
 
     if(Number.isFinite(rate)){
 
-      $("rate").textContent =
-        "1 "+from+
+      $("rate").textContent=
+        "1 "+
+        from+
         " ≈ "+
         formatOutput(rate)+
-        " "+to;
+        " "+
+        to;
 
     }
 
-
-    $("swapBtn").textContent =
+    $("swapBtn").textContent=
       account
         ? "Swap "+from+" → "+to
         : "Connect Wallet";
-
 
   }catch(error){
 
@@ -2346,12 +2275,9 @@ async function updateQuote(){
       error
     );
 
+    $("amountOut").value="—";
 
-    $("amountOut").value =
-      "—";
-
-
-    $("swapBtn").textContent =
+    $("swapBtn").textContent=
       "Enter valid amount";
 
   }
@@ -2365,25 +2291,20 @@ async function updateQuote(){
 
 function formatOutput(value){
 
-  const number =
+  const number=
     Number(value);
-
 
   if(!Number.isFinite(number))
     return "—";
 
-
   if(number===0)
     return "0";
-
 
   if(number<0.000001)
     return number.toExponential(4);
 
-
   if(number<1)
     return number.toFixed(8);
-
 
   return number.toLocaleString(
     undefined,
@@ -2401,15 +2322,13 @@ function formatOutput(value){
 
 function getValidSlippage(){
 
-  const custom =
+  const custom=
     $("customSlippage").value.trim();
-
 
   if(custom!==""){
 
-    const number =
+    const number=
       Number(custom);
-
 
     if(
       !Number.isFinite(number) ||
@@ -2423,37 +2342,31 @@ function getValidSlippage(){
 
     }
 
-
     return number;
 
   }
 
-
   return slippage;
 
 }
-
 
 function applyMinOut(
   quotedOut,
   percentage
 ){
 
-  const basis =
-    1000000n;
+  const basis=1000000n;
 
-
-  const keep =
+  const keep=
     BigInt(
       Math.round(
         (100-percentage)*10000
       )
     );
 
-
-  return (
-    quotedOut *
-    keep /
+  return(
+    quotedOut*
+    keep/
     basis
   );
 
@@ -2468,27 +2381,21 @@ async function executeSwap(){
 
   showMessage("");
 
-
   if(!account){
 
     await connectWallet();
-
     return;
 
   }
 
-
-  const from =
+  const from=
     $("fromToken").value;
 
-
-  const to =
+  const to=
     $("toToken").value;
 
-
-  const amount =
+  const amount=
     $("amountIn").value.trim();
-
 
   if(
     !amount ||
@@ -2503,7 +2410,6 @@ async function executeSwap(){
 
   }
 
-
   if(from===to){
 
     showMessage(
@@ -2514,72 +2420,58 @@ async function executeSwap(){
 
   }
 
-
   try{
 
-    const selectedSlippage =
+    const selectedSlippage=
       getValidSlippage();
 
+    $("swapBtn").disabled=true;
 
-    $("swapBtn").disabled =
-      true;
-
-
-    $("swapBtn").textContent =
+    $("swapBtn").textContent=
       "Preparing…";
 
-
-    const amountIn =
+    const amountIn=
       ethers.parseUnits(
         amount,
         tokenDecimals(from)
       );
 
-
-    const path =
+    const path=
       pathFor(from,to);
 
-
-    const router =
+    const router=
       new ethers.Contract(
         CONFIG.router,
         ROUTER_ABI,
         signer
       );
 
-
-    const quoted =
+    const quoted=
       await router.getAmountsOut(
         amountIn,
         path
       );
 
-
-    const quotedOut =
+    const quotedOut=
       quoted.at(-1);
 
-
-    const minOut =
+    const minOut=
       applyMinOut(
         quotedOut,
         selectedSlippage
       );
 
-
-    const deadline =
+    const deadline=
       Math.floor(Date.now()/1000)+600;
-
 
     let tx;
 
-
     if(from==="BNB"){
 
-      $("swapBtn").textContent =
+      $("swapBtn").textContent=
         "Confirm in wallet…";
 
-
-      tx =
+      tx=
         await router
           .swapExactETHForTokensSupportingFeeOnTransferTokens(
             minOut,
@@ -2591,58 +2483,50 @@ async function executeSwap(){
             }
           );
 
-
     }else{
 
-      const token =
+      const token=
         new ethers.Contract(
           tokenAddress(from),
           ERC20_ABI,
           signer
         );
 
-
-      const allowance =
+      const allowance=
         await token.allowance(
           account,
           CONFIG.router
         );
 
-
       if(
-        allowance <
+        allowance<
         amountIn
       ){
 
-        $("swapBtn").textContent =
+        $("swapBtn").textContent=
           "Approve token…";
 
-
-        const approval =
+        const approval=
           await token.approve(
             CONFIG.router,
             ethers.MaxUint256
           );
-
 
         showMessage(
           "Approval submitted. Confirming…",
           "success"
         );
 
-
         await approval.wait();
 
       }
 
-
-      $("swapBtn").textContent =
+      $("swapBtn").textContent=
         "Confirm swap…";
-
 
       if(to==="BNB"){
 
-        tx =
+        tx=
           await router
             .swapExactTokensForETHSupportingFeeOnTransferTokens(
               amountIn,
@@ -2652,10 +2536,9 @@ async function executeSwap(){
               deadline
             );
 
-
       }else{
 
-        tx =
+        tx=
           await router
             .swapExactTokensForTokensSupportingFeeOnTransferTokens(
               amountIn,
@@ -2669,15 +2552,12 @@ async function executeSwap(){
 
     }
 
-
     showMessage(
       "Transaction submitted. Waiting for confirmation…",
       "success"
     );
 
-
     await tx.wait();
-
 
     addTransaction(
       tx.hash,
@@ -2686,29 +2566,19 @@ async function executeSwap(){
       amount
     );
 
-
     showMessage(
       "Swap completed successfully.",
       "success"
     );
 
-
-    $("amountIn").value =
-      "";
-
-
-    $("amountOut").value =
-      "";
-
+    $("amountIn").value="";
+    $("amountOut").value="";
 
     await refreshBalances();
-
     await refreshPrices();
 
-
-    $("swapBtn").textContent =
+    $("swapBtn").textContent=
       "Enter amount";
-
 
   }catch(error){
 
@@ -2717,20 +2587,17 @@ async function executeSwap(){
       error
     );
 
-
     showMessage(
       cleanError(error)
     );
 
-
-    $("swapBtn").textContent =
+    $("swapBtn").textContent=
       "Try Again";
-
 
   }finally{
 
-    $("swapBtn").disabled =
-      false;
+    $("swapBtn").disabled=
+      !account;
 
   }
 
@@ -2738,63 +2605,40 @@ async function executeSwap(){
 
 
 /* =========================================================
-   PAIR SELECTION
+   PAIR
    ========================================================= */
 
 function setPair(from,to){
 
-  $("fromToken").value =
-    from;
+  $("fromToken").value=from;
+  $("toToken").value=to;
 
-
-  $("toToken").value =
-    to;
-
-
-  $("amountIn").value =
-    "";
-
-
-  $("amountOut").value =
-    "";
-
+  $("amountIn").value="";
+  $("amountOut").value="";
 
   updateQuote();
 
-
-  $("swapSection")
-    .scrollIntoView({
-      behavior:"smooth",
-      block:"start"
-    });
+  $("swapSection").scrollIntoView({
+    behavior:"smooth",
+    block:"start"
+  });
 
 }
 
-
 function reversePair(){
 
-  const from =
+  const from=
     $("fromToken").value;
 
-
-  const to =
+  const to=
     $("toToken").value;
 
+  $("fromToken").value=to;
+  $("toToken").value=from;
 
-  $("fromToken").value =
-    to;
-
-
-  $("toToken").value =
-    from;
-
-
-  $("amountOut").value =
-    "";
-
+  $("amountOut").value="";
 
   updateQuote();
-
 
   if(account)
     refreshBalances();
@@ -2807,45 +2651,37 @@ function reversePair(){
    ========================================================= */
 
 document
-  .querySelectorAll(".slip")
-  .forEach(button => {
+.querySelectorAll(".slip")
+.forEach(button=>{
 
-    button.addEventListener(
-      "click",
-      () => {
+  button.addEventListener(
+    "click",
+    ()=>{
 
-        document
-          .querySelectorAll(".slip")
-          .forEach(x =>
-            x.classList.remove("active")
-          );
+      document
+      .querySelectorAll(".slip")
+      .forEach(x=>
+        x.classList.remove("active")
+      );
 
+      button.classList.add("active");
 
-        button.classList.add(
-          "active"
+      slippage=
+        Number(
+          button.dataset.slip
         );
 
+      $("customSlippage").value="";
 
-        slippage =
-          Number(
-            button.dataset.slip
-          );
+      $("slippageText").textContent=
+        slippage+"%";
 
+      updateQuote();
 
-        $("customSlippage").value =
-          "";
+    }
+  );
 
-
-        $("slippageText").textContent =
-          slippage+"%";
-
-
-        updateQuote();
-
-      }
-    );
-
-  });
+});
 
 
 /* =========================================================
@@ -2853,135 +2689,122 @@ document
    ========================================================= */
 
 $("customSlippage")
-  .addEventListener(
-    "input",
-    () => {
+.addEventListener(
+  "input",
+  ()=>{
 
-      const value =
-        $("customSlippage").value;
+    const value=
+      $("customSlippage").value;
 
+    document
+    .querySelectorAll(".slip")
+    .forEach(x=>
+      x.classList.remove("active")
+    );
+
+    if(value===""){
 
       document
-        .querySelectorAll(".slip")
-        .forEach(x =>
-          x.classList.remove("active")
-        );
+      .querySelector(
+        '[data-slip="1"]'
+      )
+      .classList.add("active");
 
+      slippage=1;
 
-      if(value===""){
+      $("slippageText").textContent=
+        "1%";
 
-        document
-          .querySelector(
-            '[data-slip="1"]'
-          )
-          .classList.add("active");
-
-
-        slippage=1;
-
-
-        $("slippageText").textContent =
-          "1%";
-
-
-        return;
-
-      }
-
-
-      const number =
-        Number(value);
-
-
-      if(
-        Number.isFinite(number) &&
-        number>=0 &&
-        number<=18
-      ){
-
-        $("slippageText").textContent =
-          number+"%";
-
-      }else{
-
-        $("slippageText").textContent =
-          "Invalid";
-
-      }
+      return;
 
     }
-  );
+
+    const number=
+      Number(value);
+
+    if(
+      Number.isFinite(number) &&
+      number>=0 &&
+      number<=18
+    ){
+
+      $("slippageText").textContent=
+        number+"%";
+
+    }else{
+
+      $("slippageText").textContent=
+        "Invalid";
+
+    }
+
+  }
+);
 
 
 /* =========================================================
-   INPUT EVENTS
+   INPUTS
    ========================================================= */
 
 $("amountIn")
-  .addEventListener(
-    "input",
-    updateQuote
-  );
-
+.addEventListener(
+  "input",
+  updateQuote
+);
 
 $("fromToken")
-  .addEventListener(
-    "change",
-    async () => {
+.addEventListener(
+  "change",
+  async ()=>{
 
-      if(
-        $("fromToken").value ===
-        $("toToken").value
-      ){
+    if(
+      $("fromToken").value===
+      $("toToken").value
+    ){
 
-        $("toToken").value =
-          $("fromToken").value==="GBK"
-            ? "USDT"
-            : "GBK";
-
-      }
-
-
-      await updateQuote();
-
-
-      if(account)
-        await refreshBalances();
+      $("toToken").value=
+        $("fromToken").value==="GBK"
+          ? "USDT"
+          : "GBK";
 
     }
-  );
 
+    await updateQuote();
+
+    if(account)
+      await refreshBalances();
+
+  }
+);
 
 $("toToken")
-  .addEventListener(
-    "change",
-    async () => {
+.addEventListener(
+  "change",
+  async ()=>{
 
-      if(
-        $("toToken").value ===
-        $("fromToken").value
-      ){
+    if(
+      $("toToken").value===
+      $("fromToken").value
+    ){
 
-        $("fromToken").value =
-          $("toToken").value==="GBK"
-            ? "USDT"
-            : "GBK";
-
-      }
-
-
-      await updateQuote();
-
-
-      if(account)
-        await refreshBalances();
+      $("fromToken").value=
+        $("toToken").value==="GBK"
+          ? "USDT"
+          : "GBK";
 
     }
-  );
+
+    await updateQuote();
+
+    if(account)
+      await refreshBalances();
+
+  }
+);
 
 
 /* =========================================================
-   TRANSACTION HISTORY
+   TRANSACTIONS
    ========================================================= */
 
 function addTransaction(
@@ -2991,38 +2814,24 @@ function addTransaction(
   amount
 ){
 
-  const container =
+  const container=
     $("transactions");
 
-
   if(
-    container.classList.contains(
-      "empty"
-    )
+    container.classList.contains("empty")
   ){
 
-    container.classList.remove(
-      "empty"
-    );
-
-
-    container.innerHTML =
-      "";
+    container.classList.remove("empty");
+    container.innerHTML="";
 
   }
 
+  const div=
+    document.createElement("div");
 
-  const div =
-    document.createElement(
-      "div"
-    );
+  div.className="tx";
 
-
-  div.className =
-    "tx";
-
-
-  div.innerHTML = `
+  div.innerHTML=`
 
     <div class="tx-main">
 
@@ -3049,7 +2858,6 @@ function addTransaction(
 
   `;
 
-
   container.prepend(div);
 
 }
@@ -3062,18 +2870,15 @@ function addTransaction(
 function setActive(button){
 
   document
-    .querySelectorAll(".nav-btn")
-    .forEach(
-      x =>
-        x.classList.remove("active")
-    );
-
+  .querySelectorAll(".nav-btn")
+  .forEach(
+    x=>x.classList.remove("active")
+  );
 
   if(button)
     button.classList.add("active");
 
 }
-
 
 function scrollToTop(button){
 
@@ -3086,150 +2891,132 @@ function scrollToTop(button){
 
 }
 
-
 function goSwap(button){
 
   setActive(button);
 
-  $("swapSection")
-    .scrollIntoView({
-      behavior:"smooth",
-      block:"start"
-    });
+  $("swapSection").scrollIntoView({
+    behavior:"smooth",
+    block:"start"
+  });
 
 }
-
 
 function goWallet(button){
 
   setActive(button);
 
   document
-    .querySelector(".wallet-card")
-    .scrollIntoView({
-      behavior:"smooth",
-      block:"center"
-    });
+  .querySelector(".wallet-card")
+  .scrollIntoView({
+    behavior:"smooth",
+    block:"center"
+  });
 
 }
-
 
 function goHelp(button){
 
   setActive(button);
 
   document
-    .querySelector(".info")
-    .scrollIntoView({
-      behavior:"smooth",
-      block:"center"
-    });
+  .querySelector(".info")
+  .scrollIntoView({
+    behavior:"smooth",
+    block:"center"
+  });
 
 }
 
 
 /* =========================================================
-   MAIN BUTTON EVENTS
+   BUTTONS
    ========================================================= */
 
 $("connectBtn")
-  .addEventListener(
-    "click",
-    () => {
-
-      connectWallet();
-
-    }
-  );
-
+.addEventListener(
+  "click",
+  ()=>{
+    connectWallet();
+  }
+);
 
 $("swapBtn")
-  .addEventListener(
-    "click",
-    executeSwap
-  );
-
+.addEventListener(
+  "click",
+  executeSwap
+);
 
 $("switchBtn")
-  .addEventListener(
-    "click",
-    reversePair
-  );
+.addEventListener(
+  "click",
+  reversePair
+);
 
 
 /* =========================================================
-   ONRAMP PROVIDERS
+   ONRAMP
    ========================================================= */
 
 document
-  .querySelectorAll(".provider")
-  .forEach(button => {
+.querySelectorAll(".provider")
+.forEach(button=>{
 
-    button.addEventListener(
-      "click",
-      () => {
-
-        document
-          .querySelectorAll(".provider")
-          .forEach(x =>
-            x.classList.remove(
-              "active"
-            )
-          );
-
-
-        button.classList.add(
-          "active"
-        );
-
-
-        selectedProvider =
-          button.dataset.provider;
-
-
-        showOnrampMessage("");
-
-      }
-    );
-
-  });
-
-
-$("buyUsdtBtn")
-  .addEventListener(
+  button.addEventListener(
     "click",
-    async () => {
+    ()=>{
 
-      if(!account){
-
-        showOnrampMessage(
-          "Connect your BNB Chain wallet first.",
-          "error"
-        );
-
-
-        await connectWallet();
-
-
-        return;
-
-      }
-
-
-      showOnrampMessage(
-
-        selectedProvider==="onramp"
-
-          ? "Onramp Money integration is ready for the secure backend/API connection."
-
-          : "RedotPay integration is ready for the secure backend/API connection.",
-
-        "success"
-
+      document
+      .querySelectorAll(".provider")
+      .forEach(x=>
+        x.classList.remove("active")
       );
+
+      button.classList.add("active");
+
+      selectedProvider=
+        button.dataset.provider;
+
+      showOnrampMessage("");
 
     }
   );
+
+});
+
+
+$("buyUsdtBtn")
+.addEventListener(
+  "click",
+  async ()=>{
+
+    if(!account){
+
+      showOnrampMessage(
+        "Connect your BNB Chain wallet first.",
+        "error"
+      );
+
+      await connectWallet();
+
+      return;
+
+    }
+
+    showOnrampMessage(
+
+      selectedProvider==="onramp"
+
+        ? "Onramp Money integration is ready for the secure backend/API connection."
+
+        : "RedotPay integration is ready for the secure backend/API connection.",
+
+      "success"
+
+    );
+
+  }
+);
 
 
 /* =========================================================
@@ -3240,24 +3027,21 @@ $("buyUsdtBtn")
 
   try{
 
-    provider =
+    /*
+      Public provider is used only for initial
+      market data before a wallet connects.
+    */
+
+    provider=
       new ethers.JsonRpcProvider(
         CONFIG.rpc
       );
-
 
     await loadTokenInfo();
 
     await refreshPrices();
 
-
-    /*
-      Ask compatible wallets to announce
-      themselves after the page is ready.
-    */
-
     discoverWallets();
-
 
   }catch(error){
 
