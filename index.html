@@ -720,7 +720,7 @@ async function connectWallet(){
     // Load balances and token information
     await loadTokenInfo();
     await refreshPrices();
-    await refreshWallet();
+    await refreshBalances();
 
     $("connectBtn").textContent =
       account.slice(0, 6) + "..." + account.slice(-4);
