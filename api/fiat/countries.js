@@ -1,9 +1,19 @@
-export default async function handler(req,res){
-  try{
-    const key=process.env.TRANSAK_API_KEY;
-    if(!key) return res.status(500).json({error:"TRANSAK_API_KEY is not configured"});
-    const r=await fetch("https://api.transak.com/api/v2/countries",{headers:{"x-api-key":key}});
-    const j=await r.json();
-    return res.status(r.status).json({countries:j.response||j.data||[]});
-  }catch(e){return res.status(500).json({error:e.message})}
+export default function handler(req, res) {
+  const currencies = [
+    { code: "USD", name: "US Dollar", symbol: "$" },
+    { code: "EUR", name: "Euro", symbol: "€" },
+    { code: "GBP", name: "British Pound", symbol: "£" },
+    { code: "INR", name: "Indian Rupee", symbol: "₹" },
+    { code: "AED", name: "UAE Dirham", symbol: "د.إ" },
+    { code: "SGD", name: "Singapore Dollar", symbol: "S$" },
+    { code: "CAD", name: "Canadian Dollar", symbol: "C$" },
+    { code: "AUD", name: "Australian Dollar", symbol: "A$" },
+    { code: "JPY", name: "Japanese Yen", symbol: "¥" },
+    { code: "CNY", name: "Chinese Yuan", symbol: "¥" }
+  ];
+
+  res.status(200).json({
+    success: true,
+    currencies
+  });
 }
