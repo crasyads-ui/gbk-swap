@@ -1890,7 +1890,7 @@ async function loadTokenInfo(){
 
   }catch{
 
-    gbkDecimals = 18;
+    gbkDecimals = 8;
 
   }
 
@@ -1914,54 +1914,46 @@ async function loadTokenInfo(){
 /* =========================================================
    BALANCES
    ========================================================= */
-
 async function refreshBalances(){
 
-  if(
-    !account ||
-    !provider
-  ){
-
+  if(!account){
     return;
-
   }
-
 
   try{
 
-    const bnb =
-      await provider.getBalance(
-        account
+    const readProvider =
+      new ethers.JsonRpcProvider(
+        CONFIG.rpc
       );
 
+    const bnb =
+      await readProvider.getBalance(
+        account
+      );
 
     const gbk =
       new ethers.Contract(
         CONFIG.gbk,
         ERC20_ABI,
-        provider
+        readProvider
       );
-
 
     const usdt =
       new ethers.Contract(
         CONFIG.usdt,
         ERC20_ABI,
-        provider
+        readProvider
       );
-
 
     const gbkBalance =
       await gbk.balanceOf(account);
 
-
     const usdtBalance =
       await usdt.balanceOf(account);
 
-
     const bnbFormatted =
       ethers.formatEther(bnb);
-
 
     const gbkFormatted =
       ethers.formatUnits(
@@ -1969,29 +1961,23 @@ async function refreshBalances(){
         gbkDecimals
       );
 
-
     const usdtFormatted =
       ethers.formatUnits(
         usdtBalance,
         usdtDecimals
       );
 
-
     $("walletBNB").textContent =
       fmt(bnbFormatted,6)+" BNB";
-
 
     $("walletGBK").textContent =
       fmt(gbkFormatted,4)+" GBK";
 
-
     $("walletUSDT").textContent =
       fmt(usdtFormatted,2)+" USDT";
 
-
     $("walletAddress").textContent =
       shortAddress(account);
-
 
     updateBalanceLabels(
       bnbFormatted,
@@ -1999,13 +1985,11 @@ async function refreshBalances(){
       usdtFormatted
     );
 
-
     updatePortfolio(
       Number(bnbFormatted),
       Number(gbkFormatted),
       Number(usdtFormatted)
     );
-
 
   }catch(error){
 
@@ -2017,6 +2001,12 @@ async function refreshBalances(){
   }
 
 }
+
+    
+
+  
+
+
 
 
 /* =========================================================
