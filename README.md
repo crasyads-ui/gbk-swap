@@ -1,24 +1,24 @@
-# GBK Swap
+# GBK Swap — BNB Smart Chain
 
-Professional mobile-first GBK Swap frontend for BNB Chain.
+## Deploy
+Upload this folder to the Vercel project used by `swap.gbkai.com`.
 
-## Current UI
-- Buy GBK
-- Swap GBK
-- Sell GBK
-- Non-custodial Wallet
-- On-chain balance placeholders
-- Language selector
-- PWA / Add to Home Screen
-- Local-currency on/off-ramp placeholder
+Set these Vercel Environment Variables:
+- `TRANSAK_API_KEY`
+- `TRANSAK_API_SECRET`
 
-## Production integration still required
-- GBK token contract address
-- Wallet connector
-- BNB Chain RPC
-- Live token balances
-- Swap/liquidity routing
-- Fiat on/off-ramp provider
-- Transaction status and security review
+The Transak partner domain must have `swap.gbkai.com` whitelisted in the provider dashboard.
 
-Never commit private keys, seed phrases or API secrets.
+## WalletConnect
+Edit `index.html` and replace:
+`REPLACE_WITH_WALLETCONNECT_PROJECT_ID`
+with the public WalletConnect/Reown project ID.
+
+## Important
+- Never put `TRANSAK_API_SECRET` in `index.html`.
+- GBK/USDT balances are read directly from BNB Smart Chain.
+- Swap quotes are read from PancakeSwap V2 Router.
+- The user signs approvals/swaps in their wallet.
+- Fiat is provider-controlled and availability depends on country, payment method, limits and KYC.
+- Transak's current API-based widget URL flow requires a backend session; the frontend must not call sensitive partner endpoints directly.
+- Transak off-ramp/SELL availability must be enabled for the partner account. If the provider account does not have SELL enabled, the UI will report the provider error rather than pretending it is available.
