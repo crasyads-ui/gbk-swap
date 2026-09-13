@@ -1,12 +1,26 @@
 {
-  "cleanUrls": true,
-  "headers": [
+  "version": 2,
+  "functions": {
+    "api/**/*.js": {
+      "runtime": "nodejs20.x"
+    }
+  },
+  "rewrites": [
     {
-      "source": "/(.*)",
-      "headers": [
-        {"key":"Referrer-Policy","value":"strict-origin-when-cross-origin"},
-        {"key":"X-Content-Type-Options","value":"nosniff"}
-      ]
+      "source": "/api/fiat/currencies",
+      "destination": "/api/fiat/currencies.js"
+    },
+    {
+      "source": "/api/fiat/countries",
+      "destination": "/api/fiat/countries.js"
+    },
+    {
+      "source": "/api/fiat/quote",
+      "destination": "/api/fiat/quote.js"
+    },
+    {
+      "source": "/api/fiat/widget",
+      "destination": "/api/fiat/widget.js"
     }
   ]
 }
