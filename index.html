@@ -649,12 +649,18 @@ async function connectWallet(){
     let injectedProvider = window.ethereum;
 
     if (!injectedProvider) {
-      showMessage(
-        "No compatible wallet detected. Open swap.gbkai.com inside your wallet browser.",
-        "error"
-      );
-      return;
-    }
+  showMessage(
+    "Please open swap.gbkai.com inside MetaMask Wallet and try again.",
+    "error"
+  );
+  return;
+}
+      
+        
+        
+    
+      
+    
 
     // Make sure the wallet is on BNB Smart Chain
     const chainId = await injectedProvider.request({
