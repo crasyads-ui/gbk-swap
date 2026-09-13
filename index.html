@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="viewport"
+      content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#006b50">
 <title>GBK Swap — BNB Chain</title>
 
@@ -117,9 +118,8 @@ main{padding:20px}
   background:linear-gradient(135deg,#006b50,#008c69);
   color:#fff;
   border-radius:34px;
-  padding:38px 38px 30px;
-  box-shadow:var(--shadow);
-  overflow:hidden
+  padding:38px;
+  box-shadow:var(--shadow)
 }
 
 .hero h1{
@@ -154,7 +154,7 @@ main{padding:20px}
 }
 
 .portfolio-value{
-  font-size:45px;
+  font-size:40px;
   line-height:1;
   font-weight:950
 }
@@ -234,7 +234,7 @@ main{padding:20px}
 
 .actions-title h2{
   margin:0;
-  font-size:34px
+  font-size:32px
 }
 
 .actions-title span{
@@ -252,28 +252,27 @@ main{padding:20px}
   background:#fff;
   border:1px solid var(--line);
   border-radius:28px;
-  padding:30px;
+  padding:28px;
   text-align:left;
-  min-height:155px
+  min-height:145px
 }
 
 .action strong{
   display:block;
-  font-size:25px;
+  font-size:23px;
   font-weight:950
 }
 
 .action small{
   display:block;
   margin-top:10px;
-  font-size:18px;
+  font-size:17px;
   color:#74817d
 }
 
 .swap-card,
 .wallet-card,
-.recent,
-.onramp{
+.recent{
   background:#fff;
   border:1px solid var(--line);
   border-radius:34px;
@@ -422,7 +421,7 @@ main{padding:20px}
   padding:15px;
   border-radius:17px;
   font-size:14px;
-  line-height:1.45
+  line-height:1.5
 }
 
 .notice.error{
@@ -435,6 +434,11 @@ main{padding:20px}
   color:#17654c
 }
 
+.notice.info{
+  background:#eef6ff;
+  color:#24567c
+}
+
 .wallet-row{
   display:flex;
   justify-content:space-between;
@@ -444,9 +448,13 @@ main{padding:20px}
 
 .wallet-row:last-child{border-bottom:0}
 
-.wallet-row span:first-child{color:#71807a}
+.wallet-row span:first-child{
+  color:#71807a
+}
 
-.wallet-row strong{text-align:right}
+.wallet-row strong{
+  text-align:right
+}
 
 .empty{
   color:#75817d;
@@ -473,32 +481,6 @@ main{padding:20px}
   font-size:13px
 }
 
-.currency-card{
-  background:#fff;
-  border:1px solid var(--line);
-  border-radius:30px;
-  padding:25px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:15px
-}
-
-.currency-title{
-  font-size:19px;
-  font-weight:900
-}
-
-.currency-select{
-  min-width:210px;
-  border:2px solid var(--green2);
-  background:#fff;
-  border-radius:20px;
-  padding:16px 18px;
-  font-size:17px;
-  font-weight:900
-}
-
 .info{
   background:var(--mint);
   border:1px solid #cce7dc;
@@ -506,33 +488,6 @@ main{padding:20px}
   padding:20px;
   color:#36574c;
   line-height:1.55
-}
-
-.provider-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:12px;
-  margin-top:15px
-}
-
-.provider{
-  border:1px solid var(--line);
-  border-radius:20px;
-  padding:18px;
-  background:#f8faf9;
-  font-weight:900;
-  text-align:left
-}
-
-.provider small{
-  display:block;
-  color:#77827e;
-  margin-top:7px
-}
-
-.provider.active{
-  border:2px solid var(--green2);
-  background:var(--mint)
 }
 
 .bottom-nav{
@@ -596,9 +551,7 @@ main{padding:20px}
     flex-direction:column
   }
 
-  .connect{
-    width:100%
-  }
+  .connect{width:100%}
 
   .market{
     padding:10px;
@@ -619,8 +572,7 @@ main{padding:20px}
 
   .swap-card,
   .wallet-card,
-  .recent,
-  .onramp{
+  .recent{
     padding:24px 18px;
     border-radius:28px
   }
@@ -631,15 +583,6 @@ main{padding:20px}
 
   .slippage{
     grid-template-columns:repeat(2,1fr)
-  }
-
-  .currency-card{
-    flex-direction:column;
-    align-items:stretch
-  }
-
-  .currency-select{
-    width:100%
   }
 }
 
@@ -695,7 +638,7 @@ main{padding:20px}
   </h1>
 
   <p>
-    Non-custodial trading for GBK on BNB Chain through PancakeSwap V2.
+    Non-custodial GBK trading on BNB Smart Chain through PancakeSwap V2.
   </p>
 
   <div class="hero-bottom">
@@ -712,6 +655,7 @@ main{padding:20px}
   </div>
 
 </section>
+
 
 <section class="section">
 
@@ -740,6 +684,7 @@ main{padding:20px}
   </div>
 
 </section>
+
 
 <section class="section">
 
@@ -774,6 +719,7 @@ main{padding:20px}
 
 </section>
 
+
 <section class="section" id="swapSection">
 
 <div class="swap-card">
@@ -781,7 +727,7 @@ main{padding:20px}
   <h2 class="swap-title">Swap Tokens</h2>
 
   <div class="swap-sub">
-    Trade through PancakeSwap V2
+    PancakeSwap V2 • BNB Smart Chain
   </div>
 
   <div class="field-label">
@@ -811,9 +757,9 @@ main{padding:20px}
 
   </div>
 
-  <button class="switch" id="switchBtn">
-    ↕
-  </button>
+
+  <button class="switch" id="switchBtn">↕</button>
+
 
   <div class="field-label">
     <span>To</span>
@@ -840,6 +786,7 @@ main{padding:20px}
 
   </div>
 
+
   <div class="quote">
 
     <div class="quote-row">
@@ -849,13 +796,14 @@ main{padding:20px}
 
     <div class="quote-row">
       <span>Route</span>
-      <strong>PancakeSwap V2</strong>
+      <strong id="routeText">—</strong>
     </div>
 
     <div class="quote-row">
       <span>Slippage</span>
       <strong id="slippageText">1%</strong>
     </div>
+
 
     <div class="slippage">
 
@@ -865,6 +813,7 @@ main{padding:20px}
       <button class="slip" data-slip="5">5%</button>
 
     </div>
+
 
     <div class="custom-slip">
 
@@ -882,10 +831,11 @@ main{padding:20px}
     </div>
 
     <div class="slip-note">
-      Custom range: 0%–18% maximum.
+      Maximum custom slippage: 18%.
     </div>
 
   </div>
+
 
   <button class="swap-button" id="swapBtn" disabled>
     Connect Wallet
@@ -896,6 +846,7 @@ main{padding:20px}
 </div>
 
 </section>
+
 
 <section class="section">
 
@@ -929,6 +880,7 @@ main{padding:20px}
 
 </section>
 
+
 <section class="section">
 
   <div class="recent">
@@ -945,68 +897,6 @@ main{padding:20px}
 
 </section>
 
-<section class="section">
-
-  <div class="currency-card">
-
-    <div class="currency-title">
-      Local currency
-    </div>
-
-    <select id="currency" class="currency-select">
-
-      <option value="INR">🇮🇳 INR ₹</option>
-      <option value="USD">🇺🇸 USD $</option>
-      <option value="EUR">🇪🇺 EUR €</option>
-      <option value="GBP">🇬🇧 GBP £</option>
-      <option value="AED">🇦🇪 AED د.إ</option>
-      <option value="SAR">🇸🇦 SAR ﷼</option>
-      <option value="SGD">🇸🇬 SGD $</option>
-      <option value="AUD">🇦🇺 AUD $</option>
-      <option value="CAD">🇨🇦 CAD $</option>
-
-    </select>
-
-  </div>
-
-</section>
-
-<section class="section">
-
-  <div class="onramp">
-
-    <div class="section-title">
-      Buy USDT with local currency
-    </div>
-
-    <p style="color:#77827e;line-height:1.5">
-      Complete provider KYC, pay using the supported local payment method,
-      and receive USDT to your connected BNB Chain wallet.
-    </p>
-
-    <div class="provider-grid">
-
-      <button class="provider active" data-provider="onramp">
-        Onramp Money
-        <small>Provider integration</small>
-      </button>
-
-      <button class="provider" data-provider="redotpay">
-        RedotPay
-        <small>Provider integration</small>
-      </button>
-
-    </div>
-
-    <button class="swap-button" id="buyUsdtBtn">
-      Buy USDT
-    </button>
-
-    <div id="onrampMessage"></div>
-
-  </div>
-
-</section>
 
 <section class="section">
 
@@ -1019,13 +909,26 @@ main{padding:20px}
 
     <br><br>
 
-    Always verify the GBK token address before approving a transaction.
+    <strong>GBK token</strong><br>
 
+    Always verify the GBK contract before approving:
+    <br>
+    <span style="word-break:break-all">
+      0xdA0638EA374c4c5bF2914E6F4D5B2335dEb8D80D
+    </span>
+
+    <br><br>
+
+    <strong>Routing</strong><br>
+
+    GBK ↔ BNB uses the GBK/WBNB pool.
+    GBK ↔ USDT uses GBK/WBNB + USDT/WBNB.
   </div>
 
 </section>
 
 </main>
+
 
 <nav class="bottom-nav">
 
@@ -1053,13 +956,14 @@ main{padding:20px}
 
 </div>
 
+
 <script>
 
 /* =========================================================
    CONFIG
-   ========================================================= */
+========================================================= */
 
-const CONFIG = {
+const CONFIG={
 
   chainId:56,
 
@@ -1084,11 +988,30 @@ const CONFIG = {
 };
 
 
-/* =========================================================
-   ABIS
-   ========================================================= */
+/*
+ IMPORTANT
 
-const ERC20_ABI = [
+ GBK has token transfer fees according to current
+ third-party token data.
+
+ The router quote does not automatically subtract
+ token transfer tax.
+
+ Therefore we use a conservative GBK fee buffer
+ when calculating amountOut/minimum received.
+
+ This prevents the normal quoted amount from being
+ used as an impossible minimum.
+*/
+
+const GBK_FEE_BUFFER=0.15;
+
+
+/* =========================================================
+   ABI
+========================================================= */
+
+const ERC20_ABI=[
 
   "function decimals() view returns(uint8)",
 
@@ -1100,15 +1023,16 @@ const ERC20_ABI = [
 
 ];
 
-const ROUTER_ABI = [
+
+const ROUTER_ABI=[
 
   "function WETH() external pure returns(address)",
 
   "function getAmountsOut(uint256,address[]) external view returns(uint256[])",
 
-  "function swapExactTokensForTokensSupportingFeeOnTransferTokens(uint256,uint256,address[],address,uint256)",
+  "function swapExactTokensForTokensSupportingFeeOnTransferTokens(uint256,uint256,address[],address,uint256) returns(uint256[])",
 
-  "function swapExactETHForTokensSupportingFeeOnTransferTokens(uint256,address[],address,uint256) payable",
+  "function swapExactETHForTokensSupportingFeeOnTransferTokens(uint256,address[],address,uint256) payable returns(uint256[])",
 
   "function swapExactTokensForETHSupportingFeeOnTransferTokens(uint256,uint256,address[],address,uint256)"
 
@@ -1117,7 +1041,7 @@ const ROUTER_ABI = [
 
 /* =========================================================
    STATE
-   ========================================================= */
+========================================================= */
 
 let provider=null;
 let signer=null;
@@ -1136,30 +1060,17 @@ let slippage=1;
 let bnbUsd=0;
 let gbkUsd=0;
 
-let selectedProvider="onramp";
-
 
 /* =========================================================
    DOM
-   ========================================================= */
+========================================================= */
 
 const $=id=>document.getElementById(id);
 
 
 /* =========================================================
    HELPERS
-   ========================================================= */
-
-function escapeHtml(value){
-
-  return String(value)
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
-
-}
+========================================================= */
 
 function shortAddress(address){
 
@@ -1169,6 +1080,7 @@ function shortAddress(address){
   return address.slice(0,6)+"…"+address.slice(-4);
 
 }
+
 
 function fmt(value,decimals=4){
 
@@ -1182,6 +1094,7 @@ function fmt(value,decimals=4){
   });
 
 }
+
 
 function money(value){
 
@@ -1197,25 +1110,27 @@ function money(value){
 
 }
 
+
+function escapeHtml(value){
+
+  return String(value)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+
+}
+
+
 function showMessage(text,type="error"){
 
   $("message").innerHTML=text
-    ? `<div class="notice ${type}">
-         ${escapeHtml(text)}
-       </div>`
+    ? `<div class="notice ${type}">${escapeHtml(text)}</div>`
     : "";
 
 }
 
-function showOnrampMessage(text,type="error"){
-
-  $("onrampMessage").innerHTML=text
-    ? `<div class="notice ${type}">
-         ${escapeHtml(text)}
-       </div>`
-    : "";
-
-}
 
 function cleanError(error){
 
@@ -1228,28 +1143,37 @@ function cleanError(error){
   )
     return "Request rejected in wallet.";
 
-  const message=
+  const msg=
+    error.shortMessage ||
+    error.reason ||
     error.message ||
     String(error);
 
-  if(
-    message.toLowerCase().includes("user rejected")
-  )
+  const lower=msg.toLowerCase();
+
+  if(lower.includes("user rejected"))
     return "Request rejected in wallet.";
 
-  if(
-    message.toLowerCase().includes("already pending")
-  )
+  if(lower.includes("already pending"))
     return "A wallet request is already pending. Open your wallet and complete it.";
 
-  return message.slice(0,350);
+  if(lower.includes("missing revert data"))
+    return "The route could not be quoted. The selected pair may not have usable liquidity.";
+
+  if(lower.includes("insufficient funds"))
+    return "Insufficient BNB for the transaction and gas.";
+
+  if(lower.includes("execution reverted"))
+    return "Swap reverted. Check liquidity, amount, slippage and token fees.";
+
+  return msg.slice(0,450);
 
 }
 
 
 /* =========================================================
-   TOKEN HELPERS
-   ========================================================= */
+   TOKEN
+========================================================= */
 
 function tokenAddress(symbol){
 
@@ -1266,6 +1190,7 @@ function tokenAddress(symbol){
 
 }
 
+
 function tokenDecimals(symbol){
 
   if(symbol==="GBK")
@@ -1278,7 +1203,21 @@ function tokenDecimals(symbol){
 
 }
 
+
+/* =========================================================
+   CORRECT ROUTING
+========================================================= */
+
 function pathFor(from,to){
+
+  if(from===to)
+    return null;
+
+
+  /*
+    BNB → GBK
+    BNB → WBNB → GBK
+  */
 
   if(from==="BNB"){
 
@@ -1289,6 +1228,12 @@ function pathFor(from,to){
 
   }
 
+
+  /*
+    GBK → BNB
+    GBK → WBNB → BNB
+  */
+
   if(to==="BNB"){
 
     return [
@@ -1298,6 +1243,43 @@ function pathFor(from,to){
 
   }
 
+
+  /*
+    USDT → GBK
+    IMPORTANT:
+    There is no direct GBK/USDT V2 route.
+  */
+
+  if(from==="USDT" && to==="GBK"){
+
+    return [
+      CONFIG.usdt,
+      CONFIG.wbnb,
+      CONFIG.gbk
+    ];
+
+  }
+
+
+  /*
+    GBK → USDT
+  */
+
+  if(from==="GBK" && to==="USDT"){
+
+    return [
+      CONFIG.gbk,
+      CONFIG.wbnb,
+      CONFIG.usdt
+    ];
+
+  }
+
+
+  /*
+    USDT → other ERC20
+  */
+
   return [
     tokenAddress(from),
     tokenAddress(to)
@@ -1306,13 +1288,59 @@ function pathFor(from,to){
 }
 
 
+function routeName(from,to){
+
+  if(
+    from==="USDT" &&
+    to==="GBK"
+  )
+    return "USDT → WBNB → GBK";
+
+  if(
+    from==="GBK" &&
+    to==="USDT"
+  )
+    return "GBK → WBNB → USDT";
+
+  if(
+    from==="BNB" &&
+    to==="GBK"
+  )
+    return "BNB → WBNB → GBK";
+
+  if(
+    from==="GBK" &&
+    to==="BNB"
+  )
+    return "GBK → WBNB → BNB";
+
+  if(
+    from==="USDT" &&
+    to==="BNB"
+  )
+    return "USDT → WBNB → BNB";
+
+  if(
+    from==="BNB" &&
+    to==="USDT"
+  )
+    return "BNB → WBNB → USDT";
+
+  return from+" → "+to;
+
+}
+
+
 /* =========================================================
    WALLET DISCOVERY
-   ========================================================= */
+========================================================= */
 
 function registerWallet(detail){
 
-  if(!detail || !detail.provider)
+  if(
+    !detail ||
+    !detail.provider
+  )
     return;
 
   const uuid=detail.info?.uuid;
@@ -1329,12 +1357,14 @@ function registerWallet(detail){
 
 }
 
+
 window.addEventListener(
   "eip6963:announceProvider",
   event=>{
     registerWallet(event.detail);
   }
 );
+
 
 function discoverWallets(){
 
@@ -1354,20 +1384,22 @@ function discoverWallets(){
 
 }
 
+
 async function findWalletProvider(){
 
   discoverWallets();
 
   await new Promise(
-    resolve=>setTimeout(resolve,300)
+    resolve=>setTimeout(resolve,500)
   );
 
+
   if(
-    discoveredWallets.length &&
-    discoveredWallets[0].provider
+    discoveredWallets.length>0
   ){
 
-    const wallet=discoveredWallets[0];
+    const wallet=
+      discoveredWallets[0];
 
     selectedWalletName=
       wallet.info?.name ||
@@ -1377,13 +1409,24 @@ async function findWalletProvider(){
 
   }
 
+
+  /*
+    Standard injected provider fallback.
+  */
+
   if(window.ethereum){
 
-    selectedWalletName="Browser Wallet";
+    selectedWalletName=
+      window.ethereum.isTrust
+        ? "Trust Wallet"
+        : window.ethereum.isMetaMask
+        ? "MetaMask"
+        : "Browser Wallet";
 
     return window.ethereum;
 
   }
+
 
   return null;
 
@@ -1391,30 +1434,22 @@ async function findWalletProvider(){
 
 
 /* =========================================================
-   BNB NETWORK
-   ========================================================= */
+   NETWORK
+========================================================= */
 
 async function ensureBSC(wallet){
 
   if(!wallet)
-    throw new Error("No compatible wallet provider detected.");
-
-  let chainId;
-
-  try{
-
-    chainId=
-      await wallet.request({
-        method:"eth_chainId"
-      });
-
-  }catch(error){
-
     throw new Error(
-      "Unable to read the wallet network."
+      "No wallet provider detected."
     );
 
-  }
+
+  let chainId=
+    await wallet.request({
+      method:"eth_chainId"
+    });
+
 
   if(
     String(chainId).toLowerCase()===
@@ -1424,6 +1459,7 @@ async function ensureBSC(wallet){
     return new ethers.BrowserProvider(wallet);
 
   }
+
 
   try{
 
@@ -1453,6 +1489,7 @@ async function ensureBSC(wallet){
         params:[
           {
             chainId:CONFIG.chainHex,
+
             chainName:"BNB Smart Chain",
 
             nativeCurrency:{
@@ -1461,11 +1498,14 @@ async function ensureBSC(wallet){
               decimals:18
             },
 
-            rpcUrls:[CONFIG.rpc],
+            rpcUrls:[
+              CONFIG.rpc
+            ],
 
             blockExplorerUrls:[
               CONFIG.explorer
             ]
+
           }
         ]
 
@@ -1481,6 +1521,7 @@ async function ensureBSC(wallet){
 
   }
 
+
   return new ethers.BrowserProvider(wallet);
 
 }
@@ -1488,66 +1529,56 @@ async function ensureBSC(wallet){
 
 /* =========================================================
    CONNECT WALLET
-   ========================================================= */
+========================================================= */
 
-async function connectWallet(
-  wallet=null,
-  walletName=""
-){
+async function connectWallet(){
 
   showMessage("");
 
   try{
 
-    if(wallet){
+    injectedProvider=
+      await findWalletProvider();
 
-      injectedProvider=wallet;
-
-      if(walletName)
-        selectedWalletName=walletName;
-
-    }else{
-
-      injectedProvider=
-        await findWalletProvider();
-
-    }
 
     if(!injectedProvider){
 
       throw new Error(
-        "No wallet detected. Open swap.gbkai.com inside your BNB Chain wallet."
+        "No wallet detected. Open swap.gbkai.com inside your BNB Chain wallet browser."
       );
 
     }
 
-    /*
-      IMPORTANT:
-      provider is now the connected wallet's
-      BrowserProvider. Balance reads below use this
-      provider instead of the public RPC.
-    */
 
     provider=
       await ensureBSC(
         injectedProvider
       );
 
+
+    /*
+      User permission request.
+    */
+
     const accounts=
       await injectedProvider.request({
+
         method:"eth_requestAccounts"
+
       });
+
 
     if(
       !accounts ||
-      !accounts.length
+      accounts.length===0
     ){
 
       throw new Error(
-        "No wallet account was returned."
+        "No wallet account returned."
       );
 
     }
+
 
     signer=
       await provider.getSigner();
@@ -1555,28 +1586,27 @@ async function connectWallet(
     account=
       await signer.getAddress();
 
+
     await loadTokenInfo();
 
     await refreshPrices();
 
     await refreshBalances();
 
-    /*
-      FIX:
-      The original page kept swapBtn disabled even
-      after successful wallet connection.
-    */
-
-    $("swapBtn").disabled=false;
 
     $("connectBtn").textContent=
       shortAddress(account);
 
+
+    $("swapBtn").disabled=false;
+
     $("swapBtn").textContent=
       "Enter amount";
 
+
     $("walletAddress").textContent=
       shortAddress(account);
+
 
     showMessage(
       (
@@ -1584,44 +1614,24 @@ async function connectWallet(
           ? selectedWalletName+" "
           : ""
       )+
-      "wallet connected successfully.",
+      "connected successfully.",
       "success"
     );
+
+
+    attachWalletEvents(
+      injectedProvider
+    );
+
 
   }catch(error){
 
     console.error(
-      "Wallet connection error:",
+      "CONNECT ERROR",
       error
     );
 
-    provider=null;
-    signer=null;
-    account=null;
-
-    $("swapBtn").disabled=true;
-
-    $("connectBtn").textContent=
-      "Connect Wallet";
-
-    $("swapBtn").textContent=
-      "Connect Wallet";
-
-    $("walletAddress").textContent=
-      "Not connected";
-
-    $("walletBNB").textContent="—";
-    $("walletGBK").textContent="—";
-    $("walletUSDT").textContent="—";
-
-    $("fromBalance").textContent=
-      "Balance: —";
-
-    $("toBalance").textContent=
-      "Balance: —";
-
-    $("portfolioValue").textContent=
-      "$0.00";
+    disconnectWalletUI();
 
     showMessage(
       cleanError(error),
@@ -1635,7 +1645,7 @@ async function connectWallet(
 
 /* =========================================================
    WALLET EVENTS
-   ========================================================= */
+========================================================= */
 
 function attachWalletEvents(wallet){
 
@@ -1645,101 +1655,66 @@ function attachWalletEvents(wallet){
   )
     return;
 
-  try{
 
-    wallet.on(
-      "accountsChanged",
-      async accounts=>{
+  if(wallet.__gbkEventsAttached)
+    return;
 
-        if(
-          !accounts ||
-          !accounts.length
-        ){
+  wallet.__gbkEventsAttached=true;
 
-          disconnectWalletUI();
-          return;
 
-        }
+  wallet.on(
+    "accountsChanged",
+    async accounts=>{
 
-        await connectWallet(
-          wallet,
-          selectedWalletName
+      if(
+        !accounts ||
+        accounts.length===0
+      ){
+
+        disconnectWalletUI();
+        return;
+
+      }
+
+      await connectWallet();
+
+    }
+  );
+
+
+  wallet.on(
+    "chainChanged",
+    async chainId=>{
+
+      if(
+        String(chainId).toLowerCase()===
+        CONFIG.chainHex
+      ){
+
+        if(account)
+          await connectWallet();
+
+      }else{
+
+        showMessage(
+          "Please switch your wallet to BNB Smart Chain.",
+          "error"
         );
 
       }
-    );
-
-    wallet.on(
-      "chainChanged",
-      async chainId=>{
-
-        if(
-          String(chainId).toLowerCase()!==
-          CONFIG.chainHex
-        ){
-
-          showMessage(
-            "Please switch your wallet to BNB Smart Chain.",
-            "error"
-          );
-
-          return;
-
-        }
-
-        if(account){
-
-          await connectWallet(
-            wallet,
-            selectedWalletName
-          );
-
-        }
-
-      }
-    );
-
-  }catch(error){
-
-    console.log(error);
-
-  }
-
-}
-
-window.addEventListener(
-  "eip6963:announceProvider",
-  event=>{
-
-    if(event.detail?.provider){
-
-      attachWalletEvents(
-        event.detail.provider
-      );
 
     }
-
-  }
-);
-
-if(window.ethereum){
-
-  attachWalletEvents(
-    window.ethereum
   );
 
 }
 
-
-/* =========================================================
-   DISCONNECT UI
-   ========================================================= */
 
 function disconnectWalletUI(){
 
   provider=null;
   signer=null;
   account=null;
+
 
   $("connectBtn").textContent=
     "Connect Wallet";
@@ -1769,21 +1744,17 @@ function disconnectWalletUI(){
 
 
 /* =========================================================
-   TOKEN INFORMATION
-   ========================================================= */
+   TOKEN INFO
+========================================================= */
 
 async function loadTokenInfo(){
-
-  /*
-    If wallet is connected, use it.
-    Otherwise use public BSC RPC.
-  */
 
   const readProvider=
     provider ||
     new ethers.JsonRpcProvider(
       CONFIG.rpc
     );
+
 
   const gbk=
     new ethers.Contract(
@@ -1792,12 +1763,14 @@ async function loadTokenInfo(){
       readProvider
     );
 
+
   const usdt=
     new ethers.Contract(
       CONFIG.usdt,
       ERC20_ABI,
       readProvider
     );
+
 
   try{
 
@@ -1806,16 +1779,12 @@ async function loadTokenInfo(){
         await gbk.decimals()
       );
 
-  }catch(error){
-
-    console.warn(
-      "GBK decimals unavailable; using 8.",
-      error
-    );
+  }catch{
 
     gbkDecimals=8;
 
   }
+
 
   try{
 
@@ -1824,12 +1793,7 @@ async function loadTokenInfo(){
         await usdt.decimals()
       );
 
-  }catch(error){
-
-    console.warn(
-      "USDT decimals unavailable; using 18.",
-      error
-    );
+  }catch{
 
     usdtDecimals=18;
 
@@ -1840,25 +1804,15 @@ async function loadTokenInfo(){
 
 /* =========================================================
    BALANCES
-   ========================================================= */
+========================================================= */
 
 async function refreshBalances(){
 
   if(!account)
     return;
 
+
   try{
-
-    /*
-      MAIN FIX:
-
-      After wallet connection, use the wallet's
-      BrowserProvider.
-
-      The previous version created a new public
-      JsonRpcProvider here. That could fail/rate-limit
-      even though the wallet itself was connected.
-    */
 
     const readProvider=
       provider ||
@@ -1866,10 +1820,6 @@ async function refreshBalances(){
         CONFIG.rpc
       );
 
-    const bnb=
-      await readProvider.getBalance(
-        account
-      );
 
     const gbk=
       new ethers.Contract(
@@ -1878,6 +1828,7 @@ async function refreshBalances(){
         readProvider
       );
 
+
     const usdt=
       new ethers.Contract(
         CONFIG.usdt,
@@ -1885,94 +1836,82 @@ async function refreshBalances(){
         readProvider
       );
 
+
     const results=
       await Promise.all([
-        gbk.balanceOf(account),
-        usdt.balanceOf(account)
+
+        readProvider.getBalance(
+          account
+        ),
+
+        gbk.balanceOf(
+          account
+        ),
+
+        usdt.balanceOf(
+          account
+        )
+
       ]);
 
-    const gbkBalance=
-      results[0];
 
-    const usdtBalance=
-      results[1];
+    const bnb=
+      ethers.formatEther(
+        results[0]
+      );
 
-    const bnbFormatted=
-      ethers.formatEther(bnb);
 
-    const gbkFormatted=
+    const gbkBal=
       ethers.formatUnits(
-        gbkBalance,
+        results[1],
         gbkDecimals
       );
 
-    const usdtFormatted=
+
+    const usdtBal=
       ethers.formatUnits(
-        usdtBalance,
+        results[2],
         usdtDecimals
       );
 
+
     $("walletBNB").textContent=
-      fmt(
-        bnbFormatted,
-        6
-      )+
-      " BNB";
+      fmt(bnb,6)+" BNB";
+
 
     $("walletGBK").textContent=
-      fmt(
-        gbkFormatted,
-        4
-      )+
-      " GBK";
+      fmt(gbkBal,4)+" GBK";
+
 
     $("walletUSDT").textContent=
-      fmt(
-        usdtFormatted,
-        2
-      )+
-      " USDT";
+      fmt(usdtBal,2)+" USDT";
 
-    $("walletAddress").textContent=
-      shortAddress(account);
 
     updateBalanceLabels(
-      bnbFormatted,
-      gbkFormatted,
-      usdtFormatted
+      bnb,
+      gbkBal,
+      usdtBal
     );
 
+
     updatePortfolio(
-      Number(bnbFormatted),
-      Number(gbkFormatted),
-      Number(usdtFormatted)
+      Number(bnb),
+      Number(gbkBal),
+      Number(usdtBal)
     );
+
 
   }catch(error){
 
     console.error(
-      "Balance error:",
+      "BALANCE ERROR",
       error
-    );
-
-    /*
-      Keep the wallet connected even if a balance
-      request temporarily fails.
-    */
-
-    showMessage(
-      "Wallet connected, but balances could not be read. Please refresh or reconnect.",
-      "error"
     );
 
   }
 
 }
 
-
-/* =========================================================
-   BALANCE LABELS
-   ========================================================= */
 
 function updateBalanceLabels(
   bnb,
@@ -1981,20 +1920,18 @@ function updateBalanceLabels(
 ){
 
   const balances={
-
     BNB:Number(bnb),
-
     GBK:Number(gbk),
-
     USDT:Number(usdt)
-
   };
+
 
   const from=
     $("fromToken").value;
 
   const to=
     $("toToken").value;
+
 
   $("fromBalance").textContent=
     "Balance: "+
@@ -2004,6 +1941,7 @@ function updateBalanceLabels(
         ? 2
         : 6
     );
+
 
   $("toBalance").textContent=
     "Balance: "+
@@ -2019,7 +1957,7 @@ function updateBalanceLabels(
 
 /* =========================================================
    PORTFOLIO
-   ========================================================= */
+========================================================= */
 
 function updatePortfolio(
   bnb,
@@ -2032,6 +1970,7 @@ function updatePortfolio(
     gbk*gbkUsd+
     usdt;
 
+
   $("portfolioValue").textContent=
     money(value);
 
@@ -2040,12 +1979,16 @@ function updatePortfolio(
 
 /* =========================================================
    QUOTE
-   ========================================================= */
+========================================================= */
 
 async function quotePath(
   amount,
   path
 ){
+
+  if(!path)
+    return null;
+
 
   const readProvider=
     provider ||
@@ -2053,12 +1996,14 @@ async function quotePath(
       CONFIG.rpc
     );
 
+
   const router=
     new ethers.Contract(
       CONFIG.router,
       ROUTER_ABI,
       readProvider
     );
+
 
   try{
 
@@ -2069,8 +2014,8 @@ async function quotePath(
 
   }catch(error){
 
-    console.log(
-      "Quote unavailable:",
+    console.warn(
+      "QUOTE FAILED",
       error
     );
 
@@ -2082,41 +2027,44 @@ async function quotePath(
 
 
 /* =========================================================
-   PRICE REFRESH
-   ========================================================= */
+   PRICE
+========================================================= */
 
 async function refreshPrices(){
 
   try{
 
-    const oneUsdt=
+    const oneUSDT=
       ethers.parseUnits(
         "1",
         usdtDecimals
       );
 
-    const usdtToBnb=
+
+    const usdtToBNB=
       await quotePath(
-        oneUsdt,
+        oneUSDT,
         [
           CONFIG.usdt,
           CONFIG.wbnb
         ]
       );
 
-    if(usdtToBnb){
 
-      const bnbPerUsdt=
+    if(usdtToBNB){
+
+      const bnbPerUSDT=
         Number(
           ethers.formatEther(
-            usdtToBnb.at(-1)
+            usdtToBNB.at(-1)
           )
         );
 
-      if(bnbPerUsdt>0){
+
+      if(bnbPerUSDT>0){
 
         bnbUsd=
-          1/bnbPerUsdt;
+          1/bnbPerUSDT;
 
         $("bnbPrice").textContent=
           money(bnbUsd);
@@ -2125,43 +2073,46 @@ async function refreshPrices(){
 
     }
 
-    const oneGbk=
+
+    const oneGBK=
       ethers.parseUnits(
         "1",
         gbkDecimals
       );
 
-    const gbkToUsdt=
+
+    const gbkToUSDT=
       await quotePath(
-        oneGbk,
+        oneGBK,
         [
           CONFIG.gbk,
+          CONFIG.wbnb,
           CONFIG.usdt
         ]
       );
 
-    if(gbkToUsdt){
+
+    if(gbkToUSDT){
 
       gbkUsd=
         Number(
           ethers.formatUnits(
-            gbkToUsdt.at(-1),
+            gbkToUSDT.at(-1),
             usdtDecimals
           )
         );
+
 
       $("gbkPrice").textContent=
         money(gbkUsd);
 
     }
 
-    if(account)
-      await refreshBalances();
 
   }catch(error){
 
     console.error(
-      "Price refresh error:",
+      "PRICE ERROR",
       error
     );
 
@@ -2171,8 +2122,38 @@ async function refreshPrices(){
 
 
 /* =========================================================
-   SWAP QUOTE
-   ========================================================= */
+   DISPLAY OUTPUT
+========================================================= */
+
+function formatOutput(value){
+
+  const n=Number(value);
+
+  if(!Number.isFinite(n))
+    return "—";
+
+  if(n===0)
+    return "0";
+
+  if(n<0.000001)
+    return n.toExponential(4);
+
+  if(n<1)
+    return n.toFixed(8);
+
+  return n.toLocaleString(
+    undefined,
+    {
+      maximumFractionDigits:8
+    }
+  );
+
+}
+
+
+/* =========================================================
+   QUOTE UI
+========================================================= */
 
 async function updateQuote(){
 
@@ -2185,9 +2166,14 @@ async function updateQuote(){
   const amount=
     $("amountIn").value.trim();
 
+
   $("amountOut").value="";
 
   $("rate").textContent="—";
+
+  $("routeText").textContent=
+    routeName(from,to);
+
 
   if(
     !amount ||
@@ -2203,6 +2189,7 @@ async function updateQuote(){
 
   }
 
+
   if(from===to){
 
     $("swapBtn").textContent=
@@ -2212,6 +2199,7 @@ async function updateQuote(){
 
   }
 
+
   try{
 
     const parsed=
@@ -2220,11 +2208,17 @@ async function updateQuote(){
         tokenDecimals(from)
       );
 
+
+    const path=
+      pathFor(from,to);
+
+
     const result=
       await quotePath(
         parsed,
-        pathFor(from,to)
+        path
       );
+
 
     if(!result){
 
@@ -2238,47 +2232,73 @@ async function updateQuote(){
 
     }
 
-    const output=
-      ethers.formatUnits(
-        result.at(-1),
-        tokenDecimals(to)
+
+    let output=
+      Number(
+        ethers.formatUnits(
+          result.at(-1),
+          tokenDecimals(to)
+        )
       );
+
+
+    /*
+      GBK fee buffer.
+
+      Router quote does not account for GBK token
+      transfer tax. Reduce the displayed estimate
+      when GBK participates.
+    */
+
+    if(
+      from==="GBK" ||
+      to==="GBK"
+    ){
+
+      output*=
+        (1-GBK_FEE_BUFFER);
+
+    }
+
 
     $("amountOut").value=
       formatOutput(output);
 
+
     const rate=
-      Number(output)/
+      output/
       Number(amount);
+
 
     if(Number.isFinite(rate)){
 
       $("rate").textContent=
-        "1 "+
-        from+
+        "1 "+from+
         " ≈ "+
         formatOutput(rate)+
-        " "+
-        to;
+        " "+to;
 
     }
+
 
     $("swapBtn").textContent=
       account
         ? "Swap "+from+" → "+to
         : "Connect Wallet";
 
+
   }catch(error){
 
     console.error(
-      "Quote error:",
+      "QUOTE ERROR",
       error
     );
 
-    $("amountOut").value="—";
+    $("amountOut").value=
+      "Quote unavailable";
 
     $("swapBtn").textContent=
-      "Enter valid amount";
+      "Try Again";
 
   }
 
@@ -2286,54 +2306,25 @@ async function updateQuote(){
 
 
 /* =========================================================
-   NUMBER FORMAT
-   ========================================================= */
-
-function formatOutput(value){
-
-  const number=
-    Number(value);
-
-  if(!Number.isFinite(number))
-    return "—";
-
-  if(number===0)
-    return "0";
-
-  if(number<0.000001)
-    return number.toExponential(4);
-
-  if(number<1)
-    return number.toFixed(8);
-
-  return number.toLocaleString(
-    undefined,
-    {
-      maximumFractionDigits:8
-    }
-  );
-
-}
-
-
-/* =========================================================
    SLIPPAGE
-   ========================================================= */
+========================================================= */
 
 function getValidSlippage(){
 
   const custom=
     $("customSlippage").value.trim();
 
+
   if(custom!==""){
 
-    const number=
+    const n=
       Number(custom);
 
+
     if(
-      !Number.isFinite(number) ||
-      number<0 ||
-      number>18
+      !Number.isFinite(n) ||
+      n<0 ||
+      n>18
     ){
 
       throw new Error(
@@ -2342,32 +2333,60 @@ function getValidSlippage(){
 
     }
 
-    return number;
+
+    return n;
 
   }
+
 
   return slippage;
 
 }
 
-function applyMinOut(
+
+/*
+  Correct minimum-output calculation.
+
+  1,000,000 = 100%.
+
+  Example:
+  1% slippage → 990,000 / 1,000,000
+*/
+
+function minimumOutput(
   quotedOut,
-  percentage
+  slippagePercent,
+  hasGBK
 ){
 
-  const basis=1000000n;
+  let protection=
+    (100-slippagePercent)/100;
 
-  const keep=
+
+  /*
+    Additional GBK fee protection.
+  */
+
+  if(hasGBK){
+
+    protection*=
+      (1-GBK_FEE_BUFFER);
+
+  }
+
+
+  const multiplier=
     BigInt(
-      Math.round(
-        (100-percentage)*10000
+      Math.floor(
+        protection*1000000
       )
     );
 
+
   return(
     quotedOut*
-    keep/
-    basis
+    multiplier/
+    1000000n
   );
 
 }
@@ -2375,11 +2394,12 @@ function applyMinOut(
 
 /* =========================================================
    EXECUTE SWAP
-   ========================================================= */
+========================================================= */
 
 async function executeSwap(){
 
   showMessage("");
+
 
   if(!account){
 
@@ -2387,6 +2407,7 @@ async function executeSwap(){
     return;
 
   }
+
 
   const from=
     $("fromToken").value;
@@ -2396,6 +2417,7 @@ async function executeSwap(){
 
   const amount=
     $("amountIn").value.trim();
+
 
   if(
     !amount ||
@@ -2410,6 +2432,7 @@ async function executeSwap(){
 
   }
 
+
   if(from===to){
 
     showMessage(
@@ -2420,15 +2443,18 @@ async function executeSwap(){
 
   }
 
+
   try{
 
     const selectedSlippage=
       getValidSlippage();
 
+
     $("swapBtn").disabled=true;
 
     $("swapBtn").textContent=
       "Preparing…";
+
 
     const amountIn=
       ethers.parseUnits(
@@ -2436,8 +2462,10 @@ async function executeSwap(){
         tokenDecimals(from)
       );
 
+
     const path=
       pathFor(from,to);
+
 
     const router=
       new ethers.Contract(
@@ -2446,44 +2474,80 @@ async function executeSwap(){
         signer
       );
 
+
+    /*
+      Fresh quote immediately before transaction.
+    */
+
     const quoted=
       await router.getAmountsOut(
         amountIn,
         path
       );
 
+
     const quotedOut=
       quoted.at(-1);
 
+
+    const hasGBK=
+      from==="GBK" ||
+      to==="GBK";
+
+
     const minOut=
-      applyMinOut(
+      minimumOutput(
         quotedOut,
-        selectedSlippage
+        selectedSlippage,
+        hasGBK
       );
 
+
     const deadline=
-      Math.floor(Date.now()/1000)+600;
+      Math.floor(
+        Date.now()/1000
+      )+600;
+
 
     let tx;
+
+
+    /* =====================================================
+       BNB → TOKEN
+    ===================================================== */
 
     if(from==="BNB"){
 
       $("swapBtn").textContent=
         "Confirm in wallet…";
 
+
       tx=
         await router
-          .swapExactETHForTokensSupportingFeeOnTransferTokens(
-            minOut,
-            path,
-            account,
-            deadline,
-            {
-              value:amountIn
-            }
-          );
+        .swapExactETHForTokensSupportingFeeOnTransferTokens(
 
-    }else{
+          minOut,
+
+          path,
+
+          account,
+
+          deadline,
+
+          {
+            value:amountIn
+          }
+
+        );
+
+    }
+
+
+    /* =====================================================
+       TOKEN → TOKEN / TOKEN → BNB
+    ===================================================== */
+
+    else{
 
       const token=
         new ethers.Contract(
@@ -2492,11 +2556,13 @@ async function executeSwap(){
           signer
         );
 
+
       const allowance=
         await token.allowance(
           account,
           CONFIG.router
         );
+
 
       if(
         allowance<
@@ -2504,7 +2570,8 @@ async function executeSwap(){
       ){
 
         $("swapBtn").textContent=
-          "Approve token…";
+          "Approve "+from+"…";
+
 
         const approval=
           await token.approve(
@@ -2512,52 +2579,71 @@ async function executeSwap(){
             ethers.MaxUint256
           );
 
+
         showMessage(
           "Approval submitted. Confirming…",
           "success"
         );
 
+
         await approval.wait();
 
       }
 
+
       $("swapBtn").textContent=
         "Confirm swap…";
+
 
       if(to==="BNB"){
 
         tx=
           await router
-            .swapExactTokensForETHSupportingFeeOnTransferTokens(
-              amountIn,
-              minOut,
-              path,
-              account,
-              deadline
-            );
+          .swapExactTokensForETHSupportingFeeOnTransferTokens(
+
+            amountIn,
+
+            minOut,
+
+            path,
+
+            account,
+
+            deadline
+
+          );
 
       }else{
 
         tx=
           await router
-            .swapExactTokensForTokensSupportingFeeOnTransferTokens(
-              amountIn,
-              minOut,
-              path,
-              account,
-              deadline
-            );
+          .swapExactTokensForTokensSupportingFeeOnTransferTokens(
+
+            amountIn,
+
+            minOut,
+
+            path,
+
+            account,
+
+            deadline
+
+          );
 
       }
 
     }
+
 
     showMessage(
       "Transaction submitted. Waiting for confirmation…",
       "success"
     );
 
+
     await tx.wait();
+
 
     addTransaction(
       tx.hash,
@@ -2566,33 +2652,46 @@ async function executeSwap(){
       amount
     );
 
+
     showMessage(
       "Swap completed successfully.",
       "success"
     );
 
+
     $("amountIn").value="";
     $("amountOut").value="";
 
+
     await refreshBalances();
+
     await refreshPrices();
+
 
     $("swapBtn").textContent=
       "Enter amount";
 
+
+    updateQuote();
+
+
   }catch(error){
 
     console.error(
-      "Swap error:",
+      "SWAP ERROR",
       error
     );
 
+
     showMessage(
-      cleanError(error)
+      cleanError(error),
+      "error"
     );
+
 
     $("swapBtn").textContent=
       "Try Again";
+
 
   }finally{
 
@@ -2606,24 +2705,32 @@ async function executeSwap(){
 
 /* =========================================================
    PAIR
-   ========================================================= */
+========================================================= */
 
 function setPair(from,to){
 
-  $("fromToken").value=from;
-  $("toToken").value=to;
+  $("fromToken").value=
+    from;
+
+  $("toToken").value=
+    to;
 
   $("amountIn").value="";
+
   $("amountOut").value="";
+
 
   updateQuote();
 
-  $("swapSection").scrollIntoView({
-    behavior:"smooth",
-    block:"start"
-  });
+
+  $("swapSection")
+    .scrollIntoView({
+      behavior:"smooth",
+      block:"start"
+    });
 
 }
+
 
 function reversePair(){
 
@@ -2633,12 +2740,19 @@ function reversePair(){
   const to=
     $("toToken").value;
 
-  $("fromToken").value=to;
-  $("toToken").value=from;
+
+  $("fromToken").value=
+    to;
+
+  $("toToken").value=
+    from;
+
 
   $("amountOut").value="";
 
+
   updateQuote();
+
 
   if(account)
     refreshBalances();
@@ -2648,7 +2762,7 @@ function reversePair(){
 
 /* =========================================================
    SLIPPAGE BUTTONS
-   ========================================================= */
+========================================================= */
 
 document
 .querySelectorAll(".slip")
@@ -2664,17 +2778,22 @@ document
         x.classList.remove("active")
       );
 
+
       button.classList.add("active");
+
 
       slippage=
         Number(
           button.dataset.slip
         );
 
+
       $("customSlippage").value="";
+
 
       $("slippageText").textContent=
         slippage+"%";
+
 
       updateQuote();
 
@@ -2686,7 +2805,7 @@ document
 
 /* =========================================================
    CUSTOM SLIPPAGE
-   ========================================================= */
+========================================================= */
 
 $("customSlippage")
 .addEventListener(
@@ -2696,11 +2815,13 @@ $("customSlippage")
     const value=
       $("customSlippage").value;
 
+
     document
     .querySelectorAll(".slip")
     .forEach(x=>
       x.classList.remove("active")
     );
+
 
     if(value===""){
 
@@ -2710,26 +2831,31 @@ $("customSlippage")
       )
       .classList.add("active");
 
+
       slippage=1;
+
 
       $("slippageText").textContent=
         "1%";
+
 
       return;
 
     }
 
-    const number=
+
+    const n=
       Number(value);
 
+
     if(
-      Number.isFinite(number) &&
-      number>=0 &&
-      number<=18
+      Number.isFinite(n) &&
+      n>=0 &&
+      n<=18
     ){
 
       $("slippageText").textContent=
-        number+"%";
+        n+"%";
 
     }else{
 
@@ -2743,14 +2869,15 @@ $("customSlippage")
 
 
 /* =========================================================
-   INPUTS
-   ========================================================= */
+   INPUT EVENTS
+========================================================= */
 
 $("amountIn")
 .addEventListener(
   "input",
   updateQuote
 );
+
 
 $("fromToken")
 .addEventListener(
@@ -2769,13 +2896,16 @@ $("fromToken")
 
     }
 
+
     await updateQuote();
+
 
     if(account)
       await refreshBalances();
 
   }
 );
+
 
 $("toToken")
 .addEventListener(
@@ -2794,7 +2924,9 @@ $("toToken")
 
     }
 
+
     await updateQuote();
+
 
     if(account)
       await refreshBalances();
@@ -2805,7 +2937,7 @@ $("toToken")
 
 /* =========================================================
    TRANSACTIONS
-   ========================================================= */
+========================================================= */
 
 function addTransaction(
   hash,
@@ -2817,19 +2949,26 @@ function addTransaction(
   const container=
     $("transactions");
 
+
   if(
     container.classList.contains("empty")
   ){
 
-    container.classList.remove("empty");
+    container.classList.remove(
+      "empty"
+    );
+
     container.innerHTML="";
 
   }
 
+
   const div=
     document.createElement("div");
 
+
   div.className="tx";
+
 
   div.innerHTML=`
 
@@ -2849,7 +2988,7 @@ function addTransaction(
 
     <a
       class="tx-link"
-      href="${CONFIG.explorer}/tx/${hash}"
+      href="${CONFIG.explorer}/tx/${encodeURIComponent(hash)}"
       target="_blank"
       rel="noopener"
     >
@@ -2858,14 +2997,15 @@ function addTransaction(
 
   `;
 
+
   container.prepend(div);
 
 }
 
 
 /* =========================================================
-   NAVIGATION
-   ========================================================= */
+   NAV
+========================================================= */
 
 function setActive(button){
 
@@ -2875,10 +3015,12 @@ function setActive(button){
     x=>x.classList.remove("active")
   );
 
+
   if(button)
     button.classList.add("active");
 
 }
+
 
 function scrollToTop(button){
 
@@ -2891,16 +3033,19 @@ function scrollToTop(button){
 
 }
 
+
 function goSwap(button){
 
   setActive(button);
 
-  $("swapSection").scrollIntoView({
-    behavior:"smooth",
-    block:"start"
-  });
+  $("swapSection")
+    .scrollIntoView({
+      behavior:"smooth",
+      block:"start"
+    });
 
 }
+
 
 function goWallet(button){
 
@@ -2914,6 +3059,7 @@ function goWallet(button){
   });
 
 }
+
 
 function goHelp(button){
 
@@ -2931,21 +3077,21 @@ function goHelp(button){
 
 /* =========================================================
    BUTTONS
-   ========================================================= */
+========================================================= */
 
 $("connectBtn")
 .addEventListener(
   "click",
-  ()=>{
-    connectWallet();
-  }
+  connectWallet
 );
+
 
 $("swapBtn")
 .addEventListener(
   "click",
   executeSwap
 );
+
 
 $("switchBtn")
 .addEventListener(
@@ -2955,81 +3101,15 @@ $("switchBtn")
 
 
 /* =========================================================
-   ONRAMP
-   ========================================================= */
-
-document
-.querySelectorAll(".provider")
-.forEach(button=>{
-
-  button.addEventListener(
-    "click",
-    ()=>{
-
-      document
-      .querySelectorAll(".provider")
-      .forEach(x=>
-        x.classList.remove("active")
-      );
-
-      button.classList.add("active");
-
-      selectedProvider=
-        button.dataset.provider;
-
-      showOnrampMessage("");
-
-    }
-  );
-
-});
-
-
-$("buyUsdtBtn")
-.addEventListener(
-  "click",
-  async ()=>{
-
-    if(!account){
-
-      showOnrampMessage(
-        "Connect your BNB Chain wallet first.",
-        "error"
-      );
-
-      await connectWallet();
-
-      return;
-
-    }
-
-    showOnrampMessage(
-
-      selectedProvider==="onramp"
-
-        ? "Onramp Money integration is ready for the secure backend/API connection."
-
-        : "RedotPay integration is ready for the secure backend/API connection.",
-
-      "success"
-
-    );
-
-  }
-);
-
-
-/* =========================================================
    INITIALIZATION
-   ========================================================= */
+========================================================= */
 
 (async function init(){
 
   try{
 
     /*
-      Public provider is used only for initial
-      market data before a wallet connects.
+      Public read-only provider before wallet connection.
     */
 
     provider=
@@ -3037,16 +3117,56 @@ $("buyUsdtBtn")
         CONFIG.rpc
       );
 
+
     await loadTokenInfo();
 
     await refreshPrices();
 
+
+    /*
+      Discover EIP-6963 wallets without requesting
+      permission.
+    */
+
     discoverWallets();
+
+
+    /*
+      If an injected wallet is already connected,
+      show a helpful state but do not force a
+      permission popup.
+    */
+
+    if(window.ethereum){
+
+      const existing=
+        await window.ethereum.request({
+          method:"eth_accounts"
+        }).catch(
+          ()=>[]
+        );
+
+
+      if(
+        existing &&
+        existing.length
+      ){
+
+        /*
+          User already granted access previously.
+          Connect automatically.
+        */
+
+        await connectWallet();
+
+      }
+
+    }
 
   }catch(error){
 
     console.error(
-      "Initialization error:",
+      "INIT ERROR",
       error
     );
 
