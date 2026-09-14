@@ -1,1 +1,6 @@
 
+{
+  "name": "gbk-swap",
+  "private": true,
+  "type": "module"
+}
