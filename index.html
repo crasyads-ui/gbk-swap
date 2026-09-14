@@ -108,10 +108,16 @@ footer button{border:0;background:none;font-size:12px;font-weight:900;color:#758
 
 <div id="walletModal" class="modal"><div class="modalCard"><h3>Connect globally</h3><p>Choose a wallet. In a normal mobile browser, WalletConnect opens the selected wallet. In a wallet browser, the injected wallet provider is used directly.</p><div class="connectGrid"><button class="primary" onclick="connectWalletConnect()">WalletConnect</button><button onclick="openMetaMask()">MetaMask</button><button onclick="openTrust()">Trust Wallet</button><button onclick="openBitget()">Bitget Wallet</button></div><div class="smallNote">WalletConnect powered by Reown.</div><button class="close" onclick="closeWalletModal()">Close</button></div></div>
 <div id="toast" class="toast"></div>
+<script src="https://cdn.jsdelivr.net/npm/@onramp.money/onramp-web-sdk/dist/onramp-web-sdk.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/ethers@6.15.0/dist/ethers.umd.min.js"></script>
 <script type="module">
 import EthereumProvider from 'https://esm.sh/@walletconnect/ethereum-provider';
+
+
+
+
+
 
 const CONFIG={
  chainId:56,chainHex:'0x38',rpc:'https://bsc-dataseed.bnbchain.org',
