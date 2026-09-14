@@ -799,6 +799,10 @@ mobile and desktop EVM wallets.
  Bitget Wallet
 </button>
 
+<button onclick="connectWalletConnect()">
+ Binance / Other Wallet
+</button>
+
 </div>
 
 <div class="smallNote">
@@ -1232,6 +1236,8 @@ function initAppKit(){
   projectId:
    CONFIG.walletConnectProjectId,
 
+  enableWalletConnect:true,
+
   metadata:{
 
    name:
@@ -1323,15 +1329,18 @@ function initAppKit(){
    INJECTED WALLET
    ===================================================== */
 
-async function useInjected(){
+async function useInjected(provider){
 
- if(!window.ethereum)
+ const p=
+  provider ||
+  window.ethereum ||
+  window.trustwallet?.ethereum ||
+  window.bitkeep?.ethereum;
+
+ if(!p)
   return false;
 
-
- walletProvider=
-  window.ethereum;
-
+ walletProvider=p;
 
  await walletProvider.request({
   method:"eth_requestAccounts"
@@ -1440,7 +1449,8 @@ async function useWalletConnect(){
   initAppKit();
 
  modal.open({
-  view:"Connect"
+  view:"Connect",
+  namespace:"eip155"
  });
 
  return true;
@@ -1457,35 +1467,42 @@ async function(){
 
  try{
 
-  /*
-   * On mobile browsers there is usually no injected provider.
-   * Open the GBK wallet chooser first so Trust/Bitget can use
-   * their native deep-link flow. WalletConnect remains available
-   * inside that chooser as the fallback.
-   */
+  /* Prefer a wallet provider when the site is already open
+     inside a wallet's own DApp browser. */
+  const trustProvider=
+   window.trustwallet?.ethereum;
+
+  const bitgetProvider=
+   window.bitkeep?.ethereum;
+
+  if(trustProvider){
+   await useInjected(trustProvider);
+   await finishConnection();
+   return;
+  }
+
+  if(bitgetProvider){
+   await useInjected(bitgetProvider);
+   await finishConnection();
+   return;
+  }
+
+  /* Desktop browser extensions can connect directly. */
   const mobile =
    /android|iphone|ipad|ipod/i.test(
     navigator.userAgent
    );
 
-  /* On mobile, always use the explicit wallet chooser.
-     This prevents an injected provider from hijacking the
-     first tap and sending the user into an unsupported-chain
-     WalletConnect flow. */
   if(window.ethereum && !mobile){
-
-   await useInjected();
-
-   if(walletAddress)
-    await finishConnection();
-
+   await useInjected(window.ethereum);
+   await finishConnection();
+   return;
   }
 
-  else{
-
-   openWalletModal();
-
-  }
+  /* Mobile browsers: use the explicit wallet chooser.
+     Trust/Bitget buttons use official deep links; WalletConnect
+     remains the fallback for other EVM wallets. */
+  openWalletModal();
 
  }
 
@@ -2446,11 +2463,14 @@ window.openMetaMask=
 window.openTrust=
  function(){
 
+  const dappUrl=
+   location.origin+
+   location.pathname+
+   location.search;
+
   location.href=
-   "https://link.trustwallet.com/open_url?url="+
-   encodeURIComponent(
-    location.href
-   );
+   "https://link.trustwallet.com/open_url?coin_id=20000714&url="+
+   encodeURIComponent(dappUrl);
 
  };
 
@@ -2458,11 +2478,15 @@ window.openTrust=
 window.openBitget=
  function(){
 
+  const dappUrl=
+   location.origin+
+   location.pathname+
+   location.search+
+   "?_needChain=bnb";
+
   location.href=
    "https://bkcode.vip?action=dapp&url="+
-   encodeURIComponent(
-    location.href
-   );
+   encodeURIComponent(dappUrl);
 
  };
 
