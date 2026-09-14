@@ -946,6 +946,20 @@ window.addEventListener("appinstalled",()=>{
 });
 
 window.installGBKSwap=async function(){
+ /* iPhone / iPad: iOS does not expose beforeinstallprompt.
+    Safari and iOS browsers install through the Share menu. */
+ const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent) ||
+   (navigator.platform==="MacIntel" && navigator.maxTouchPoints>1);
+
+ if(isIOS){
+  const hint=document.getElementById("installHint");
+  if(hint){
+   hint.textContent="iPhone/iPad: tap Share ↑, then “Add to Home Screen”.";
+  }
+  toast("On iPhone/iPad: tap Share ↑ → Add to Home Screen.");
+  return;
+ }
+
  if(deferredInstallPrompt){
   deferredInstallPrompt.prompt();
   const choice=await deferredInstallPrompt.userChoice;
@@ -957,8 +971,6 @@ window.installGBKSwap=async function(){
   return;
  }
 
- /* Android browsers that do not expose beforeinstallprompt
-    can still install from the browser's menu. */
  toast("Open your browser menu ⋮ and choose Add to Home screen or Install app.");
 };
 
@@ -977,6 +989,18 @@ if(window.matchMedia("(display-mode: standalone)").matches || window.navigator.s
   if(btn) btn.hidden=true;
  });
 }
+
+/* Show the correct iPhone/iPad instruction immediately. */
+window.addEventListener("DOMContentLoaded",()=>{
+ const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent) ||
+   (navigator.platform==="MacIntel" && navigator.maxTouchPoints>1);
+ const hint=document.getElementById("installHint");
+ const btn=document.getElementById("installBtn");
+ if(isIOS && hint && btn){
+  btn.textContent="🍎 Add to Home Screen";
+  hint.textContent="iPhone/iPad: tap Share ↑, then “Add to Home Screen”.";
+ }
+});
 
 
 /* =====================================================
