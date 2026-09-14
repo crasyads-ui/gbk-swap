@@ -63,7 +63,7 @@ const CONFIG={
   usdt:'0x55d398326f99059ff775485246999027b3197955',
   wbnb:'0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c',
   router:'0x10ED43C718714eb63d5aA57B78B54704E256024E',
-  gbkDecimals:18,
+  gbkDecimals:8,
   usdtDecimals:18,
   autoSlippage:3,
   /* PASTE YOUR REOWN / WALLETCONNECT PROJECT ID HERE */
@@ -125,7 +125,9 @@ async function updateBalances(){
     const p=new ethers.JsonRpcProvider(CONFIG.rpc);
     const gbk=new ethers.Contract(CONFIG.gbk,ERC20_ABI,p),usdt=new ethers.Contract(CONFIG.usdt,ERC20_ABI,p);
     const [bnbRaw,gbkRaw,usdtRaw]=await Promise.all([p.getBalance(walletAddress),gbk.balanceOf(walletAddress),usdt.balanceOf(walletAddress)]);
-    const bnb=Number(ethers.formatEther(bnbRaw)),g=Number(ethers.formatUnits(gbkRaw,18)),u=Number(ethers.formatUnits(usdtRaw,18));
+    const bnb=Number(ethers.formatEther(bnbRaw)),
+      g=Number(ethers.formatUnits(gbkRaw,CONFIG.gbkDecimals)),
+      u=Number(ethers.formatUnits(usdtRaw,CONFIG.usdtDecimals));
     $('bnbBalance').textContent=fmt(bnb,6)+' BNB';$('gbkBalance').textContent=fmt(g,6)+' GBK';$('usdtBalance').textContent=fmt(u,6)+' USDT';
     const input=mode==='sell'?g:u,output=mode==='sell'?u:g;$('fromBalance').textContent=fmt(input,6);$('fromBalance').dataset.raw=String(input);$('toBalance').textContent=fmt(output,6);
   }catch(e){console.error(e);setStatus('Connected, but on-chain balances could not be read')}
