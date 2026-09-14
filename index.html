@@ -1251,33 +1251,7 @@ function initAppKit(){
    analytics:false
   },
 
-  /* Keep WalletConnect strictly on BNB Smart Chain.
-     This avoids unsupported-chain requests in mobile wallets. */
-  universalProviderConfigOverride:{
-   methods:{
-    eip155:[
-     "eth_sendTransaction",
-     "personal_sign",
-     "eth_signTypedData",
-     "eth_signTypedData_v4"
-    ]
-   },
-   chains:{
-    eip155:["56"]
-   },
-   events:{
-    eip155:[
-     "chainChanged",
-     "accountsChanged"
-    ]
-   },
-   rpcMap:{
-    eip155:{
-     "56":CONFIG.rpc
-    }
-   },
-   defaultChain:"eip155:56"
-  }
+  /* BNB Smart Chain is the only supported network.\n     AppKit handles the WalletConnect CAIP-2 session configuration. */
 
  });
 
