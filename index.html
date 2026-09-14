@@ -145,7 +145,7 @@ async function updateQuote(){
 
 async function executeSwap(amount){
  busy=true;$('swapBtn').disabled=true;$('swapBtn').textContent='Processing…';try{
-  if(!signer)throw new Error('Wallet signer unavailable');
+  await ensureSigner();
   const {quote,path}=await getQuote(amount);const amountIn=ethers.parseUnits(String(amount),decIn());let quotedOut=quote[quote.length-1];if(tokenIn().toLowerCase()===CONFIG.gbk.toLowerCase())quotedOut=quotedOut*86n/100n;if(tokenOut().toLowerCase()===CONFIG.gbk.toLowerCase())quotedOut=quotedOut*88n/100n;const minOut=quotedOut*97n/100n;
   const token=new ethers.Contract(tokenIn(),ERC20_ABI,signer);const allowance=await token.allowance(walletAddress,CONFIG.router);if(allowance<amountIn){$('swapBtn').textContent='Approve in wallet…';const txA=await token.approve(CONFIG.router,amountIn);await txA.wait()}
   $('swapBtn').textContent='Confirm swap in wallet…';const router=new ethers.Contract(CONFIG.router,ROUTER_ABI,signer);const tx=await router.swapExactTokensForTokensSupportingFeeOnTransferTokens(amountIn,minOut,path,walletAddress,Math.floor(Date.now()/1000)+1200);setStatus('Swap submitted • waiting for confirmation');await tx.wait();setStatus('Swap confirmed • '+tx.hash.slice(0,10)+'…');toast('Swap successful');await updateBalances();await updateQuote();
