@@ -6,13 +6,41 @@
 <meta name="theme-color" content="#3f806f">
 <title>GBK Swap • BNB Chain</title>
 <style>
-*{box-sizing:border-box}html,body{margin:0;background:#edf4f1;color:#16362e;font-family:Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif}body{min-height:100vh}.app{max-width:760px;margin:auto;min-height:100vh;background:#f8fbfa;padding-bottom:90px}header{position:sticky;top:0;z-index:20;background:#3f806f;color:#fff;height:92px;padding:14px 20px;display:flex;align-items:center;justify-content:space-between}.brand{display:flex;align-items:center;gap:13px}.brandLogo{width:64px;height:64px;border-radius:22px;background:#fff;color:#3f806f;display:grid;place-items:center;font-size:22px;font-weight:950}.brandTitle{font-size:27px;font-weight:950}.brandSub{font-size:14px;font-weight:800;opacity:.9;margin-top:2px}.chain{border:1px solid rgba(255,255,255,.35);border-radius:22px;padding:10px 13px;font-weight:900;font-size:13px;white-space:nowrap}.dot{display:inline-block;width:10px;height:10px;border-radius:50%;background:#8df1c3;margin-right:6px}main{padding:16px}.card{background:#fff;border:1px solid #dce8e3;border-radius:26px;padding:18px;margin-bottom:16px;box-shadow:0 5px 18px rgba(20,60,45,.05)}h2{margin:0 0 14px;font-size:28px;letter-spacing:-.5px}.walletStatus{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}.badge{background:#e8f7f1;color:#277863;border-radius:18px;padding:10px 13px;font-weight:900;font-size:13px}.address{background:#eef7f3;border-radius:18px;padding:14px}.address small{display:block;color:#72847e;font-weight:800;margin-bottom:4px}.address b{font-size:18px;word-break:break-all}.balances{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}.bal{background:#f5faf8;border-radius:18px;padding:12px 8px;text-align:center;min-width:0}.balLabel{color:#72847e;font-weight:900;font-size:13px}.balValue{margin-top:5px;font-size:16px;font-weight:950;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.tabs{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;background:#f0f5f3;padding:5px;border-radius:17px}.tabs button{border:0;background:transparent;border-radius:13px;padding:13px 6px;font-weight:950;font-size:14px;color:#66756f}.tabs button.active{background:#3f806f;color:#fff}.fieldHead{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:15px 2px 8px;font-size:13px;font-weight:900;color:#667a73}.inputbox{display:flex;align-items:center;gap:8px;border:1px solid #d6e3dd;background:#fbfdfc;border-radius:18px;padding:8px 9px 8px 15px}.inputbox input{min-width:0;flex:1;border:0;outline:0;background:transparent;font-size:28px;font-weight:950;color:#16362e;width:100%}.output{font-size:28px;font-weight:950;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.token{display:flex;align-items:center;gap:7px;background:#edf7f3;border-radius:14px;padding:10px 11px;font-weight:950;white-space:nowrap}.coin{width:27px;height:27px;border-radius:50%;display:grid;place-items:center;background:#3f806f;color:#fff;font-size:10px}.arrow{width:40px;height:40px;border-radius:50%;border:1px solid #d7e5df;background:#fff;margin:11px auto;display:grid;place-items:center;font-size:21px;color:#3f806f}.quick{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:13px}.quick button{border:1px solid #e0e9e5;background:#f5f9f7;border-radius:13px;padding:11px 5px;font-size:13px;font-weight:950;color:#61736c}.quote{background:#f7faf9;border-radius:18px;padding:13px;margin-top:14px}.row{display:flex;justify-content:space-between;gap:14px;padding:12px 1px;border-bottom:1px solid #e7efeb;font-size:13px}.row:last-child{border:0}.row b{text-align:right;max-width:65%;word-break:break-word}.tax{margin-top:12px;background:#eef9f4;border-radius:17px;padding:13px 14px;font-size:13px;line-height:1.55}.providers{margin-top:12px;padding:13px;background:#f7faf9;border-radius:16px;color:#64756f;font-size:12px;text-align:center;line-height:1.45}.cta{width:100%;margin-top:16px;border:0;border-radius:18px;background:#f7cf55;color:#17362d;padding:17px;font-size:18px;font-weight:950}.cta:disabled{opacity:.55}.statusline{text-align:center;min-height:20px;margin-top:10px;font-size:12px;font-weight:850;color:#64756f}.connectGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.connectGrid button{border:1px solid #d8e6e0;background:#fff;border-radius:15px;padding:13px;font-weight:900;color:#28594c}.connectGrid button.primary{background:#f7cf55;border-color:#f7cf55;color:#17362d}.smallNote{font-size:11px;color:#71807b;line-height:1.5;text-align:center;margin-top:12px}.modal{display:none;position:fixed;inset:0;background:rgba(5,20,15,.62);z-index:100;align-items:flex-end;justify-content:center}.modal.show{display:flex}.modalCard{width:min(760px,100%);background:#fff;border-radius:25px 25px 0 0;padding:22px 18px calc(22px + env(safe-area-inset-bottom));box-shadow:0 -12px 40px rgba(0,0,0,.18)}.modalCard h3{margin:0 0 8px;font-size:22px}.modalCard p{margin:0 0 14px;color:#66756f;line-height:1.45;font-size:14px}.close{width:100%;border:0;background:#edf4f1;border-radius:14px;padding:13px;font-weight:900;margin-top:10px}.toast{display:none;position:fixed;left:50%;bottom:96px;transform:translateX(-50%);z-index:120;background:#092d21;color:#fff;border-radius:13px;padding:12px 15px;font-size:13px;max-width:92%;text-align:center}.toast.show{display:block}footer{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(760px,100%);height:78px;background:#fff;border-top:1px solid #dfe8e4;display:grid;grid-template-columns:repeat(3,1fr);z-index:50;padding-bottom:env(safe-area-inset-bottom)}footer button{border:0;background:none;font-size:12px;font-weight:900;color:#75827e}footer button.active{color:#3f806f}@media(max-width:390px){header{height:78px;padding:9px 12px}.brandLogo{width:52px;height:52px;border-radius:18px;font-size:18px}.brandTitle{font-size:22px}.brandSub{font-size:11px}.chain{font-size:10px;padding:8px}.balances{gap:6px}.bal{padding:10px 5px}.balValue{font-size:13px}.card{padding:14px}.inputbox input,.output{font-size:24px}.token{padding:9px 7px;font-size:12px}}
+*{box-sizing:border-box}html,body{margin:0;background:#edf4f1;color:#16362e;font-family:Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif}
+body{min-height:100vh}.app{max-width:760px;margin:auto;min-height:100vh;background:#f8fbfa;padding-bottom:90px}
+header{position:sticky;top:0;z-index:20;background:#3f806f;color:#fff;height:92px;padding:14px 20px;display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:13px}.brandLogo{width:64px;height:64px;border-radius:22px;background:#fff;color:#3f806f;display:grid;place-items:center;font-size:22px;font-weight:950}
+.brandTitle{font-size:27px;font-weight:950}.brandSub{font-size:14px;font-weight:800;opacity:.9;margin-top:2px}.chain{border:1px solid rgba(255,255,255,.35);border-radius:22px;padding:10px 13px;font-weight:900;font-size:13px;white-space:nowrap}.dot{display:inline-block;width:10px;height:10px;border-radius:50%;background:#8df1c3;margin-right:6px}
+main{padding:16px}.card{background:#fff;border:1px solid #dce8e3;border-radius:26px;padding:18px;margin-bottom:16px;box-shadow:0 5px 18px rgba(20,60,45,.05)}
+h2{margin:0 0 14px;font-size:28px;letter-spacing:-.5px}.walletStatus{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}
+.badge{background:#e8f7f1;color:#277863;border-radius:18px;padding:10px 13px;font-weight:900;font-size:13px}.address{background:#eef7f3;border-radius:18px;padding:14px}.address small{display:block;color:#72847e;font-weight:800;margin-bottom:4px}.address b{font-size:18px;word-break:break-all}
+.balances{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}.bal{background:#f5faf8;border-radius:18px;padding:12px 8px;text-align:center;min-width:0}.balLabel{color:#72847e;font-weight:900;font-size:13px}.balValue{margin-top:5px;font-size:16px;font-weight:950;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tabs{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;background:#f0f5f3;padding:5px;border-radius:17px}.tabs button{border:0;background:transparent;border-radius:13px;padding:13px 6px;font-weight:950;font-size:14px;color:#66756f}.tabs button.active{background:#3f806f;color:#fff}
+.fieldHead{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:15px 2px 8px;font-size:13px;font-weight:900;color:#667a73}.inputbox{display:flex;align-items:center;gap:8px;border:1px solid #d6e3dd;background:#fbfdfc;border-radius:18px;padding:8px 9px 8px 15px}
+.inputbox input{min-width:0;flex:1;border:0;outline:0;background:transparent;font-size:28px;font-weight:950;color:#16362e;width:100%}.output{font-size:28px;font-weight:950;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.token{display:flex;align-items:center;gap:7px;background:#edf7f3;border-radius:14px;padding:10px 11px;font-weight:950;white-space:nowrap}.coin{width:27px;height:27px;border-radius:50%;display:grid;place-items:center;background:#3f806f;color:#fff;font-size:10px}
+.arrow{width:40px;height:40px;border-radius:50%;border:1px solid #d7e5df;background:#fff;margin:11px auto;display:grid;place-items:center;font-size:21px;color:#3f806f}
+.quick{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:13px}.quick button{border:1px solid #e0e9e5;background:#f5f9f7;border-radius:13px;padding:11px 5px;font-size:13px;font-weight:950;color:#61736c}
+.quote{background:#f7faf9;border-radius:18px;padding:13px;margin-top:14px}.row{display:flex;justify-content:space-between;gap:14px;padding:12px 1px;border-bottom:1px solid #e7efeb;font-size:13px}.row:last-child{border:0}.row b{text-align:right;max-width:65%;word-break:break-word}
+.tax{margin-top:12px;background:#eef9f4;border-radius:17px;padding:13px 14px;font-size:13px;line-height:1.55}.providers{margin-top:12px;padding:13px;background:#f7faf9;border-radius:16px;color:#64756f;font-size:12px;text-align:center;line-height:1.45}
+.cta{width:100%;margin-top:16px;border:0;border-radius:18px;background:#f7cf55;color:#17362d;padding:17px;font-size:18px;font-weight:950}.cta:disabled{opacity:.55}.statusline{text-align:center;min-height:20px;margin-top:10px;font-size:12px;font-weight:850;color:#64756f}
+.connectGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.connectGrid button{border:1px solid #d8e6e0;background:#fff;border-radius:15px;padding:13px;font-weight:900;color:#28594c}.connectGrid button.primary{background:#f7cf55;border-color:#f7cf55;color:#17362d}
+.smallNote{font-size:11px;color:#71807b;line-height:1.5;text-align:center;margin-top:12px}
+.modal{display:none;position:fixed;inset:0;background:rgba(5,20,15,.62);z-index:100;align-items:flex-end;justify-content:center}.modal.show{display:flex}.modalCard{width:min(760px,100%);background:#fff;border-radius:25px 25px 0 0;padding:22px 18px calc(22px + env(safe-area-inset-bottom));box-shadow:0 -12px 40px rgba(0,0,0,.18)}
+.modalCard h3{margin:0 0 8px;font-size:22px}.modalCard p{margin:0 0 14px;color:#66756f;line-height:1.45;font-size:14px}.close{width:100%;border:0;background:#edf4f1;border-radius:14px;padding:13px;font-weight:900;margin-top:10px}
+.toast{display:none;position:fixed;left:50%;bottom:96px;transform:translateX(-50%);z-index:120;background:#092d21;color:#fff;border-radius:13px;padding:12px 15px;font-size:13px;max-width:92%;text-align:center}.toast.show{display:block}
+.rampGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.select{width:100%;border:1px solid #d6e3dd;background:#fbfdfc;border-radius:14px;padding:13px;font-size:14px;font-weight:800;color:#16362e}
+.providerCard{border:1px solid #dce8e3;background:#f7faf9;border-radius:18px;padding:14px;margin-top:12px}.providerTop{display:flex;justify-content:space-between;align-items:center;gap:8px}.providerName{font-size:17px;font-weight:950}.providerTag{font-size:10px;background:#dff7eb;color:#16865e;border-radius:10px;padding:5px 7px;font-weight:900}.providerCard p{font-size:12px;color:#66756f;line-height:1.45;margin:8px 0}.providerBtns{display:grid;grid-template-columns:1fr 1fr;gap:8px}.providerBtns button{border:0;border-radius:13px;padding:12px;font-weight:900}.buyBtn{background:#3f806f;color:#fff}.sellBtn{background:#f7cf55;color:#17362d}.providerDisabled{opacity:.55}.countryNote{font-size:11px;color:#71807b;margin-top:9px;line-height:1.45}
+footer{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(760px,100%);height:78px;background:#fff;border-top:1px solid #dfe8e4;display:grid;grid-template-columns:repeat(3,1fr);z-index:50;padding-bottom:env(safe-area-inset-bottom)}
+footer button{border:0;background:none;font-size:12px;font-weight:900;color:#75827e}footer button.active{color:#3f806f}
+@media(max-width:390px){header{height:78px;padding:9px 12px}.brandLogo{width:52px;height:52px;border-radius:18px;font-size:18px}.brandTitle{font-size:22px}.brandSub{font-size:11px}.chain{font-size:10px;padding:8px}.balances{gap:6px}.bal{padding:10px 5px}.balValue{font-size:13px}.card{padding:14px}.inputbox input,.output{font-size:24px}.token{padding:9px 7px;font-size:12px}}
 </style>
 </head>
 <body>
 <div class="app">
 <header><div class="brand"><div class="brandLogo">GBK</div><div><div class="brandTitle">GBK Swap</div><div class="brandSub">BNB SMART CHAIN</div></div></div><div class="chain"><span class="dot"></span>BNB Chain</div></header>
 <main>
+
 <section class="card">
 <div class="walletStatus"><h2 style="margin:0">Wallet</h2><div id="walletBadge" class="badge">● Not connected</div></div>
 <div class="address"><small>Connected address</small><b id="walletAddress">Connect wallet</b></div>
@@ -23,6 +51,39 @@
 </div>
 <div class="connectGrid" style="margin-top:12px"><button class="primary" onclick="connectWallet()">Connect Wallet</button><button onclick="openWalletModal()">Other Wallets</button></div>
 <div id="walletStatusLine" class="statusline"></div>
+</section>
+
+<section class="card" id="rampSection">
+<h2>Buy / Sell with Local Currency</h2>
+<div class="rampGrid">
+<select id="country" class="select" onchange="updateRamp()">
+<option value="IN">🇮🇳 India</option><option value="AE">🇦🇪 UAE</option><option value="SG">🇸🇬 Singapore</option>
+<option value="GB">🇬🇧 United Kingdom</option><option value="US">🇺🇸 United States</option><option value="EU">🇪🇺 European Union</option>
+<option value="AU">🇦🇺 Australia</option><option value="CA">🇨🇦 Canada</option><option value="BR">🇧🇷 Brazil</option>
+<option value="ID">🇮🇩 Indonesia</option><option value="ZA">🇿🇦 South Africa</option>
+</select>
+<select id="fiat" class="select" onchange="updateRamp()"></select>
+</div>
+<div id="rampCountryNote" class="countryNote"></div>
+
+<div class="providerCard" id="transakCard">
+<div class="providerTop"><div class="providerName">Transak</div><div class="providerTag">PRIMARY</div></div>
+<p id="transakText">Recommended for this country. Buy USDT/BNB with local fiat, then swap to GBK. Selling USDT/crypto to fiat is also available where enabled for your country and KYC.</p>
+<div class="providerBtns"><button class="buyBtn" onclick="openRamp('buy')">Buy Crypto</button><button class="sellBtn" onclick="openRamp('sell')">Sell Crypto</button></div>
+</div>
+
+<div class="providerCard" id="rampCard">
+<div class="providerTop"><div class="providerName">Ramp Network</div><div class="providerTag">ALTERNATIVE</div></div>
+<p id="rampText">Available only where Ramp currently supports your country and the selected asset/payment flow.</p>
+<div class="providerBtns"><button class="buyBtn" onclick="openRampNetwork('buy')">Buy Crypto</button><button class="sellBtn" onclick="openRampNetwork('sell')">Sell Crypto</button></div>
+</div>
+
+<div class="providerCard providerDisabled" id="moonCard">
+<div class="providerTop"><div class="providerName">MoonPay</div><div class="providerTag">REGION CHECK</div></div>
+<p id="moonText">MoonPay availability is checked by country. It is not available to retail customers in India.</p>
+<div class="providerBtns"><button class="buyBtn" onclick="openMoonPay('buy')">Open MoonPay</button><button class="sellBtn" onclick="openMoonPay('sell')">Sell</button></div>
+</div>
+<div class="smallNote">Important: provider availability, payment methods, KYC, limits and fees are controlled by the provider and can change. GBK is normally reached by buying supported crypto such as USDT first, then using the on-chain GBK swap above.</div>
 </section>
 
 <section class="card">
@@ -42,140 +103,106 @@
 <div class="smallNote">Non-custodial • Your wallet signs transactions • Never share your seed phrase or private key.</div>
 </section>
 </main>
-<footer><button class="active">⇄<br>Swap</button><button onclick="setMode('buy')">＋<br>Buy GBK</button><button onclick="openWalletModal()">▣<br>Wallet</button></footer>
+<footer><button class="active">⇄<br>Swap</button><button onclick="document.getElementById('rampSection').scrollIntoView({behavior:'smooth'})">＋<br>Buy / Sell</button><button onclick="openWalletModal()">▣<br>Wallet</button></footer>
 </div>
 
-<div id="walletModal" class="modal"><div class="modalCard"><h3>Connect globally</h3><p>Choose a wallet. In a normal mobile browser, WalletConnect opens the selected wallet. In a wallet browser, the injected wallet provider is used directly.</p><div class="connectGrid"><button class="primary" onclick="connectWalletConnect()">WalletConnect</button><button onclick="openMetaMask()">MetaMask</button><button onclick="openTrust()">Trust Wallet</button><button onclick="openBitget()">Bitget Wallet</button></div><div class="smallNote">WalletConnect powered by Reown AppKit / WalletConnect.</div><button class="close" onclick="closeWalletModal()">Close</button></div></div>
+<div id="walletModal" class="modal"><div class="modalCard"><h3>Connect globally</h3><p>Choose a wallet. In a normal mobile browser, WalletConnect opens the selected wallet. In a wallet browser, the injected wallet provider is used directly.</p><div class="connectGrid"><button class="primary" onclick="connectWalletConnect()">WalletConnect</button><button onclick="openMetaMask()">MetaMask</button><button onclick="openTrust()">Trust Wallet</button><button onclick="openBitget()">Bitget Wallet</button></div><div class="smallNote">WalletConnect powered by Reown.</div><button class="close" onclick="closeWalletModal()">Close</button></div></div>
 <div id="toast" class="toast"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/ethers@6.15.0/dist/ethers.umd.min.js"></script>
 <script type="module">
 import EthereumProvider from 'https://esm.sh/@walletconnect/ethereum-provider';
 
-/* =========================
-   GBK SWAP CONFIG
-   ========================= */
 const CONFIG={
-  chainId:56,
-  chainHex:'0x38',
-  rpc:'https://bsc-dataseed.bnbchain.org',
-  gbk:'0xda0638ea374c4c5bf2914e6f4d5b2335deb8d80d',
-  usdt:'0x55d398326f99059ff775485246999027b3197955',
-  wbnb:'0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c',
-  router:'0x10ED43C718714eb63d5aA57B78B54704E256024E',
-  gbkDecimals:8,
-  usdtDecimals:18,
-  autoSlippage:3,
-  /* PASTE YOUR REOWN / WALLETCONNECT PROJECT ID HERE */
-  walletConnectProjectId:'19d21bb0657b8a691c0ea8f4976ce26e'
+ chainId:56,chainHex:'0x38',rpc:'https://bsc-dataseed.bnbchain.org',
+ gbk:'0xda0638ea374c4c5bf2914e6f4d5b2335deb8d80d',
+ usdt:'0x55d398326f99059ff775485246999027b3197955',
+ wbnb:'0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c',
+ router:'0x10ED43C718714eb63d5aA57B78B54704E256024E',
+ gbkDecimals:8,usdtDecimals:18,autoSlippage:3,
+ walletConnectProjectId:'19d21bb0657b8a691c0ea8f4976ce26e'
 };
-
 const ERC20_ABI=['function balanceOf(address) view returns (uint256)','function allowance(address,address) view returns (uint256)','function approve(address,uint256) returns (bool)'];
 const ROUTER_ABI=['function getAmountsOut(uint256 amountIn,address[] calldata path) view returns (uint256[] memory amounts)','function swapExactTokensForTokensSupportingFeeOnTransferTokens(uint256 amountIn,uint256 amountOutMin,address[] calldata path,address to,uint256 deadline)'];
-let mode='sell', walletAddress='', walletProvider=null, ethersProvider=null, signer=null, wcProvider=null, busy=false;
-const $=id=>document.getElementById(id);
-const fmt=(n,d=6)=>Number(n).toLocaleString(undefined,{maximumFractionDigits:d});
+let mode='sell',walletAddress='',walletProvider=null,ethersProvider=null,signer=null,wcProvider=null,busy=false;
+const $=id=>document.getElementById(id),fmt=(n,d=6)=>Number(n).toLocaleString(undefined,{maximumFractionDigits:d}),short=a=>a?a.slice(0,8)+'…'+a.slice(-6):'Connect wallet';
 function toast(msg){const e=$('toast');e.textContent=msg;e.classList.add('show');clearTimeout(window._toast);window._toast=setTimeout(()=>e.classList.remove('show'),3200)}
-function short(a){return a?a.slice(0,8)+'…'+a.slice(-6):'Connect wallet'}
-function tokenIn(){return mode==='sell'?CONFIG.gbk:CONFIG.usdt}
-function tokenOut(){return mode==='sell'?CONFIG.usdt:CONFIG.gbk}
-function decIn(){return mode==='sell'?CONFIG.gbkDecimals:CONFIG.usdtDecimals}
-function decOut(){return mode==='sell'?CONFIG.usdtDecimals:CONFIG.gbkDecimals}
 function setStatus(s){$('statusLine').textContent=s;$('walletStatusLine').textContent=s}
+function tokenIn(){return mode==='sell'?CONFIG.gbk:CONFIG.usdt} function tokenOut(){return mode==='sell'?CONFIG.usdt:CONFIG.gbk}
+function decIn(){return mode==='sell'?CONFIG.gbkDecimals:CONFIG.usdtDecimals} function decOut(){return mode==='sell'?CONFIG.usdtDecimals:CONFIG.gbkDecimals}
 
-window.setMode=function(m){mode=m==='buy'?'buy':'sell';$('sellTab').classList.toggle('active',mode==='sell');$('buyTab').classList.toggle('active',mode==='buy');const sell=mode==='sell';$('swapTitle').textContent=sell?'Swap GBK → USDT':'Swap USDT → GBK';$('fromLabel').textContent=sell?'From (GBK)':'From (USDT)';$('toLabel').textContent=sell?'To (USDT)':'To (GBK)';$('fromSymbol').textContent=sell?'GBK':'USDT';$('toSymbol').textContent=sell?'USDT':'GBK';$('fromToken').textContent=sell?'GBK':'USDT';$('toToken').textContent=sell?'USDT':'GBK';$('fromCoin').textContent=sell?'GBK':'T';$('toCoin').textContent=sell?'T':'GBK';$('taxText').textContent=sell?'Sell tax: 14% • Buy tax: 12%':'Buy tax: 12% • Sell tax: 14%';$('amount').value='';$('output').textContent='0.00';updateBalances();updateQuote()};
-window.setPercent=function(p){const raw=Number($('fromBalance').dataset.raw||0);if(!walletAddress||!raw){toast('Connect wallet first');return}$('amount').value=String(Number((raw*p/100).toFixed(8)));updateQuote()};
+window.setMode=function(m){mode=m==='buy'?'buy':'sell';$('sellTab').classList.toggle('active',mode==='sell');$('buyTab').classList.toggle('active',mode==='buy');let s=mode==='sell';$('swapTitle').textContent=s?'Swap GBK → USDT':'Swap USDT → GBK';$('fromLabel').textContent=s?'From (GBK)':'From (USDT)';$('toLabel').textContent=s?'To (USDT)':'To (GBK)';$('fromSymbol').textContent=s?'GBK':'USDT';$('toSymbol').textContent=s?'USDT':'GBK';$('fromToken').textContent=s?'GBK':'USDT';$('toToken').textContent=s?'USDT':'GBK';$('fromCoin').textContent=s?'GBK':'T';$('toCoin').textContent=s?'T':'GBK';$('amount').value='';$('output').textContent='0.00';updateBalances();updateQuote()};
+window.setPercent=function(p){let raw=Number($('fromBalance').dataset.raw||0);if(!walletAddress||!raw){toast('Connect wallet first');return}$('amount').value=String(Number((raw*p/100).toFixed(8)));updateQuote()};
 
 async function useInjected(){
-  if(!window.ethereum)return false;
-  walletProvider=window.ethereum;
-  await walletProvider.request({method:'eth_requestAccounts'});
-  ethersProvider=new ethers.BrowserProvider(walletProvider);
-  const net=await ethersProvider.getNetwork();
-  if(Number(net.chainId)!==CONFIG.chainId){
-    try{await walletProvider.request({method:'wallet_switchEthereumChain',params:[{chainId:CONFIG.chainHex}]})}
-    catch(e){if(e.code===4902||String(e.message||'').toLowerCase().includes('unrecognized')){await walletProvider.request({method:'wallet_addEthereumChain',params:[{chainId:CONFIG.chainHex,chainName:'BNB Smart Chain',nativeCurrency:{name:'BNB',symbol:'BNB',decimals:18},rpcUrls:[CONFIG.rpc],blockExplorerUrls:['https://bscscan.com']} ]})}else throw e}
-    ethersProvider=new ethers.BrowserProvider(walletProvider);
-  }
-  signer=await ethersProvider.getSigner();walletAddress=await signer.getAddress();return true;
+ if(!window.ethereum)return false;walletProvider=window.ethereum;await walletProvider.request({method:'eth_requestAccounts'});ethersProvider=new ethers.BrowserProvider(walletProvider);
+ let net=await ethersProvider.getNetwork();if(Number(net.chainId)!==56){try{await walletProvider.request({method:'wallet_switchEthereumChain',params:[{chainId:'0x38'}]})}catch(e){if(e.code===4902)await walletProvider.request({method:'wallet_addEthereumChain',params:[{chainId:'0x38',chainName:'BNB Smart Chain',nativeCurrency:{name:'BNB',symbol:'BNB',decimals:18},rpcUrls:[CONFIG.rpc],blockExplorerUrls:['https://bscscan.com']}]});else throw e}ethersProvider=new ethers.BrowserProvider(walletProvider)}
+ signer=await ethersProvider.getSigner();walletAddress=await signer.getAddress();return true
 }
-
 async function useWalletConnect(){
-  if(CONFIG.walletConnectProjectId==='PASTE_REOWN_PROJECT_ID_HERE'){toast('Add your Reown Project ID first');return false}
-  wcProvider=await EthereumProvider.init({projectId:CONFIG.walletConnectProjectId,chains:[CONFIG.chainId],optionalChains:[CONFIG.chainId],showQrModal:true,metadata:{name:'GBK Swap',description:'GBK Swap on BNB Smart Chain',url:location.origin,icons:[]}});
-  await wcProvider.connect();
-  walletProvider=wcProvider;ethersProvider=new ethers.BrowserProvider(walletProvider);signer=await ethersProvider.getSigner();walletAddress=await signer.getAddress();
-  wcProvider.on('accountsChanged',a=>handleAccounts(a));wcProvider.on('chainChanged',()=>location.reload());wcProvider.on('disconnect',()=>disconnectWallet());return true;
+ wcProvider=await EthereumProvider.init({projectId:CONFIG.walletConnectProjectId,chains:[56],optionalChains:[56],showQrModal:true,metadata:{name:'GBK Swap',description:'GBK Swap on BNB Smart Chain',url:location.origin,icons:[]}});await wcProvider.connect();walletProvider=wcProvider;ethersProvider=new ethers.BrowserProvider(walletProvider);signer=await ethersProvider.getSigner();walletAddress=await signer.getAddress();return true
 }
-
-async function finishConnection(){
-  $('walletAddress').textContent=short(walletAddress);$('walletBadge').textContent='● Connected';$('walletBadge').style.background='#dff7eb';$('walletBadge').style.color='#16865e';$('swapBtn').textContent='Swap';setStatus('Connected • BNB Smart Chain');closeWalletModal();await updateBalances();await updateQuote();toast('Wallet connected • balances loaded');
-}
-
-window.connectWallet=async function(){try{let ok=false;if(window.ethereum)ok=await useInjected();else ok=await useWalletConnect();if(ok)await finishConnection()}catch(e){console.error(e);toast(cleanError(e))}};
-window.connectWalletConnect=async function(){try{if(await useWalletConnect())await finishConnection()}catch(e){console.error(e);toast(cleanError(e))}};
-function handleAccounts(a){if(a&&a[0]){walletAddress=a[0];finishConnection()}else disconnectWallet()}
-function disconnectWallet(){walletAddress='';walletProvider=null;ethersProvider=null;signer=null;$('walletAddress').textContent='Connect wallet';$('walletBadge').textContent='● Not connected';$('walletBadge').style.background='#e8f7f1';$('walletBadge').style.color='#277863';$('bnbBalance').textContent='—';$('gbkBalance').textContent='—';$('usdtBalance').textContent='—';$('fromBalance').textContent='—';$('toBalance').textContent='—';$('swapBtn').textContent='Connect Wallet & Swap';setStatus('')}
-
-window.connectAndSwap=async function(){if(busy)return;if(!walletAddress){await window.connectWallet();if(!walletAddress)return}const a=Number($('amount').value);if(!Number.isFinite(a)||a<=0){toast('Enter an amount first');return}try{await executeSwap(a)}catch(e){console.error(e);toast(cleanError(e))}};
+async function finishConnection(){$('walletAddress').textContent=short(walletAddress);$('walletBadge').textContent='● Connected';$('walletBadge').style.background='#dff7eb';$('walletBadge').style.color='#16865e';$('swapBtn').textContent='Swap';setStatus('Connected • BNB Smart Chain');closeWalletModal();await updateBalances();await updateQuote();toast('Wallet connected • balances loaded')}
+window.connectWallet=async()=>{try{let ok=window.ethereum?await useInjected():await useWalletConnect();if(ok)await finishConnection()}catch(e){console.error(e);toast(cleanError(e))}};
+window.connectWalletConnect=async()=>{try{if(await useWalletConnect())await finishConnection()}catch(e){toast(cleanError(e))}};
+function disconnectWallet(){walletAddress='';walletProvider=null;ethersProvider=null;signer=null;$('walletAddress').textContent='Connect wallet';$('walletBadge').textContent='● Not connected';$('bnbBalance').textContent='—';$('gbkBalance').textContent='—';$('usdtBalance').textContent='—';$('fromBalance').textContent='—';$('toBalance').textContent='—';$('swapBtn').textContent='Connect Wallet & Swap'}
+window.connectAndSwap=async()=>{if(busy)return;if(!walletAddress){await window.connectWallet();if(!walletAddress)return}let a=Number($('amount').value);if(!Number.isFinite(a)||a<=0){toast('Enter an amount first');return}try{await executeSwap(a)}catch(e){console.error(e);toast(cleanError(e))}};
 
 async function updateBalances(){
-  if(!walletAddress)return;
-  try{
-    const p=new ethers.JsonRpcProvider(CONFIG.rpc);
-    const gbk=new ethers.Contract(CONFIG.gbk,ERC20_ABI,p),usdt=new ethers.Contract(CONFIG.usdt,ERC20_ABI,p);
-    const [bnbRaw,gbkRaw,usdtRaw]=await Promise.all([p.getBalance(walletAddress),gbk.balanceOf(walletAddress),usdt.balanceOf(walletAddress)]);
-    const bnb=Number(ethers.formatEther(bnbRaw)),
-      g=Number(ethers.formatUnits(gbkRaw,CONFIG.gbkDecimals)),
-      u=Number(ethers.formatUnits(usdtRaw,CONFIG.usdtDecimals));
-    $('bnbBalance').textContent=fmt(bnb,6)+' BNB';$('gbkBalance').textContent=fmt(g,6)+' GBK';$('usdtBalance').textContent=fmt(u,6)+' USDT';
-    const input=mode==='sell'?g:u,output=mode==='sell'?u:g;$('fromBalance').textContent=fmt(input,6);$('fromBalance').dataset.raw=String(input);$('toBalance').textContent=fmt(output,6);
-  }catch(e){console.error(e);setStatus('Connected, but on-chain balances could not be read')}
-}
-
+ if(!walletAddress)return;try{let p=new ethers.JsonRpcProvider(CONFIG.rpc),gbk=new ethers.Contract(CONFIG.gbk,ERC20_ABI,p),usdt=new ethers.Contract(CONFIG.usdt,ERC20_ABI,p);
+ let [b,g,u]=await Promise.all([p.getBalance(walletAddress),gbk.balanceOf(walletAddress),usdt.balanceOf(walletAddress)]);
+ let bn=Number(ethers.formatEther(b)),gg=Number(ethers.formatUnits(g,8)),uu=Number(ethers.formatUnits(u,18));
+ $('bnbBalance').textContent=fmt(bn,6)+' BNB';$('gbkBalance').textContent=fmt(gg,6)+' GBK';$('usdtBalance').textContent=fmt(uu,6)+' USDT';
+ let input=mode==='sell'?gg:uu,output=mode==='sell'?uu:gg;$('fromBalance').textContent=fmt(input,6);$('fromBalance').dataset.raw=String(input);$('toBalance').textContent=fmt(output,6)
+ }catch(e){setStatus('Connected, but on-chain balances could not be read')}}
 async function getQuote(amount){
-  const p=new ethers.JsonRpcProvider(CONFIG.rpc),router=new ethers.Contract(CONFIG.router,ROUTER_ABI,p);const amountIn=ethers.parseUnits(String(amount),decIn());
-  const paths=[[tokenIn(),tokenOut()],[tokenIn(),CONFIG.wbnb,tokenOut()]];let quote=null,path=null;for(const x of paths){try{quote=await router.getAmountsOut(amountIn,x);path=x;break}catch(_){}}
-  if(!quote)throw new Error('No PancakeSwap V2 route/liquidity found');return {quote,path};
+ let p=new ethers.JsonRpcProvider(CONFIG.rpc),r=new ethers.Contract(CONFIG.router,ROUTER_ABI,p),ai=ethers.parseUnits(String(amount),decIn()),quote=null,path=null;
+ for(const x of [[tokenIn(),tokenOut()],[tokenIn(),CONFIG.wbnb,tokenOut()]]){try{quote=await r.getAmountsOut(ai,x);path=x;break}catch(_){}}
+ if(!quote)throw new Error('No PancakeSwap V2 route/liquidity found');return{quote,path}
 }
-
 async function updateQuote(){
- const amount=Number($('amount').value);if(!Number.isFinite(amount)||amount<=0){$('output').textContent='0.00';$('rate').textContent=walletAddress?'Enter amount for live quote':'Connect wallet for live quote';$('minimum').textContent='—';return}
- try{const {quote,path}=await getQuote(amount);let gross=quote[quote.length-1],after=gross;if(tokenIn().toLowerCase()===CONFIG.gbk.toLowerCase())after=after*86n/100n;if(tokenOut().toLowerCase()===CONFIG.gbk.toLowerCase())after=after*88n/100n;const out=Number(ethers.formatUnits(after,decOut()));const grossN=Number(ethers.formatUnits(gross,decOut()));$('output').textContent=fmt(out,8);$('minimum').textContent=fmt(out*.97,8)+' '+(mode==='sell'?'USDT':'GBK');$('rate').textContent=mode==='sell'?'1 GBK ≈ '+(grossN/amount).toFixed(8)+' USDT':'1 USDT ≈ '+fmt(grossN/amount,3)+' GBK';$('route').textContent=path.length===2?'PancakeSwap V2':'PancakeSwap V2 • via WBNB';$('gas').textContent=walletAddress?'BNB gas shown on confirmation':'Connect wallet'}catch(e){$('output').textContent='—';$('minimum').textContent='No route';$('rate').textContent='Live quote unavailable';$('route').textContent='No liquidity route'}}
+ let amount=Number($('amount').value);if(!Number.isFinite(amount)||amount<=0){$('output').textContent='0.00';$('rate').textContent=walletAddress?'Enter amount for live quote':'Connect wallet for live quote';$('minimum').textContent='—';return}
+ try{let{quote,path}=await getQuote(amount),gross=quote[quote.length-1],after=gross;if(tokenIn().toLowerCase()===CONFIG.gbk.toLowerCase())after=after*86n/100n;if(tokenOut().toLowerCase()===CONFIG.gbk.toLowerCase())after=after*88n/100n;
+ let out=Number(ethers.formatUnits(after,decOut())),gn=Number(ethers.formatUnits(gross,decOut()));$('output').textContent=fmt(out,8);$('minimum').textContent=fmt(out*.97,8)+' '+(mode==='sell'?'USDT':'GBK');$('rate').textContent=mode==='sell'?'1 GBK ≈ '+(gn/amount).toFixed(8)+' USDT':'1 USDT ≈ '+fmt(gn/amount,3)+' GBK';$('route').textContent=path.length===2?'PancakeSwap V2':'PancakeSwap V2 • via WBNB';$('gas').textContent=walletAddress?'BNB gas shown on confirmation':'Connect wallet'
+ }catch(e){$('output').textContent='—';$('minimum').textContent='No route';$('rate').textContent='Live quote unavailable';$('route').textContent='No liquidity route'}}
 async function ensureSigner(){
-  if(signer && walletAddress) return true;
-
-  const provider = walletProvider || window.ethereum;
-  if(!provider) throw new Error('Wallet signer unavailable');
-
-  walletProvider = provider;
-
-  const accounts = await provider.request({method:'eth_accounts'});
-  if(!accounts || !accounts.length){
-    await provider.request({method:'eth_requestAccounts'});
-  }
-
-  ethersProvider = new ethers.BrowserProvider(walletProvider);
-  signer = await ethersProvider.getSigner();
-  walletAddress = await signer.getAddress();
-
-  return true;
+ if(signer&&walletAddress)return true;const provider=walletProvider||window.ethereum;if(!provider)throw new Error('Wallet signer unavailable');walletProvider=provider;
+ const accounts=await provider.request({method:'eth_accounts'});if(!accounts||!accounts.length)await provider.request({method:'eth_requestAccounts'});
+ ethersProvider=new ethers.BrowserProvider(walletProvider);signer=await ethersProvider.getSigner();walletAddress=await signer.getAddress();return true
 }
 async function executeSwap(amount){
- busy=true;$('swapBtn').disabled=true;$('swapBtn').textContent='Processing…';try{
-  await ensureSigner();
-  const {quote,path}=await getQuote(amount);const amountIn=ethers.parseUnits(String(amount),decIn());let quotedOut=quote[quote.length-1];if(tokenIn().toLowerCase()===CONFIG.gbk.toLowerCase())quotedOut=quotedOut*86n/100n;if(tokenOut().toLowerCase()===CONFIG.gbk.toLowerCase())quotedOut=quotedOut*88n/100n;const minOut=quotedOut*97n/100n;
-  const token=new ethers.Contract(tokenIn(),ERC20_ABI,signer);const allowance=await token.allowance(walletAddress,CONFIG.router);if(allowance<amountIn){$('swapBtn').textContent='Approve in wallet…';const txA=await token.approve(CONFIG.router,amountIn);await txA.wait()}
-  $('swapBtn').textContent='Confirm swap in wallet…';const router=new ethers.Contract(CONFIG.router,ROUTER_ABI,signer);const tx=await router.swapExactTokensForTokensSupportingFeeOnTransferTokens(amountIn,minOut,path,walletAddress,Math.floor(Date.now()/1000)+1200);setStatus('Swap submitted • waiting for confirmation');await tx.wait();setStatus('Swap confirmed • '+tx.hash.slice(0,10)+'…');toast('Swap successful');await updateBalances();await updateQuote();
+ busy=true;$('swapBtn').disabled=true;$('swapBtn').textContent='Processing…';try{await ensureSigner();let{quote,path}=await getQuote(amount),amountIn=ethers.parseUnits(String(amount),decIn()),quotedOut=quote[quote.length-1];
+ if(tokenIn().toLowerCase()===CONFIG.gbk.toLowerCase())quotedOut=quotedOut*86n/100n;if(tokenOut().toLowerCase()===CONFIG.gbk.toLowerCase())quotedOut=quotedOut*88n/100n;let minOut=quotedOut*97n/100n;
+ let token=new ethers.Contract(tokenIn(),ERC20_ABI,signer),allow=await token.allowance(walletAddress,CONFIG.router);if(allow<amountIn){$('swapBtn').textContent='Approve in wallet…';let txa=await token.approve(CONFIG.router,amountIn);await txa.wait()}
+ $('swapBtn').textContent='Confirm swap in wallet…';let router=new ethers.Contract(CONFIG.router,ROUTER_ABI,signer),tx=await router.swapExactTokensForTokensSupportingFeeOnTransferTokens(amountIn,minOut,path,walletAddress,Math.floor(Date.now()/1000)+1200);setStatus('Swap submitted • waiting for confirmation');await tx.wait();setStatus('Swap confirmed • '+tx.hash.slice(0,10)+'…');toast('Swap successful');await updateBalances();await updateQuote()
  }finally{busy=false;$('swapBtn').disabled=false;$('swapBtn').textContent='Swap'}}
-
 function cleanError(e){let s=e?.shortMessage||e?.reason||e?.message||'Transaction failed';if(/user rejected|user denied/i.test(s))return'Transaction cancelled';return s.length>180?s.slice(0,180)+'…':s}
 window.openWalletModal=()=> $('walletModal').classList.add('show');window.closeWalletModal=()=> $('walletModal').classList.remove('show');
-window.openMetaMask=()=>location.href='https://metamask.app.link/dapp/'+location.host+location.pathname+location.search+location.hash;
+window.openMetaMask=()=>location.href='https://metamask.app.link/dapp/'+location.host+location.pathname;
 window.openTrust=()=>location.href='https://link.trustwallet.com/open_url?url='+encodeURIComponent(location.href);
 window.openBitget=()=>location.href='https://bkcode.vip?action=dapp&url='+encodeURIComponent(location.href);
 $('amount').addEventListener('input',updateQuote);
-window.addEventListener('load',async()=>{if(window.ethereum){try{const a=await window.ethereum.request({method:'eth_accounts'});if(a?.length){await useInjected();await finishConnection()}window.ethereum.on?.('accountsChanged',handleAccounts);window.ethereum.on?.('chainChanged',()=>location.reload())}catch(e){console.warn(e)}}});
+
+const rampData={
+ IN:{fiat:'INR',note:'India: Transak is the primary option. Transak documents INR purchases and India payment methods including UPI/IMPS. Final buy/sell availability depends on KYC, asset and current provider rules.',ramp:false,moon:false},
+ AE:{fiat:'AED',note:'UAE: use the provider flow to confirm the currently enabled local payment/payout methods.',ramp:true,moon:true},
+ SG:{fiat:'SGD',note:'Singapore: local SGD availability and payment method are confirmed inside the provider flow.',ramp:true,moon:true},
+ GB:{fiat:'GBP',note:'United Kingdom: GBP is supported by major providers; provider KYC and payment method rules apply.',ramp:true,moon:true},
+ US:{fiat:'USD',note:'United States: USD is supported, but state-level restrictions can apply.',ramp:true,moon:true},
+ EU:{fiat:'EUR',note:'European Union: EUR is common, but asset and stablecoin restrictions can apply by country.',ramp:true,moon:true},
+ AU:{fiat:'AUD',note:'Australia: AUD is a common supported fiat; final availability is provider-dependent.',ramp:true,moon:true},
+ CA:{fiat:'CAD',note:'Canada: CAD availability depends on provider and product.',ramp:true,moon:true},
+ BR:{fiat:'BRL',note:'Brazil: BRL is supported by some providers; final payment method is provider-dependent.',ramp:true,moon:true},
+ ID:{fiat:'IDR',note:'Indonesia: provider coverage varies. Confirm the live payment options before proceeding.',ramp:false,moon:false},
+ ZA:{fiat:'ZAR',note:'South Africa: ZAR is commonly supported; provider availability and payout method are checked at checkout.',ramp:true,moon:true}
+};
+function updateRamp(){let c=$('country').value,d=rampData[c];$('fiat').innerHTML='<option>'+d.fiat+'</option>';if(c==='IN'){$('fiat').innerHTML='<option>INR</option><option>USD</option>'}$('rampCountryNote').textContent=d.note;$('rampCard').classList.toggle('providerDisabled',!d.ramp);$('moonCard').classList.toggle('providerDisabled',!d.moon)}
+window.openRamp=function(kind){location.href='https://global.transak.com/'};
+window.openRampNetwork=function(kind){location.href=kind==='sell'?'https://ramp.network/sell':'https://ramp.network/buy'};
+window.openMoonPay=function(){if($('country').value==='IN'){toast('MoonPay is not available to retail customers in India');return}location.href='https://www.moonpay.com/buy'};
+updateRamp();
+
+window.addEventListener('load',async()=>{if(window.ethereum){try{let a=await window.ethereum.request({method:'eth_accounts'});if(a?.length){await useInjected();await finishConnection()}window.ethereum.on?.('accountsChanged',a=>{if(a?.length){walletAddress=a[0];finishConnection()}else disconnectWallet()});window.ethereum.on?.('chainChanged',()=>location.reload())}catch(e){console.warn(e)}}});
 </script>
 </body>
 </html>
