@@ -203,7 +203,7 @@ const rampData={
  ZA:{fiat:'ZAR',note:'South Africa: ZAR is commonly supported; provider availability and payout method are checked at checkout.',ramp:true,moon:true}
 };
 function updateRamp(){let c=$('country').value,d=rampData[c];$('fiat').innerHTML='<option>'+d.fiat+'</option>';if(c==='IN'){$('fiat').innerHTML='<option>INR</option><option>USD</option>'}$('rampCountryNote').textContent=d.note;$('rampCard').classList.toggle('providerDisabled',!d.ramp);$('moonCard').classList.toggle('providerDisabled',!d.moon)}
-window.openRamp=function(kind){location.href='https://global.transak.com/'};
+
 window.openRampNetwork=function(kind){location.href=kind==='sell'?'https://ramp.network/sell':'https://ramp.network/buy'};
 window.openMoonPay=function(){if($('country').value==='IN'){toast('MoonPay is not available to retail customers in India');return}location.href='https://www.moonpay.com/buy'};
 updateRamp();
