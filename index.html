@@ -1489,7 +1489,16 @@ async function(){
    * their native deep-link flow. WalletConnect remains available
    * inside that chooser as the fallback.
    */
-  if(window.ethereum){
+  const mobile =
+   /android|iphone|ipad|ipod/i.test(
+    navigator.userAgent
+   );
+
+  /* On mobile, always use the explicit wallet chooser.
+     This prevents an injected provider from hijacking the
+     first tap and sending the user into an unsupported-chain
+     WalletConnect flow. */
+  if(window.ethereum && !mobile){
 
    await useInjected();
 
@@ -1500,8 +1509,6 @@ async function(){
 
   else{
 
-   /* Mobile browsers without an injected provider use
-      the GBK wallet chooser and native wallet deep links. */
    openWalletModal();
 
   }
