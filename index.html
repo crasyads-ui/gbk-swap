@@ -5,6 +5,11 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#3f806f">
 <title>GBK Swap • BNB Chain</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="apple-touch-icon" href="/favicon.svg">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="GBK Swap">
 
 <style>
 *{box-sizing:border-box}
@@ -43,6 +48,30 @@ header{
 }
 .brandTitle{font-size:27px;font-weight:950}
 .brandSub{font-size:14px;font-weight:800;opacity:.9;margin-top:2px}
+.installBar{
+ margin:12px 16px 0;
+ display:flex;
+ justify-content:center
+}
+.installBtn{
+ width:100%;
+ border:0;
+ border-radius:16px;
+ padding:13px 16px;
+ background:#f7cf55;
+ color:#17362d;
+ font-size:15px;
+ font-weight:950;
+ box-shadow:0 5px 16px rgba(20,60,45,.08)
+}
+.installBtn:active{transform:translateY(1px)}
+.installBtn[hidden]{display:none}
+.installHint{
+ text-align:center;
+ font-size:11px;
+ color:#71807b;
+ margin-top:6px
+}
 .chain{
  border:1px solid rgba(255,255,255,.35);
  border-radius:22px;padding:10px 13px;
@@ -308,6 +337,11 @@ footer button.active{color:#3f806f}
 </header>
 
 <main>
+
+<div class="installBar">
+ <button id="installBtn" class="installBtn" type="button" onclick="installGBKSwap()">📲 Install GBK Swap</button>
+</div>
+<div id="installHint" class="installHint"></div>
 
 <!-- WALLET -->
 
@@ -887,6 +921,62 @@ let signer=null;
 let busy=false;
 
 let appKit=null;
+
+/* =====================================================
+   PWA INSTALL
+   ===================================================== */
+let deferredInstallPrompt=null;
+
+window.addEventListener("beforeinstallprompt",(event)=>{
+ event.preventDefault();
+ deferredInstallPrompt=event;
+ const btn=document.getElementById("installBtn");
+ if(btn){
+  btn.hidden=false;
+  btn.textContent="📲 Install GBK Swap";
+ }
+});
+
+window.addEventListener("appinstalled",()=>{
+ deferredInstallPrompt=null;
+ const btn=document.getElementById("installBtn");
+ if(btn) btn.hidden=true;
+ const hint=document.getElementById("installHint");
+ if(hint) hint.textContent="GBK Swap is installed on your device.";
+});
+
+window.installGBKSwap=async function(){
+ if(deferredInstallPrompt){
+  deferredInstallPrompt.prompt();
+  const choice=await deferredInstallPrompt.userChoice;
+  deferredInstallPrompt=null;
+  if(choice?.outcome==="accepted"){
+   const btn=document.getElementById("installBtn");
+   if(btn) btn.hidden=true;
+  }
+  return;
+ }
+
+ /* Android browsers that do not expose beforeinstallprompt
+    can still install from the browser's menu. */
+ toast("Open your browser menu ⋮ and choose Add to Home screen or Install app.");
+};
+
+if("serviceWorker" in navigator){
+ window.addEventListener("load",()=>{
+  navigator.serviceWorker.register("/sw.js").catch((error)=>{
+   console.warn("Service worker registration failed",error);
+  });
+ });
+}
+
+/* Hide the button when already running as an installed PWA. */
+if(window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone===true){
+ window.addEventListener("DOMContentLoaded",()=>{
+  const btn=document.getElementById("installBtn");
+  if(btn) btn.hidden=true;
+ });
+}
 
 
 /* =====================================================
