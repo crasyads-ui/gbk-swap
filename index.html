@@ -1483,21 +1483,17 @@ async function(){
    return;
   }
 
-  /* Desktop browser extensions can connect directly. */
-  const mobile =
-   /android|iphone|ipad|ipod/i.test(
-    navigator.userAgent
-   );
-
-  if(window.ethereum && !mobile){
+  /* Use an injected EVM provider whenever the browser/wallet
+     exposes one. This preserves the previously working flow
+     inside Trust Wallet, Bitget Wallet, MetaMask and other
+     wallet browsers/extensions. */ 
+  if(window.ethereum){
    await useInjected(window.ethereum);
    await finishConnection();
    return;
   }
 
-  /* Mobile browsers: use the explicit wallet chooser.
-     Trust/Bitget buttons use official deep links; WalletConnect
-     remains the fallback for other EVM wallets. */
+  /* No injected provider: use Reown/WalletConnect chooser. */
   openWalletModal();
 
  }
