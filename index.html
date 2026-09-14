@@ -598,7 +598,6 @@ Balance:
  class="output">
  0.00
 </div>
-
 <div class="token">
 
 <span
@@ -803,6 +802,11 @@ import {
  EthersAdapter
 }
 from "https://esm.sh/@reown/appkit-adapter-ethers?bundle";
+
+import {
+ bsc
+}
+from "https://esm.sh/@reown/appkit/networks?bundle";
 
 
 /* =====================================================
@@ -1080,36 +1084,7 @@ window.setPercent=function(p){
    BSC NETWORK
    ===================================================== */
 
-const BSC_NETWORK={
-
- id:56,
-
- caipNetworkId:"eip155:56",
-
- chainNamespace:"eip155",
-
- name:"BNB Smart Chain",
-
- nativeCurrency:{
-  name:"BNB",
-  symbol:"BNB",
-  decimals:18
- },
-
- rpcUrls:{
-  default:{
-   http:[CONFIG.rpc]
-  }
- },
-
- blockExplorers:{
-  default:{
-   name:"BscScan",
-   url:"https://bscscan.com"
-  }
- }
-
-};
+const BSC_NETWORK=bsc;
 
 
 /* =====================================================
@@ -1197,7 +1172,6 @@ function initAppKit(){
      await signer.getAddress();
 
     await finishConnection();
-
    }
 
    else if(!isConnected){
@@ -1349,13 +1323,7 @@ async function useWalletConnect(){
  const modal=
   initAppKit();
 
- modal.open({
-
-  view:"Connect",
-
-  namespace:"eip155"
-
- });
+ modal.open();
 
  return true;
 
@@ -1798,7 +1766,6 @@ async function getQuote(amount){
      amountIn,
      p
     );
-
    path=p;
 
    break;
@@ -2397,8 +2364,7 @@ const rampData={
 
  GB:{
   fiat:"GBP",
-  note:"United Kingdom: GBP is commonly supported, subject to provider rules.",
-  ramp:true,
+  note:"United Kingdom: GBP is commonly supported, subject to provider rules.",  ramp:true,
   moon:true
  },
 
