@@ -1339,6 +1339,12 @@ async function(){
 
  try{
 
+  /*
+   * On mobile browsers there is usually no injected provider.
+   * Open the GBK wallet chooser first so Trust/Bitget can use
+   * their native deep-link flow. WalletConnect remains available
+   * inside that chooser as the fallback.
+   */
   if(window.ethereum){
 
    await useInjected();
@@ -1350,7 +1356,7 @@ async function(){
 
   else{
 
-   await useWalletConnect();
+   openWalletModal();
 
   }
 
@@ -2598,194 +2604,3 @@ window.openRampNetwork=
 
   location.href=
    kind==="sell"
-   ?
-   "https://ramp.network/sell"
-   :
-   "https://ramp.network/buy";
-
- };
-
-
-/* =====================================================
-   MOONPAY
-   ===================================================== */
-
-window.openMoonPay=
- function(){
-
-  if(
-   $("country").value==="IN"
-  ){
-
-   toast(
-    "MoonPay is not available for this India flow"
-   );
-
-   return;
-
-  }
-
-
-  location.href=
-   "https://www.moonpay.com/buy";
-
- };
-
-
-/* =====================================================
-   INPUT
-   ===================================================== */
-
-$("amount")
-.addEventListener(
- "input",
- updateQuote
-);
-
-
-/* =====================================================
-   INITIALIZATION
-   ===================================================== */
-
-updateRamp();
-
-
-window.addEventListener(
- "load",
- async()=>{
-
-  try{
-
-   /* Initialize Reown */
-
-   initAppKit();
-
-
-   /* Restore injected wallet */
-
-   if(window.ethereum){
-
-    const accounts=
-     await window.ethereum.request({
-      method:"eth_accounts"
-     });
-
-
-    if(accounts?.length){
-
-     await useInjected();
-
-     if(walletAddress){
-
-      await finishConnection();
-
-     }
-
-    }
-
-
-    /* Account changes */
-
-    window.ethereum.on?.(
-     "accountsChanged",
-     async accounts=>{
-
-      try{
-
-       if(accounts?.length){
-
-        walletAddress=
-         accounts[0];
-
-        signer=null;
-
-        ethersProvider=
-         new ethers.BrowserProvider(
-          window.ethereum
-         );
-
-        signer=
-         await ethersProvider.getSigner();
-
-        await finishConnection();
-
-       }
-
-       else{
-
-        disconnectWallet();
-
-       }
-
-      }
-
-      catch(e){
-
-       console.error(e);
-
-      }
-
-     }
-    );
-
-
-    /* Chain changes */
-
-    window.ethereum.on?.(
-     "chainChanged",
-     async chainId=>{
-
-      try{
-
-       if(
-        String(chainId)
-        .toLowerCase()
-        !==
-        "0x38"
-       ){
-
-        toast(
-         "Please switch to BNB Smart Chain"
-        );
-
-       }
-
-       else if(walletAddress){
-
-        await updateBalances();
-
-        await updateQuote();
-
-       }
-
-      }
-
-      catch(e){
-
-       console.error(e);
-
-      }
-
-     }
-    );
-
-   }
-
-  }
-
-  catch(e){
-
-   console.warn(
-    "Wallet initialization:",
-    e
-   );
-
-  }
-
- }
-);
-
-</script>
-
-</body>
-</html>
