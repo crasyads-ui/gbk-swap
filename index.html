@@ -2155,33 +2155,29 @@ window.openTransak=function(type){
 };
 
 
-window.openRamp = function(type) {
+window.openRamp = async function(type) {
 
   const fiat = selectedFiat();
+  const country = $("country").value || "IN";
+  const popup = window.open("about:blank", "_blank");
 
-  let url =
-    "https://buy.onramper.com/?" +
-    "apiKey=" +
-    encodeURIComponent(ONRAMP.onramperApiKey) +
-    "&mode=buy,sell" +
-    "&defaultFiat=" +
-    encodeURIComponent(fiat) +
-    "&defaultCrypto=USDT" +
-    "&onlyCryptoNetworks=bsc" +
-    "&redirectAtCheckout=true";
+  try {
+    if (!popup) throw new Error("Please allow pop-ups for GBK Swap");
 
-  if (type === "sell") {
-    url +=
-      "&sell_defaultFiat=" +
-      encodeURIComponent(fiat) +
-      "&sell_defaultCrypto=USDT";
+    const response = await fetch(
+      "/api/onramper-widget?type=" + encodeURIComponent(type) +
+      "&fiat=" + encodeURIComponent(fiat) +
+      "&country=" + encodeURIComponent(country)
+    );
+
+    const data = await response.json();
+    if (!response.ok || !data.url) throw new Error(data.error || "Onramper test configuration is missing");
+
+    popup.location.href = data.url;
+  } catch (error) {
+    if (popup) popup.close();
+    toast(cleanError(error));
   }
-
-  window.open(
-    url,
-    "_blank",
-    "noopener,noreferrer"
-  );
 };
 
 
