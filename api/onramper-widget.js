@@ -28,7 +28,7 @@ export default function handler(req, res) {
 
     const country = String(
       req.query?.country || "IN"
-    ).toLowerCase();
+    ).toUpperCase();
 
     const fiat = String(
       req.query?.fiat || "INR"
@@ -37,31 +37,54 @@ export default function handler(req, res) {
     const params = new URLSearchParams();
 
     params.set("apiKey", apiKey);
-    params.set("mode", "buy,sell");
+    params.set("mode", type);
     params.set("country", country);
     params.set("defaultFiat", fiat);
 
-    // BSC USDT
-    params.set("defaultCrypto", "USDT");
-    params.set("onlyCryptos", "USDT");
-    params.set("onlyCryptoNetworks", "bsc");
+    /*
+     * BUY
+     * Do NOT force onlyCryptoNetworks/onlyCryptos here.
+     *
+     * The previous configuration could produce:
+     * "Select Currency"
+     * when the sandbox/provider did not expose the exact
+     * USDT + BSC combination for the selected fiat.
+     *
+     * We keep USDT as the preferred destination, while
+     * allowing Onramper to resolve the available network
+     * and provider for the user's country.
+     */
+    if (type === "buy") {
+      params.set("defaultCrypto", "USDT");
+      params.set("redirectAtCheckout", "false");
+    }
 
-    params.set("redirectAtCheckout", "true");
-
+    /*
+     * SELL
+     * Keep the working USDT on BNB Smart Chain flow.
+     */
     if (type === "sell") {
       params.set("sell_defaultFiat", fiat);
       params.set("sell_defaultCrypto", "USDT");
       params.set("sell_onlyCryptos", "USDT");
       params.set("sell_onlyCryptoNetworks", "bsc");
+      params.set("redirectAtCheckout", "false");
     }
 
-    // TEST KEY -> SANDBOX
-    // PRODUCTION KEY -> change this to https://buy.onramper.com/
-    const baseUrl = apiKey.startsWith("pk_test_")
+    /*
+     * Sandbox:
+     * pk_test_* -> .dev
+     * Production:
+     * pk_prod_* -> .com
+     */
+    const isSandbox = apiKey.startsWith("pk_test_");
+
+    const baseUrl = isSandbox
       ? "https://buy.onramper.dev/"
       : "https://buy.onramper.com/";
 
-    const url = baseUrl + "?" + params.toString();
+    const url =
+      baseUrl + "?" + params.toString();
 
     return res.status(200).json({
       ok: true,
@@ -69,10 +92,8 @@ export default function handler(req, res) {
       country,
       fiat,
       crypto: "USDT",
-      network: "bsc",
-      environment: apiKey.startsWith("pk_test_")
-        ? "sandbox"
-        : "production",
+      network: type === "sell" ? "bsc" : "provider-selected",
+      environment: isSandbox ? "sandbox" : "production",
       url
     });
 
