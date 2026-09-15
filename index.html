@@ -436,7 +436,7 @@ footer button.active{color:#3f806f}
 </style>
 
 <style>
-  #gbk-install-btn{display:none;position:fixed;left:50%;bottom:76px;transform:translateX(-50%);z-index:9999;padding:12px 18px;border:0;border-radius:14px;font-weight:700;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.18)}
+  #gbk-install-btn{display:none;position:fixed;left:50%;bottom:92px;transform:translateX(-50%);z-index:100000;pointer-events:auto;touch-action:manipulation;padding:12px 18px;border:0;border-radius:14px;font-weight:700;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.18)}
 </style>
 <script>
 (function(){
@@ -455,7 +455,10 @@ footer button.active{color:#3f806f}
     b.id='gbk-install-btn';
     b.type='button';
     b.textContent='📲 Install GBK Swap';
-    b.addEventListener('click',async function(){
+    b.addEventListener('pointerdown',function(ev){ ev.stopPropagation(); },{capture:true});
+    b.addEventListener('click',async function(ev){
+      ev.preventDefault();
+      ev.stopPropagation();
       if(!deferredPrompt) return;
       const promptEvent=deferredPrompt;
       deferredPrompt=null;
