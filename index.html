@@ -441,29 +441,46 @@ footer button.active{color:#3f806f}
 <script>
 (function(){
   let deferredPrompt=null;
-  function isStandalone(){return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone===true;}
-  function addButton(){
-    if(document.getElementById('gbk-install-btn')||isStandalone()) return;
+  function isStandalone(){
+    return window.matchMedia('(display-mode: standalone)').matches ||
+           window.navigator.standalone===true;
+  }
+  function removeInstallButton(){
+    const b=document.getElementById('gbk-install-btn');
+    if(b) b.remove();
+  }
+  function addInstallButton(){
+    if(isStandalone() || !deferredPrompt || document.getElementById('gbk-install-btn')) return;
     const b=document.createElement('button');
-    b.id='gbk-install-btn'; b.type='button'; b.textContent='📲 Install GBK Swap';
+    b.id='gbk-install-btn';
+    b.type='button';
+    b.textContent='📲 Install GBK Swap';
     b.addEventListener('click',async function(){
-      if(deferredPrompt){
-        deferredPrompt.prompt();
-        try{await deferredPrompt.userChoice;}catch(e){}
-        deferredPrompt=null; b.style.display='none';
-      }else{
-        alert('To install: use your browser menu and choose “Add to Home screen” or “Install app”.');
+      if(!deferredPrompt) return;
+      const promptEvent=deferredPrompt;
+      deferredPrompt=null;
+      b.disabled=true;
+      try{
+        promptEvent.prompt();
+        const choice=await promptEvent.userChoice;
+        if(choice && choice.outcome==='accepted') removeInstallButton();
+        else b.style.display='none';
+      }catch(e){
+        b.style.display='none';
       }
     });
     document.body.appendChild(b);
+    b.style.display='block';
   }
   window.addEventListener('beforeinstallprompt',function(e){
-    e.preventDefault(); deferredPrompt=e; addButton(); document.getElementById('gbk-install-btn').style.display='block';
+    e.preventDefault();
+    deferredPrompt=e;
+    addInstallButton();
   });
   window.addEventListener('appinstalled',function(){
-    const b=document.getElementById('gbk-install-btn'); if(b) b.style.display='none';
+    deferredPrompt=null;
+    removeInstallButton();
   });
-  window.addEventListener('load',function(){addButton();});
 })();
 </script>
 
