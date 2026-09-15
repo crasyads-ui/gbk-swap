@@ -455,6 +455,12 @@ footer button.active{color:#3f806f}
 })();
 </script>
 
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#3f806f">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="GBK Swap">
+<link rel="apple-touch-icon" href="/favicon.svg">
 </head>
 
 <body>
@@ -2376,9 +2382,24 @@ setMode("sell");
   }
   window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();deferredPrompt=e;addButton();document.getElementById('gbk-install-btn').style.display='block';});
   window.addEventListener('appinstalled',function(){const b=document.getElementById('gbk-install-btn');if(b)b.style.display='none';});
-  window.addEventListener('load',addButton);
+  window.addEventListener('load',function(){
+  addButton();
+  setTimeout(function(){
+    var b=document.getElementById('gbk-install-btn');
+    if(b && !isStandalone()) b.style.display='block';
+  },1500);
+});
 })();
 </script>
 
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", function () {
+    navigator.serviceWorker.register("/sw.js").catch(function (e) {
+      console.warn("GBK Swap service worker registration failed", e);
+    });
+  });
+}
+</script>
 </body>
 </html>
