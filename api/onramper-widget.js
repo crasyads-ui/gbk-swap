@@ -18,15 +18,23 @@ export default function handler(req, res) {
   });
 
   if (type === "buy") {
-    params.set("defaultCrypto", "USDT");
-    params.set("onlyCryptos", "USDT");
+  params.set("defaultCrypto", "USDT");
+  params.set("onlyCryptos", "USDT");
+  params.set("onlyCryptoNetworks", "bsc");
+} else {
+  params.set("sell_defaultFiat", String(fiat).toUpperCase());
+  params.set("sell_defaultCrypto", "USDT");
+  params.set("sell_onlyCryptos", "USDT");
+}
     
-  } else {
-    params.set("sell_defaultFiat", String(fiat).toUpperCase());
-    params.set("sell_defaultCrypto", "USDT");
-    params.set("sell_onlyCryptos", "USDT");
     
-  }
+    
+  
+
+    
+    
+    
+  
 
   return res.status(200).json({
     url: "https://buy.onramper.dev/?" + params.toString()
