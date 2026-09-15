@@ -1,178 +1,93 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  />
+// api/onramper-widget.js
 
-  <title>GBK Buy & Sell</title>
+export default function handler(req, res) {
+  // Always return JSON
+  res.setHeader("Content-Type", "application/json; charset=utf-8");
+  res.setHeader("Cache-Control", "no-store");
 
-  <style>
-    * {
-      box-sizing: border-box;
+  try {
+    if (req.method !== "GET") {
+      return res.status(405).json({
+        ok: false,
+        error: "Method not allowed"
+      });
     }
 
-    html,
-    body {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      min-height: 100%;
-      background: #ffffff;
-      font-family: Arial, sans-serif;
+    const apiKey = process.env.ONRAMPER_API_KEY;
+
+    if (!apiKey) {
+      return res.status(500).json({
+        ok: false,
+        error: "ONRAMPER_API_KEY is not configured"
+      });
     }
 
-    body {
-      display: flex;
-      justify-content: center;
-    }
+    const q = req.query || {};
 
-    .container {
-      width: 100%;
-      max-width: 480px;
-      min-height: 100vh;
-      padding: 12px;
-      background: #ffffff;
-    }
+    const type = String(q.type || "buy").toLowerCase() === "sell"
+      ? "sell"
+      : "buy";
 
-    .header {
-      text-align: center;
-      padding: 10px 0 14px;
-    }
+    const country = String(q.country || "IN").toUpperCase();
+    const fiat = String(q.fiat || "INR").toUpperCase();
 
-    .logo {
-      font-size: 26px;
-      font-weight: 800;
-      letter-spacing: 1px;
-    }
-
-    .subtitle {
-      margin-top: 4px;
-      font-size: 13px;
-      color: #777;
-    }
-
-    .widget {
-      width: 100%;
-      height: 760px;
-      border: 0;
-      border-radius: 12px;
-      overflow: hidden;
-      background: #fff;
-    }
-
-    .loading {
-      text-align: center;
-      color: #777;
-      padding: 20px;
-      font-size: 14px;
-    }
-  </style>
-</head>
-
-<body>
-
-  <div class="container">
-
-    <div class="header">
-      <div class="logo">GBK</div>
-      <div class="subtitle">
-        Buy & Sell Crypto with Local Currency
-      </div>
-    </div>
-
-    <div class="loading" id="loading">
-      Loading secure payment widget...
-    </div>
-
-    <iframe
-      id="onramper-widget"
-      class="widget"
-      title="GBK Buy and Sell"
-      allow="accelerometer; autoplay; camera; gyroscope; payment"
-      src=""
-    ></iframe>
-
-  </div>
-
-  <script>
-    /*
-      ==========================================
-      GBK ONRAMPER WIDGET
-      ==========================================
-    */
-
-    // TEST KEY FOR NOW
-    // Replace with pk_prod_... only after production approval.
-    const ONRAMPER_API_KEY = "pk_test_YOUR_TEST_KEY";
-
-    /*
-      Onramper test widget
-    */
-    const baseUrl = "https://buy.onramper.dev/";
+    const wallet = String(q.wallet || "").trim();
 
     const params = new URLSearchParams();
 
-    // API key
-    params.set("apiKey", ONRAMPER_API_KEY);
+    // Onramper authentication
+    params.set("apiKey", apiKey);
 
-    // Show Buy + Sell
+    // Buy + Sell
     params.set("mode", "buy,sell");
 
-    // India
-    params.set("country", "in");
+    // User's country / fiat
+    params.set("country", country);
+    params.set("defaultFiat", fiat);
 
-    // INR
-    params.set("defaultFiat", "INR");
-
-    /*
-      BUY
-      INR -> USDT -> BNB Smart Chain
-    */
+    // We want USDT only
     params.set("defaultCrypto", "USDT");
     params.set("onlyCryptos", "USDT");
+
+    // BNB Smart Chain only
     params.set("onlyCryptoNetworks", "bsc");
 
-    /*
-      Mobile checkout
-    */
+    // Redirect provider checkout
     params.set("redirectAtCheckout", "true");
 
-    /*
-      Build widget URL
-    */
-    const widgetUrl =
-      baseUrl + "?" + params.toString();
-
-    /*
-      Load widget
-    */
-    const widget =
-      document.getElementById("onramper-widget");
-
-    const loading =
-      document.getElementById("loading");
-
-    widget.src = widgetUrl;
-
-    widget.onload = function () {
-      loading.style.display = "none";
-    };
-
-    /*
-      Basic API-key protection against
-      accidentally deploying without a key.
-    */
-    if (
-      !ONRAMPER_API_KEY ||
-      ONRAMPER_API_KEY.includes("YOUR_TEST_KEY")
-    ) {
-      loading.innerHTML =
-        "Add your Onramper test public API key first.";
+    // If wallet address is supplied, pass it to Onramper.
+    // Do NOT put a secret key in the browser.
+    if (wallet) {
+      params.set("wallets", `usdt:${wallet}`);
     }
-  </script>
 
-</body>
-</html>
+    // Sell-specific settings
+    if (type === "sell") {
+      params.set("sell_defaultFiat", fiat);
+      params.set("sell_defaultCrypto", "USDT");
+      params.set("sell_onlyCryptos", "USDT");
+      params.set("sell_onlyCryptoNetworks", "bsc");
+    }
+
+    const widgetUrl =
+      "https://buy.onramper.com/?" + params.toString();
+
+    return res.status(200).json({
+      ok: true,
+      type,
+      country,
+      fiat,
+      crypto: "USDT",
+      network: "bsc",
+      url: widgetUrl
+    });
+
+  } catch (error) {
+    console.error("Onramper widget error:", error);
+
+    return res.status(500).json({
+      ok: false,
+      error: "Unable to create Onramper widget URL"
+    });
+  }
+}
