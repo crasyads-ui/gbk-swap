@@ -422,6 +422,39 @@ footer button.active{color:#3f806f}
  .token{padding:9px 7px;font-size:12px}
 }
 </style>
+
+<style>
+  #gbk-install-btn{display:none;position:fixed;left:50%;bottom:76px;transform:translateX(-50%);z-index:9999;padding:12px 18px;border:0;border-radius:14px;font-weight:700;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.18)}
+</style>
+<script>
+(function(){
+  let deferredPrompt=null;
+  function isStandalone(){return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone===true;}
+  function addButton(){
+    if(document.getElementById('gbk-install-btn')||isStandalone()) return;
+    const b=document.createElement('button');
+    b.id='gbk-install-btn'; b.type='button'; b.textContent='📲 Install GBK Swap';
+    b.addEventListener('click',async function(){
+      if(deferredPrompt){
+        deferredPrompt.prompt();
+        try{await deferredPrompt.userChoice;}catch(e){}
+        deferredPrompt=null; b.style.display='none';
+      }else{
+        alert('To install: use your browser menu and choose “Add to Home screen” or “Install app”.');
+      }
+    });
+    document.body.appendChild(b);
+  }
+  window.addEventListener('beforeinstallprompt',function(e){
+    e.preventDefault(); deferredPrompt=e; addButton(); document.getElementById('gbk-install-btn').style.display='block';
+  });
+  window.addEventListener('appinstalled',function(){
+    const b=document.getElementById('gbk-install-btn'); if(b) b.style.display='none';
+  });
+  window.addEventListener('load',function(){addButton();});
+})();
+</script>
+
 </head>
 
 <body>
@@ -2321,6 +2354,30 @@ setInterval(
 
 setMode("sell");
 
+</script>
+
+
+<script>
+(function(){
+  let deferredPrompt=null;
+  function isStandalone(){return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone===true;}
+  function addButton(){
+    if(document.getElementById('gbk-install-btn')||isStandalone()) return;
+    const b=document.createElement('button');
+    b.id='gbk-install-btn'; b.type='button'; b.textContent='📲 Install GBK Swap';
+    b.addEventListener('click',async function(){
+      if(deferredPrompt){
+        deferredPrompt.prompt();
+        try{await deferredPrompt.userChoice;}catch(e){}
+        deferredPrompt=null; b.style.display='none';
+      }else alert('To install: use your browser menu and choose “Add to Home screen” or “Install app”.');
+    });
+    document.body.appendChild(b);
+  }
+  window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();deferredPrompt=e;addButton();document.getElementById('gbk-install-btn').style.display='block';});
+  window.addEventListener('appinstalled',function(){const b=document.getElementById('gbk-install-btn');if(b)b.style.display='none';});
+  window.addEventListener('load',addButton);
+})();
 </script>
 
 </body>
