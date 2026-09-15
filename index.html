@@ -2155,48 +2155,33 @@ window.openTransak=function(type){
 };
 
 
-window.openRamp=function(type){
+window.openRamp = function(type) {
 
- const fiat=
-  selectedFiat();
+  const fiat = selectedFiat();
 
- let url=
-  "https://buy.ramp.network/"+
-  "?swapAsset=BNB_BSC"+
-  "&fiatCurrency="+
-  encodeURIComponent(fiat);
+  let url =
+    "https://buy.onramper.com/?" +
+    "apiKey=" +
+    encodeURIComponent(ONRAMP.onramperApiKey) +
+    "&mode=buy,sell" +
+    "&defaultFiat=" +
+    encodeURIComponent(fiat) +
+    "&defaultCrypto=USDT" +
+    "&onlyCryptoNetworks=bsc" +
+    "&redirectAtCheckout=true";
 
- if(
-  walletAddress
- ){
+  if (type === "sell") {
+    url +=
+      "&sell_defaultFiat=" +
+      encodeURIComponent(fiat) +
+      "&sell_defaultCrypto=USDT";
+  }
 
-  url+=
-   "&userAddress="+
-   encodeURIComponent(
-    walletAddress
-   );
-
- }
-
- if(
-  ONRAMP.rampHostApiKey &&
-  !ONRAMP.rampHostApiKey.startsWith("PASTE_")
- ){
-
-  url+=
-   "&hostApiKey="+
-   encodeURIComponent(
-    ONRAMP.rampHostApiKey
-   );
-
- }
-
- window.open(
-  url,
-  "_blank",
-  "noopener,noreferrer"
- );
-
+  window.open(
+    url,
+    "_blank",
+    "noopener,noreferrer"
+  );
 };
 
 
