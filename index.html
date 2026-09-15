@@ -301,6 +301,17 @@ h2{margin:0 0 14px;font-size:28px;letter-spacing:-.5px}
  line-height:1.5;
  font-size:13px
 }
+.nextStep{
+ margin-top:14px;
+ padding:14px 15px;
+ border-radius:17px;
+ background:#eef9f4;
+ border:1px solid #d8eee5;
+ color:#28594c;
+ font-size:13px;
+ line-height:1.5
+}
+.nextStep b:first-child{display:block;margin-bottom:4px;font-size:14px}
 .providerBtns{
  display:grid;
  grid-template-columns:1fr 1fr;
@@ -649,6 +660,11 @@ footer button.active{color:#3f806f}
    </button>
   </div>
 
+ </div>
+
+ <div class="nextStep" id="onrampNextStep">
+  <b>Next step after Onramper</b>
+  <span id="onrampNextText">Buy USDT with your local currency, return here, connect the same BNB wallet, then use <b>USDT → GBK</b>.</span>
  </div>
 
  <div class="smallNote">
@@ -2156,6 +2172,9 @@ window.openTransak=function(type){
 window.openRamp = async function(type) {
 
   const fiat = selectedFiat();
+  if (type === "buy" && fiat === "INR") {
+    toast("India Buy: Onramper may require a minimum around ₹837.50. Use ₹850 or more.");
+  }
   const country = $("country").value || "IN";
   const popup = window.open("about:blank", "_blank");
 
