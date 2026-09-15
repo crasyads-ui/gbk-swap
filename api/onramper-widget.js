@@ -1,7 +1,6 @@
 // api/onramper-widget.js
 
 export default function handler(req, res) {
-  // Always return JSON
   res.setHeader("Content-Type", "application/json; charset=utf-8");
   res.setHeader("Cache-Control", "no-store");
 
@@ -18,50 +17,37 @@ export default function handler(req, res) {
     if (!apiKey) {
       return res.status(500).json({
         ok: false,
-        error: "ONRAMPER_API_KEY is not configured"
+        error: "ONRAMPER_API_KEY is missing"
       });
     }
 
-    const q = req.query || {};
+    const type =
+      String(req.query?.type || "buy").toLowerCase() === "sell"
+        ? "sell"
+        : "buy";
 
-    const type = String(q.type || "buy").toLowerCase() === "sell"
-      ? "sell"
-      : "buy";
+    const country = String(
+      req.query?.country || "IN"
+    ).toLowerCase();
 
-    const country = String(q.country || "IN").toUpperCase();
-    const fiat = String(q.fiat || "INR").toUpperCase();
-
-    const wallet = String(q.wallet || "").trim();
+    const fiat = String(
+      req.query?.fiat || "INR"
+    ).toUpperCase();
 
     const params = new URLSearchParams();
 
-    // Onramper authentication
     params.set("apiKey", apiKey);
-
-    // Buy + Sell
     params.set("mode", "buy,sell");
-
-    // User's country / fiat
     params.set("country", country);
     params.set("defaultFiat", fiat);
 
-    // We want USDT only
+    // BSC USDT
     params.set("defaultCrypto", "USDT");
     params.set("onlyCryptos", "USDT");
-
-    // BNB Smart Chain only
     params.set("onlyCryptoNetworks", "bsc");
 
-    // Redirect provider checkout
     params.set("redirectAtCheckout", "true");
 
-    // If wallet address is supplied, pass it to Onramper.
-    // Do NOT put a secret key in the browser.
-    if (wallet) {
-      params.set("wallets", `usdt:${wallet}`);
-    }
-
-    // Sell-specific settings
     if (type === "sell") {
       params.set("sell_defaultFiat", fiat);
       params.set("sell_defaultCrypto", "USDT");
@@ -69,8 +55,13 @@ export default function handler(req, res) {
       params.set("sell_onlyCryptoNetworks", "bsc");
     }
 
-    const widgetUrl =
-      "https://buy.onramper.com/?" + params.toString();
+    // TEST KEY -> SANDBOX
+    // PRODUCTION KEY -> change this to https://buy.onramper.com/
+    const baseUrl = apiKey.startsWith("pk_test_")
+      ? "https://buy.onramper.dev/"
+      : "https://buy.onramper.com/";
+
+    const url = baseUrl + "?" + params.toString();
 
     return res.status(200).json({
       ok: true,
@@ -79,15 +70,18 @@ export default function handler(req, res) {
       fiat,
       crypto: "USDT",
       network: "bsc",
-      url: widgetUrl
+      environment: apiKey.startsWith("pk_test_")
+        ? "sandbox"
+        : "production",
+      url
     });
 
   } catch (error) {
-    console.error("Onramper widget error:", error);
+    console.error(error);
 
     return res.status(500).json({
       ok: false,
-      error: "Unable to create Onramper widget URL"
+      error: "Unable to create Onramper URL"
     });
   }
 }
