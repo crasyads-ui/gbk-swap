@@ -25,7 +25,7 @@ export default function handler(req, res) {
     params.set("sell_defaultFiat", String(fiat).toUpperCase());
     params.set("sell_defaultCrypto", "USDT");
     params.set("sell_onlyCryptos", "USDT");
-    params.set("sell_onlyCryptoNetworks", "bsc");
+    
   }
 
   return res.status(200).json({
