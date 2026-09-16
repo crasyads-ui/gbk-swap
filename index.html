@@ -2089,11 +2089,50 @@ async function executeSwap(amount){
    "Swap submitted • waiting for confirmation"
   );
 
-  await withTimeout(
-   tx.wait(),
-   180000,
-   "Swap confirmation"
-  );
+  let receipt;
+  try{
+   receipt=await withTimeout(
+    tx.wait(),
+    180000,
+    "Swap confirmation"
+   );
+  }catch(waitError){
+   // A buy can revert after the transaction reaches BSC if the GBK
+   // rebase/fee state changed between signing and mining. A reverted
+   // transaction changes no token balances, so safely refresh once and
+   // retry the buy with a fresh quote.
+   if(mode!=="buy") throw waitError;
+
+   $("swapBtn").textContent="Buy reverted • refreshing quote…";
+
+   const retryQuote=await getQuote(amount);
+   const retryMinOut=
+    retryQuote.netOut*
+    BigInt(100-currentSlippage())/100n;
+   const retryDeadline=Math.floor(Date.now()/1000)+1200;
+
+   setStatus("Previous buy reverted • retrying with fresh quote");
+
+   tx=await router
+    .swapExactTokensForTokensSupportingFeeOnTransferTokens(
+     amountIn,
+     retryMinOut,
+     retryQuote.path,
+     walletAddress,
+     retryDeadline,
+     {gasLimit:900000n}
+    );
+
+   setStatus(
+    "Buy retry submitted • waiting for confirmation"
+   );
+
+   receipt=await withTimeout(
+    tx.wait(),
+    180000,
+    "Buy retry confirmation"
+   );
+  }
 
   setStatus(
    "Swap confirmed • "+
