@@ -1188,6 +1188,62 @@ async function switchToBNB(provider){
    INJECTED WALLET
    ========================================================= */
 
+/* Robust injected EVM wallet connection.
+   Supports single and multi-provider window.ethereum setups. */
+async function connectInjected(){
+
+ if(!window.ethereum)
+  return false;
+
+ const candidates=[];
+ const push=(p)=>{
+  if(p && !candidates.includes(p)) candidates.push(p);
+ };
+
+ // EIP-6963 providers may expose multiple injected wallets through
+ // window.ethereum.providers. Keep all candidates available.
+ if(Array.isArray(window.ethereum.providers)){
+  window.ethereum.providers.forEach(push);
+ }
+ push(window.ethereum);
+
+ let lastError=null;
+
+ for(const provider of candidates){
+  try{
+   const accounts=await provider.request({method:"eth_accounts"});
+
+   if(!accounts?.length){
+    await provider.request({method:"eth_requestAccounts"});
+   }
+
+   const connected=await provider.request({method:"eth_accounts"});
+   if(!connected?.length)
+    continue;
+
+   await switchToBNB(provider);
+
+   walletProvider=provider;
+   installWalletListeners(provider);
+
+   ethersProvider=new ethers.BrowserProvider(provider);
+   signer=await ethersProvider.getSigner();
+   walletAddress=await signer.getAddress();
+
+   return true;
+
+  }catch(error){
+   lastError=error;
+   console.warn("Injected wallet candidate failed:",error);
+  }
+ }
+
+ if(lastError)
+  throw lastError;
+
+ return false;
+}
+
 async function initWalletConnectProvider(){
  if(wcProvider) return wcProvider;
 
@@ -2288,11 +2344,6 @@ window.openWalletModal=async function(){
   if(window.ethereum){
    const connected=await connectInjected();
    if(connected){
-    walletProvider=window.ethereum.providers?.find(p=>p.isMetaMask)||window.ethereum;
-    await switchToBNB(walletProvider);
-    ethersProvider=new ethers.BrowserProvider(walletProvider);
-    signer=await ethersProvider.getSigner();
-    walletAddress=await signer.getAddress();
     await finishConnection();
     return;
    }
