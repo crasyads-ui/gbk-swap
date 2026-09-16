@@ -2307,13 +2307,26 @@ window.openRamp = async function(type) {
    UI
    ========================================================= */
 
+function isWalletDappBrowser(){
+ const ua=navigator.userAgent||"";
+ return !!window.ethereum && (
+  /TrustWallet|Bitget|Binance|MetaMaskMobile|TokenPocket|SafePal|imToken/i.test(ua) ||
+  window.ethereum.isTrust===true ||
+  window.ethereum.isBitKeep===true ||
+  window.ethereum.isBitget===true ||
+  window.ethereum.isBinance===true
+ );
+}
+
 window.openWalletModal=async function(){
  setFooterActive("footerWallet");
  if(busy) return;
 
  try{
-  // In a wallet's own DApp browser, use its injected provider directly.
-  if(window.ethereum){
+  // Wallet DApp browsers use their native injected provider.
+  // Normal Chrome/Samsung/Firefox/etc. MUST use Reown AppKit so
+  // the user can select any supported wallet.
+  if(isWalletDappBrowser()){
    const connected=await connectInjected();
    if(connected){
     await switchToBNB(walletProvider);
@@ -2325,25 +2338,25 @@ window.openWalletModal=async function(){
    }
   }
 
-  // Normal mobile/desktop browser: open the Reown/AppKit wallet selector.
+  // Normal browser: open the Reown AppKit selector directly.
   closeWalletModal();
-  await initReownAppKit();
-  if(!appKit) throw new Error("Wallet selector unavailable");
+  const kit=await initReownAppKit();
+  if(!kit) throw new Error("Wallet selector unavailable");
 
-  if(appKit.getIsConnected()){
-   const address=appKit.getAddress();
-   const provider=appKit.getWalletProvider();
+  if(kit.getIsConnected()){
+   const address=kit.getAddress();
+   const provider=kit.getWalletProvider();
    if(address&&provider){
     walletProvider=provider;
     walletAddress=address;
     installWalletListeners(provider);
     await finishConnection();
-    appKit.open({view:"Account"});
+    kit.open({view:"Account"});
     return;
    }
   }
 
-  appKit.open();
+  kit.open({view:"Connect",namespace:"eip155"});
  }catch(error){
   console.error("Wallet connection:",error);
   toast(cleanError(error));
