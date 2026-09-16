@@ -871,8 +871,61 @@ const ERC20_ABI = [
  "function approve(address,uint256) returns (bool)",
  "function totalFee() view returns (uint256)",
  "function sellFee() view returns (uint256)",
- "function feeDenominator() view returns (uint256)"
+ "function feeDenominator() view returns (uint256)",
+ "function pair() view returns (address)"
 ];
+
+async function syncBuyPairIfNeeded(){
+ if(mode!=="buy" || !signer) return;
+
+ const gbk=new ethers.Contract(CONFIG.gbk,ERC20_ABI,signer);
+ const pairAddress=await gbk.pair();
+ if(!pairAddress || /^0x0+$/.test(pairAddress)) return;
+
+ const pair=new ethers.Contract(
+  pairAddress,
+  [
+   "function token0() view returns (address)",
+   "function getReserves() view returns (uint112,uint112,uint32)",
+   "function sync()"
+  ],
+  signer
+ );
+
+ const [token0,reserves,gbkBalance,wbnbBalance]=await Promise.all([
+  pair.token0(),
+  pair.getReserves(),
+  gbk.balanceOf(pairAddress),
+  new ethers.Contract(
+   CONFIG.wbnb,
+   ["function balanceOf(address) view returns (uint256)"],
+   signer
+  ).balanceOf(pairAddress)
+ ]);
+
+ const r0=BigInt(reserves[0]);
+ const r1=BigInt(reserves[1]);
+ const b0=token0.toLowerCase()===CONFIG.gbk.toLowerCase()
+  ? gbkBalance : wbnbBalance;
+ const b1=token0.toLowerCase()===CONFIG.gbk.toLowerCase()
+  ? wbnbBalance : gbkBalance;
+
+ const diff0=r0>b0?r0-b0:b0-r0;
+ const diff1=r1>b1?r1-b1:b1-r1;
+
+ // Rebases can change the GBK balance held by the pair while PancakeSwap
+ // reserves remain unchanged. Sync only when the mismatch is material.
+ const mismatch0=r0>0n ? Number(diff0*10000n/r0)/100 : 0;
+ const mismatch1=r1>0n ? Number(diff1*10000n/r1)/100 : 0;
+
+ if(mismatch0<0.10 && mismatch1<0.10) return;
+
+ $("swapBtn").textContent="Syncing GBK liquidity…";
+ setStatus("GBK rebase detected • syncing PancakeSwap pair");
+
+ const syncTx=await pair.sync({gasLimit:120000n});
+ await withTimeout(syncTx.wait(),120000,"Liquidity sync confirmation");
+}
 
 function currentSlippage(){
  return mode==="sell" ? CONFIG.sellSlippage : CONFIG.buySlippage;
@@ -1967,6 +2020,11 @@ async function executeSwap(amount){
   await switchToBNB(
    walletProvider
   );
+
+  // GBK is a rebasing token. Its pair balance can change between
+  // PancakeSwap reserve updates. Sync the buy pair when necessary,
+  // then quote against the current reserves.
+  await syncBuyPairIfNeeded();
 
   const {
    path,
