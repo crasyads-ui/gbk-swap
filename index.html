@@ -444,7 +444,7 @@ footer button.active{color:#3f806f}
 </style>
 
 <style>
-  #gbk-install-btn{display:none;position:fixed;left:50%;bottom:92px;transform:translateX(-50%);z-index:100000;pointer-events:auto;touch-action:manipulation;padding:12px 18px;border:0;border-radius:14px;font-weight:700;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.18)}
+  #gbk-install-btn{display:none;position:fixed;right:18px;top:94px;z-index:100000;pointer-events:auto;touch-action:manipulation;padding:11px 15px;border:0;border-radius:14px;font-weight:800;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.18)}
 </style>
 <script>
 (function(){
@@ -458,7 +458,7 @@ footer button.active{color:#3f806f}
     if(b) b.remove();
   }
   function addInstallButton(){
-    if(isStandalone() || !deferredPrompt || document.getElementById('gbk-install-btn')) return;
+    if(isStandalone() || document.getElementById('gbk-install-btn')) return;
     const b=document.createElement('button');
     b.id='gbk-install-btn';
     b.type='button';
@@ -467,7 +467,10 @@ footer button.active{color:#3f806f}
     b.addEventListener('click',async function(ev){
       ev.preventDefault();
       ev.stopPropagation();
-      if(!deferredPrompt) return;
+      if(!deferredPrompt){
+        alert('To install GBK Swap, use your browser menu and choose “Install app” or “Add to Home screen”.');
+        return;
+      }
       const promptEvent=deferredPrompt;
       deferredPrompt=null;
       b.disabled=true;
@@ -475,9 +478,15 @@ footer button.active{color:#3f806f}
         promptEvent.prompt();
         const choice=await promptEvent.userChoice;
         if(choice && choice.outcome==='accepted') removeInstallButton();
-        else b.style.display='none';
+        else {
+          b.disabled=false;
+          b.style.display='block';
+          deferredPrompt=promptEvent;
+        }
       }catch(e){
-        b.style.display='none';
+        b.disabled=false;
+        b.style.display='block';
+        deferredPrompt=promptEvent;
       }
     });
     document.body.appendChild(b);
@@ -487,6 +496,9 @@ footer button.active{color:#3f806f}
     e.preventDefault();
     deferredPrompt=e;
     addInstallButton();
+  });
+  window.addEventListener('load',function(){
+    if(!isStandalone()) addInstallButton();
   });
   window.addEventListener('appinstalled',function(){
     deferredPrompt=null;
