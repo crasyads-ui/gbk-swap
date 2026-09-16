@@ -850,7 +850,10 @@ const CONFIG = {
 const ERC20_ABI = [
  "function balanceOf(address) view returns (uint256)",
  "function allowance(address,address) view returns (uint256)",
- "function approve(address,uint256) returns (bool)"
+ "function approve(address,uint256) returns (bool)",
+ "function totalFee() view returns (uint256)",
+ "function sellFee() view returns (uint256)",
+ "function feeDenominator() view returns (uint256)"
 ];
 
 const ROUTER_ABI = [
@@ -1679,21 +1682,34 @@ async function getQuote(amount){
    decIn()
   );
 
- /*
-  * GBK charges 14% when sold into the pool.
-  * The PancakeSwap supporting-fee router measures
-  * the amount that actually reaches the pair, so
-  * the quote must use the post-tax input amount.
-  *
-  * For USDT -> GBK, GBK charges 12% on the output
-  * transfer to the wallet, so the displayed amount
-  * must be the post-tax amount received by the user.
-  *
-  * Prefer the known liquid GBK/WBNB route first.
-  */
+ const gbk=
+  new ethers.Contract(
+   CONFIG.gbk,
+   ERC20_ABI,
+   provider
+  );
+
+ let totalFee=120n;
+ let sellFee=20n;
+ let feeDenominator=1000n;
+
+ try{
+  [totalFee,sellFee,feeDenominator]=
+   await Promise.all([
+    gbk.totalFee(),
+    gbk.sellFee(),
+    gbk.feeDenominator()
+   ]);
+ }catch(error){
+  console.warn("GBK fee read failed; using 12% buy / 14% sell fallback",error);
+ }
+
+ const buyTax=totalFee;
+ const sellTax=totalFee+sellFee;
+
  const quoteInput=
   mode==="sell" ?
-   amountIn*86n/100n :
+   amountIn*(feeDenominator-sellTax)/feeDenominator :
    amountIn;
 
  const paths=[
@@ -1716,7 +1732,7 @@ async function getQuote(amount){
 
    const netOut=
     tokenOut().toLowerCase()===CONFIG.gbk.toLowerCase()
-     ? grossOut*88n/100n
+     ? grossOut*(feeDenominator-buyTax)/feeDenominator
      : grossOut;
 
    return {
@@ -1974,35 +1990,15 @@ async function executeSwap(amount){
    )+1200;
 
   /*
-   * Preflight with the exact calldata before asking the
-   * wallet to sign. This catches insufficient allowance,
-   * route/liquidity, balance and token-tax reverts early.
+   * Do not run estimateGas here.
+   * GBK can rebase/auto-manage liquidity during token transfers,
+   * which can make a preflight simulation fail even though the
+   * signed PancakeSwap transaction is valid.
+   * Use a conservative gas limit and let the wallet simulate
+   * the exact transaction before the user confirms it.
    */
   $("swapBtn").textContent=
-   "Checking swap…";
-
-  let gasLimit;
-
-  try{
-
-   gasLimit=
-    await router
-     .swapExactTokensForTokensSupportingFeeOnTransferTokens
-     .estimateGas(
-      amountIn,
-      minOut,
-      path,
-      walletAddress,
-      deadline
-     );
-
-  }catch(error){
-
-   throw new Error(
-    "Swap preflight failed: "+cleanError(error)
-   );
-
-  }
+   "Confirm swap in wallet…";
 
   const tx=
    await router
@@ -2013,8 +2009,7 @@ async function executeSwap(amount){
      walletAddress,
      deadline,
      {
-      gasLimit:
-       gasLimit*120n/100n
+      gasLimit:900000n
      }
     );
 
@@ -2383,35 +2378,6 @@ setMode("sell");
 
 </script>
 
-
-<script>
-(function(){
-  let deferredPrompt=null;
-  function isStandalone(){return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone===true;}
-  function addButton(){
-    if(document.getElementById('gbk-install-btn')||isStandalone()) return;
-    const b=document.createElement('button');
-    b.id='gbk-install-btn'; b.type='button'; b.textContent='📲 Install GBK Swap';
-    b.addEventListener('click',async function(){
-      if(deferredPrompt){
-        deferredPrompt.prompt();
-        try{await deferredPrompt.userChoice;}catch(e){}
-        deferredPrompt=null; b.style.display='none';
-      }else alert('To install: use your browser menu and choose “Add to Home screen” or “Install app”.');
-    });
-    document.body.appendChild(b);
-  }
-  window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();deferredPrompt=e;addButton();document.getElementById('gbk-install-btn').style.display='block';});
-  window.addEventListener('appinstalled',function(){const b=document.getElementById('gbk-install-btn');if(b)b.style.display='none';});
-  window.addEventListener('load',function(){
-  addButton();
-  setTimeout(function(){
-    var b=document.getElementById('gbk-install-btn');
-    if(b && !isStandalone()) b.style.display='block';
-  },1500);
-});
-})();
-</script>
 
 <script>
 if ("serviceWorker" in navigator) {
