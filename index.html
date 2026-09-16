@@ -2364,6 +2364,27 @@ window.connectWalletConnect=async function(){return window.openWalletModal();};
 window.closeWalletModal=function(){$("walletModal").classList.remove("show");};
 
 /* =========================================================
+   MOBILE FOOTER NAVIGATION
+   ========================================================= */
+window.scrollToTop=function(){
+ const el=document.querySelector("main");
+ if(el) el.scrollIntoView({behavior:"smooth",block:"start"});
+ const a=document.getElementById("footerSwap");
+ const b=document.getElementById("footerBuySell");
+ if(a) a.classList.add("active");
+ if(b) b.classList.remove("active");
+};
+
+window.scrollToOnramp=function(){
+ const el=document.getElementById("onrampCard");
+ if(el) el.scrollIntoView({behavior:"smooth",block:"start"});
+ const a=document.getElementById("footerSwap");
+ const b=document.getElementById("footerBuySell");
+ if(a) a.classList.remove("active");
+ if(b) b.classList.add("active");
+};
+
+/* =========================================================
    INPUT
    ========================================================= */
 
