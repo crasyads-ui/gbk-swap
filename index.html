@@ -1679,36 +1679,52 @@ async function getQuote(amount){
    decIn()
   );
 
+ /*
+  * GBK charges 14% when sold into the pool.
+  * The PancakeSwap supporting-fee router measures
+  * the amount that actually reaches the pair, so
+  * the quote must use the post-tax input amount.
+  *
+  * For USDT -> GBK, GBK charges 12% on the output
+  * transfer to the wallet, so the displayed amount
+  * must be the post-tax amount received by the user.
+  *
+  * Prefer the known liquid GBK/WBNB route first.
+  */
+ const quoteInput=
+  mode==="sell" ?
+   amountIn*86n/100n :
+   amountIn;
+
  const paths=[
-
-  [
-   tokenIn(),
-   tokenOut()
-  ],
-
-  [
-   tokenIn(),
-   CONFIG.wbnb,
-   tokenOut()
-  ]
-
+  [tokenIn(),CONFIG.wbnb,tokenOut()],
+  [tokenIn(),tokenOut()]
  ];
 
- for(
-  const path of paths
- ){
+ for(const path of paths){
 
   try{
 
    const quote=
     await router.getAmountsOut(
-     amountIn,
+     quoteInput,
      path
     );
 
+   const grossOut=
+    quote[quote.length-1];
+
+   const netOut=
+    tokenOut().toLowerCase()===CONFIG.gbk.toLowerCase()
+     ? grossOut*88n/100n
+     : grossOut;
+
    return {
     quote,
-    path
+    path,
+    quoteInput,
+    grossOut,
+    netOut
    };
 
   }catch(error){}
@@ -1754,48 +1770,14 @@ async function updateQuote(){
  try{
 
   const {
-   quote,
-   path
+   path,
+   netOut
   }=await getQuote(amount);
-
-  let gross=
-   quote[quote.length-1];
-
-  /*
-   * GBK token tax
-   */
-  if(
-   tokenIn().toLowerCase()===
-   CONFIG.gbk.toLowerCase()
-  ){
-
-   gross=
-    gross*86n/100n;
-
-  }
-
-  if(
-   tokenOut().toLowerCase()===
-   CONFIG.gbk.toLowerCase()
-  ){
-
-   gross=
-    gross*88n/100n;
-
-  }
 
   const output=
    Number(
     ethers.formatUnits(
-     gross,
-     decOut()
-    )
-   );
-
-  const grossRaw=
-   Number(
-    ethers.formatUnits(
-     quote[quote.length-1],
+     netOut,
      decOut()
     )
    );
@@ -1814,14 +1796,14 @@ async function updateQuote(){
 
    $("rate").textContent=
     "1 GBK ≈ "+
-    (grossRaw/amount).toFixed(8)+
+    (output/amount).toFixed(8)+
     " USDT";
 
   }else{
 
    $("rate").textContent=
     "1 USDT ≈ "+
-    fmt(grossRaw/amount,3)+
+    fmt(output/amount,3)+
     " GBK";
 
   }
@@ -1922,8 +1904,8 @@ async function executeSwap(amount){
   );
 
   const {
-   quote,
-   path
+   path,
+   netOut
   }=await getQuote(amount);
 
   const amountIn=
@@ -1932,37 +1914,9 @@ async function executeSwap(amount){
     decIn()
    );
 
-  let quotedOut=
-   quote[quote.length-1];
-
-  /*
-   * GBK taxes
-   */
-  if(
-   tokenIn().toLowerCase()===
-   CONFIG.gbk.toLowerCase()
-  ){
-
-   quotedOut=
-    quotedOut*86n/100n;
-
-  }
-
-  if(
-   tokenOut().toLowerCase()===
-   CONFIG.gbk.toLowerCase()
-  ){
-
-   quotedOut=
-    quotedOut*88n/100n;
-
-  }
-
   const minOut=
-   quotedOut*
-   BigInt(
-    100-CONFIG.slippage
-   )/100n;
+   netOut*
+   BigInt(100-CONFIG.slippage)/100n;
 
 
   /* APPROVAL */
@@ -2019,6 +1973,37 @@ async function executeSwap(amount){
     Date.now()/1000
    )+1200;
 
+  /*
+   * Preflight with the exact calldata before asking the
+   * wallet to sign. This catches insufficient allowance,
+   * route/liquidity, balance and token-tax reverts early.
+   */
+  $("swapBtn").textContent=
+   "Checking swap…";
+
+  let gasLimit;
+
+  try{
+
+   gasLimit=
+    await router
+     .swapExactTokensForTokensSupportingFeeOnTransferTokens
+     .estimateGas(
+      amountIn,
+      minOut,
+      path,
+      walletAddress,
+      deadline
+     );
+
+  }catch(error){
+
+   throw new Error(
+    "Swap preflight failed: "+cleanError(error)
+   );
+
+  }
+
   const tx=
    await router
     .swapExactTokensForTokensSupportingFeeOnTransferTokens(
@@ -2026,7 +2011,11 @@ async function executeSwap(amount){
      minOut,
      path,
      walletAddress,
-     deadline
+     deadline,
+     {
+      gasLimit:
+       gasLimit*120n/100n
+     }
     );
 
   setStatus(
