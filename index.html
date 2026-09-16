@@ -1191,20 +1191,61 @@ async function switchToBNB(provider){
 async async function initReownAppKit(){
  if(appKit) return appKit;
  if(appKitInitPromise) return appKitInitPromise;
+
  appKitInitPromise=(async()=>{
-  const metadata={name:"GBK Swap",description:"GBK Swap on BNB Smart Chain",url:"https://swap.gbkai.com",icons:["https://swap.gbkai.com/favicon.svg"]};
-  appKit=createAppKit({adapters:[new EthersAdapter()],networks:[bsc],defaultNetwork:bsc,projectId:CONFIG.walletConnectProjectId,enableReconnect:false,enableNetworkSwitch:false,allWallets:"SHOW",enableWallets:true,universalProviderConfigOverride:{methods:{eip155:["eth_accounts","eth_chainId","eth_sendTransaction"]},chains:{eip155:["56"]},events:{eip155:["accountsChanged","chainChanged"]},defaultChain:"eip155:56"},features:{analytics:false,email:false,socials:[],swaps:false,onramp:false},metadata});
+  const metadata={
+   name:"GBK Swap",
+   description:"GBK Swap on BNB Smart Chain",
+   url:"https://swap.gbkai.com",
+   icons:["https://swap.gbkai.com/favicon.svg"]
+  };
+
+  appKit=createAppKit({
+   adapters:[new EthersAdapter()],
+   networks:[bsc],
+   defaultNetwork:bsc,
+   projectId:CONFIG.walletConnectProjectId,
+   metadata,
+   features:{
+    analytics:false,
+    email:false,
+    socials:[]
+   }
+  });
+
   appKitUnsubscribe=appKit.subscribeProvider(async(state)=>{
    try{
-    if(!state?.isConnected || !state?.provider){ if(walletAddress) await disconnectWallet(false); return; }
-    walletProvider=state.provider; walletAddress=state.address||appKit.getAddress()||""; installWalletListeners(walletProvider); await finishConnection();
-   }catch(e){console.warn("Reown provider update:",e);}
+    if(!state?.isConnected || !state?.provider){
+     if(walletAddress) await disconnectWallet(false);
+     return;
+    }
+
+    walletProvider=state.provider;
+    walletAddress=state.address || appKit.getAddress() || "";
+
+    if(walletProvider){
+     installWalletListeners(walletProvider);
+    }
+
+    if(walletAddress){
+     await finishConnection();
+    }
+   }catch(error){
+    console.warn("Reown provider update:",error);
+   }
   });
+
   return appKit;
- })().finally(()=>{appKitInitPromise=null;});
+ })().catch(error=>{
+  appKit=null;
+  console.error("Reown AppKit initialization failed:",error);
+  throw error;
+ }).finally(()=>{
+  appKitInitPromise=null;
+ });
+
  return appKitInitPromise;
 }
-
 async function connectInjected(){
  if(!window.ethereum) return false;
  const provider=window.ethereum.providers?.find(p=>p.isMetaMask)||window.ethereum;
@@ -1380,39 +1421,11 @@ async function finishConnection(){
    ========================================================= */
 
 window.connectWallet=async function(){
-
- // The main Connect Wallet button opens the wallet chooser.
- // The user can then select WalletConnect, MetaMask, Trust Wallet,
- // or Bitget Wallet instead of being forced into one provider.
- openWalletModal();
-
+ return window.openWalletModal();
 };
 
-
 window.connectWalletConnect=async function(){
-
- try{
-
-  closeWalletModal();
-
-  setStatus(
-   "Opening WalletConnect…"
-  );
-
-  await connectWC();
-
-  await finishConnection();
-
- }catch(error){
-
-  console.error(error);
-
-  setStatus("");
-
-  toast(cleanError(error));
-
- }
-
+ return window.openWalletModal();
 };
 
 
