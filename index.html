@@ -1240,12 +1240,10 @@ async function initReownAppKit(){
    projectId:CONFIG.walletConnectProjectId,
    metadata,
    allWallets:"SHOW",
-   enableReconnect:true,
-   enableNetworkSwitch:true,
    features:{
     analytics:false,
     email:false,
-    socials:false
+    socials:[]
    }
   });
 
@@ -2543,12 +2541,18 @@ window.scrollToOnramp=function(){
 
 };
 
-window.openWalletModal=function(){
+window.openWalletModal=async function(){
 
  setFooterActive("footerWallet");
 
+ // AppKit may still be loading on a slow mobile connection.
  if(!appKit){
-  toast("Wallet selector is loading…");
+  setStatus("Loading wallet selector…");
+  await initReownAppKit();
+ }
+
+ if(!appKit){
+  setStatus("Wallet selector unavailable. Please refresh once.");
   return;
  }
 
