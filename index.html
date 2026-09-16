@@ -536,7 +536,7 @@ footer button.active{color:#3f806f}
 <main>
 
 <!-- WALLET -->
-<section id="walletCard" class="card">
+<section class="card">
 
  <div class="walletStatus">
   <h2 style="margin:0">Wallet</h2>
@@ -790,46 +790,13 @@ footer button.active{color:#3f806f}
 
 <!-- WALLET MODAL -->
 <div id="walletModal" class="modal">
-
  <div class="modalCard">
-
   <h3>Connect Wallet</h3>
-
-  <p>
-   Select a wallet to connect. Normal web browsers can use WalletConnect;
-   wallet browsers can use their injected wallet connection.
-  </p>
-
-  <div class="connectGrid">
-
-   <button class="primary" onclick="connectWalletConnect()">
-    WalletConnect
-   </button>
-
-   <button onclick="openMetaMask()">
-    MetaMask
-   </button>
-
-   <button onclick="openTrust()">
-    Trust Wallet
-   </button>
-
-   <button onclick="openBitget()">
-    Bitget Wallet
-   </button>
-
-  </div>
-
-  <div class="smallNote">
-   BNB Smart Chain • Chain ID 56
-  </div>
-
-  <button class="close" onclick="closeWalletModal()">
-   Close
-  </button>
-
+  <p>Select any supported wallet from the Reown AppKit wallet selector.</p>
+  <button class="cta" type="button" onclick="openWalletModal()">Connect Wallet</button>
+  <div class="smallNote">BNB Smart Chain • Chain ID 56 • Reown AppKit</div>
+  <button class="close" onclick="closeWalletModal()">Close</button>
  </div>
-
 </div>
 
 <div id="toast" class="toast"></div>
@@ -927,9 +894,7 @@ let signer=null;
 
 let appKit=null;
 let appKitInitPromise=null;
-
 let appKitUnsubscribe=null;
-
 let wcProvider=null;
 
 let busy=false;
@@ -1220,211 +1185,43 @@ async function switchToBNB(provider){
 
 
 /* =========================================================
-   REOWN APPKIT INITIALIZATION
+   INJECTED WALLET
    ========================================================= */
 
-async function initReownAppKit(){
-
- if(appKit)
-  return appKit;
-
- if(appKitInitPromise)
-  return appKitInitPromise;
-
+async async function initReownAppKit(){
+ if(appKit) return appKit;
+ if(appKitInitPromise) return appKitInitPromise;
  appKitInitPromise=(async()=>{
-
-  try{
-
-   const metadata={
-    name:"GBK Swap",
-    description:"GBK Swap on BNB Smart Chain",
-    url:"https://swap.gbkai.com",
-    icons:["https://swap.gbkai.com/favicon.svg"]
-   };
-
-   appKit=createAppKit({
-    adapters:[new EthersAdapter()],
-    networks:[bsc],
-    defaultNetwork:bsc,
-    projectId:CONFIG.walletConnectProjectId,
-
-    /* Reown/WalletConnect is the single wallet-selection layer.
-       Do not restore or authorize a wallet automatically on page load. */
-    enableReconnect:false,
-
-    /* Network switching happens only when the user actually swaps. */
-    enableNetworkSwitch:false,
-
-    /* Keep the full wallet directory available. */
-    allWallets:"SHOW",
-    enableWallets:true,
-
-    /* Only request the EVM permissions the GBK Swap actually needs.
-       No signTransaction / signTypedData / personal_sign session methods. */
-    universalProviderConfigOverride:{
-     methods:{
-      eip155:[
-       "eth_accounts",
-       "eth_chainId",
-       "eth_sendTransaction"
-      ]
-     },
-     chains:{
-      eip155:["56"]
-     },
-     events:{
-      eip155:["accountsChanged","chainChanged"]
-     },
-     defaultChain:"eip155:56"
-    },
-
-    features:{
-     analytics:false,
-     email:false,
-     socials:[],
-     swaps:false,
-     onramp:false
-    },
-
-    metadata
-   });
-
-   if(appKitUnsubscribe){
-    try{ appKitUnsubscribe(); }catch(e){}
-    appKitUnsubscribe=null;
-   }
-
-   appKitUnsubscribe=appKit.subscribeProvider(async(state)=>{
-
-    try{
-
-     if(!state?.isConnected || !state?.provider){
-
-      if(walletAddress)
-       await disconnectWallet(false);
-
-      return;
-     }
-
-     /* IMPORTANT:
-        A connection event only records the public address/provider.
-        It NEVER creates an ethers signer, requests accounts, signs a
-        message, or switches networks. Signing is deferred to executeSwap(). */
-     walletProvider=state.provider;
-     walletAddress=state.address || appKit.getAddress() || "";
-
-     installWalletListeners(walletProvider);
-
-     await finishConnection();
-
-    }catch(error){
-
-     console.warn("Reown provider update:",error);
-
-    }
-
-   });
-
-   /* enableReconnect:false means this only reflects a session that AppKit
-      reports after an explicit user connection; it does not initiate one. */
-   if(appKit.getIsConnected()){
-
-    const provider=appKit.getWalletProvider();
-    const address=appKit.getAddress();
-
-    if(provider && address){
-
-     walletProvider=provider;
-     walletAddress=address;
-
-     installWalletListeners(provider);
-     await finishConnection();
-
-    }
-
-   }
-
-   console.log("Reown AppKit ready");
-
-   return appKit;
-
-  }catch(error){
-
-   console.error("Reown AppKit initialization failed:",error);
-   appKit=null;
-   throw error;
-
-  }finally{
-
-   appKitInitPromise=null;
-
-  }
-
- })();
-
+  const metadata={name:"GBK Swap",description:"GBK Swap on BNB Smart Chain",url:"https://swap.gbkai.com",icons:["https://swap.gbkai.com/favicon.svg"]};
+  appKit=createAppKit({adapters:[new EthersAdapter()],networks:[bsc],defaultNetwork:bsc,projectId:CONFIG.walletConnectProjectId,enableReconnect:false,enableNetworkSwitch:false,allWallets:"SHOW",enableWallets:true,universalProviderConfigOverride:{methods:{eip155:["eth_accounts","eth_chainId","eth_sendTransaction"]},chains:{eip155:["56"]},events:{eip155:["accountsChanged","chainChanged"]},defaultChain:"eip155:56"},features:{analytics:false,email:false,socials:[],swaps:false,onramp:false},metadata});
+  appKitUnsubscribe=appKit.subscribeProvider(async(state)=>{
+   try{
+    if(!state?.isConnected || !state?.provider){ if(walletAddress) await disconnectWallet(false); return; }
+    walletProvider=state.provider; walletAddress=state.address||appKit.getAddress()||""; installWalletListeners(walletProvider); await finishConnection();
+   }catch(e){console.warn("Reown provider update:",e);}
+  });
+  return appKit;
+ })().finally(()=>{appKitInitPromise=null;});
  return appKitInitPromise;
-
 }
-
-
-/* =========================================================
-   INJECTED WALLET
-   ========================================================= */
-
-
-/* =========================================================
-   INJECTED WALLET
-   ========================================================= */
 
 async function connectInjected(){
-
- if(!window.ethereum)
-  return false;
-
- const provider=
-  window.ethereum.providers?.find(p=>p.isMetaMask) ||
-  window.ethereum;
-
- /* Explicit connect only. Never create a signer here. */
- await provider.request({
-  method:"eth_requestAccounts"
- });
-
+ if(!window.ethereum) return false;
+ const provider=window.ethereum.providers?.find(p=>p.isMetaMask)||window.ethereum;
+ await provider.request({method:"eth_requestAccounts"});
  walletProvider=provider;
-
- const accounts=await provider.request({
-  method:"eth_accounts"
- });
-
- walletAddress=accounts?.[0] || "";
-
+ const accounts=await provider.request({method:"eth_accounts"});
+ walletAddress=accounts?.[0]||"";
  installWalletListeners(provider);
-
  return !!walletAddress;
-
 }
-
-
-/* =========================================================
-   WALLETCONNECT
-   ========================================================= */
-
-
-/* =========================================================
-   WALLETCONNECT
-   ========================================================= */
 
 async function connectWC(){
-
- throw new Error("Use Reown AppKit wallet selector");
-
+ await initReownAppKit();
+ if(!appKit) throw new Error("Wallet selector unavailable");
+ appKit.open({view:"Connect",namespace:"eip155"});
+ return true;
 }
-
-
-/* =========================================================
-   WALLET LISTENERS
-   ========================================================= */
-
 
 /* =========================================================
    WALLET LISTENERS
@@ -1481,27 +1278,34 @@ async function refreshConnectedWallet(){
 
   if(!accounts?.length){
 
-   await disconnectWallet();
+   disconnectWallet();
 
    return;
 
   }
 
-  /* Read-only connection refresh. Do not switch chain or create signer here. */
-  walletAddress=accounts[0];
+  await switchToBNB(walletProvider);
+
+  ethersProvider=
+   new ethers.BrowserProvider(
+    walletProvider
+   );
+
+  signer=
+   await ethersProvider.getSigner();
+
+  walletAddress=
+   await signer.getAddress();
 
   await finishConnection();
 
  }catch(error){
 
-  console.warn("Wallet refresh:",error);
+  console.warn(error);
 
  }
 
-
-/* =========================================================
-   ACCOUNTS CHANGED
-   ========================================================= */
+}
 
 
 /* =========================================================
@@ -1551,8 +1355,7 @@ async function finishConnection(){
  const connectBtn=$("walletConnectBtn");
  if(connectBtn){
   connectBtn.textContent="Disconnect Wallet";
-  connectBtn.onclick=()=>disconnectWallet();
-  connectBtn.setAttribute("aria-label","Disconnect connected wallet");
+  connectBtn.onclick=disconnectWallet;
  }
 
  setStatus(
@@ -1592,83 +1395,80 @@ window.connectWalletConnect=async function(){
 
   closeWalletModal();
 
-  await openWalletModal();
+  setStatus(
+   "Opening WalletConnect…"
+  );
+
+  await connectWC();
+
+  await finishConnection();
 
  }catch(error){
 
   console.error(error);
+
   setStatus("");
+
   toast(cleanError(error));
 
  }
 
-}
+};
 
 
 /* =========================================================
    DISCONNECT
    ========================================================= */
 
+async function disconnectWallet(){
 
-/* =========================================================
-   DISCONNECT
-   ========================================================= */
-
-async function disconnectWallet(closeAppKit=true){
-
+ const activeProvider=walletProvider;
  const activeWcProvider=wcProvider;
-
- if(closeAppKit && appKit){
-
-  try{
-
-   if(appKit.getIsConnected())
-    await appKit.adapter?.connectionControllerClient?.disconnect();
-
-  }catch(error){
-
-   console.warn("Reown disconnect:",error);
-
-  }
-
- }
 
  walletAddress="";
  walletProvider=null;
  ethersProvider=null;
  signer=null;
 
+ // Fully terminate a WalletConnect session so a later connection
+ // starts cleanly instead of silently reusing the old session.
  if(activeWcProvider){
-
   try{
    await activeWcProvider.disconnect();
   }catch(error){
    console.warn("WalletConnect disconnect:",error);
   }
-
  }
 
- $("walletAddress").textContent="Connect wallet";
+ $("walletAddress").textContent=
+  "Connect wallet";
 
- $("walletBadge").textContent="● Not connected";
+ $("walletBadge").textContent=
+  "● Not connected";
 
- $("walletBadge").style.background="#e8f7f1";
+ $("walletBadge").style.background=
+  "#e8f7f1";
 
- $("walletBadge").style.color="#277863";
+ $("walletBadge").style.color=
+  "#277863";
 
  $("bnbBalance").textContent="—";
+
  $("gbkBalance").textContent="—";
+
  $("usdtBalance").textContent="—";
+
  $("fromBalance").textContent="—";
+
  $("toBalance").textContent="—";
 
- $("swapBtn").textContent="Connect Wallet & Swap";
+ $("swapBtn").textContent=
+  "Connect Wallet & Swap";
 
  const connectBtn=$("walletConnectBtn");
  if(connectBtn){
   connectBtn.textContent="Connect Wallet";
-  connectBtn.onclick=()=>openWalletModal();
-  connectBtn.setAttribute("aria-label","Connect wallet");
+  connectBtn.onclick=openWalletModal;
  }
 
  setStatus("");
@@ -2485,115 +2285,22 @@ window.openRamp = async function(type) {
    UI
    ========================================================= */
 
-window.openWalletModal=function(){
-
- $("walletModal")
-  .classList.add("show");
-
-};
-
-window.closeWalletModal=function(){
-
- $("walletModal")
-  .classList.remove("show");
-
-};
-
-function setFooterActive(id){
-
- ["footerSwap","footerBuySell","footerWallet"].forEach(key=>{
-  const el=$(key);
-  if(el) el.classList.toggle("active",key===id);
- });
-
-}
-
-window.scrollToTop=function(){
-
- setFooterActive("footerSwap");
-
- window.scrollTo({
-  top:0,
-  behavior:"smooth"
- });
-
-};
-
-window.scrollToOnramp=function(){
-
- setFooterActive("footerBuySell");
-
- const target=$("onrampCard");
-
- if(target){
-
-  target.scrollIntoView({
-   behavior:"smooth",
-   block:"start"
-  });
-
- }
-
-};
-
 window.openWalletModal=async function(){
-
  setFooterActive("footerWallet");
-
  try{
-
-  if(!appKit)
-   await initReownAppKit();
-
-  if(!appKit){
-
-   setStatus("Wallet selector unavailable. Please refresh once.");
-   return;
-
-  }
-
-  /* The ONLY action performed by this button is opening Reown/AppKit.
-     AppKit handles the wallet directory, WalletConnect and injected wallets. */
+  closeWalletModal();
+  await initReownAppKit();
+  if(!appKit) throw new Error("Wallet selector unavailable");
   if(appKit.getIsConnected()){
-
-   const address=appKit.getAddress();
-
-   if(address){
-
-    walletAddress=address;
-    walletProvider=appKit.getWalletProvider();
-
-    if(walletProvider)
-     installWalletListeners(walletProvider);
-
-    await finishConnection();
-    appKit.open({view:"Account"});
-    return;
-
-   }
-
+   const address=appKit.getAddress(), provider=appKit.getWalletProvider();
+   if(address&&provider){walletProvider=provider;walletAddress=address;installWalletListeners(provider);await finishConnection();appKit.open({view:"Account"});return;}
   }
-
-  appKit.open({
-   view:"Connect",
-   namespace:"eip155"
-  });
-
- }catch(error){
-
-  console.error("Open AppKit:",error);
-  setStatus("");
-  toast(cleanError(error));
-
- }
-
-}
-
-
-/* =========================================================
-   INPUT
-   ========================================================= */
-
+  appKit.open({view:"Connect",namespace:"eip155"});
+ }catch(error){console.error("Open AppKit:",error);toast(cleanError(error));}
+};
+window.connectWallet=async function(){return window.openWalletModal();};
+window.connectWalletConnect=async function(){return window.openWalletModal();};
+window.closeWalletModal=function(){$("walletModal").classList.remove("show");};
 
 /* =========================================================
    INPUT
@@ -2609,63 +2316,12 @@ $("amount").addEventListener(
 
 
 /* =========================================================
-   AUTO RECONNECT
+   WALLET SESSION RESUME
    ========================================================= */
-
-window.addEventListener(
- "load",
- async()=>{
-  renderHistory();
- }
-)
-
-
-/* =========================================================
-   RESUME WALLET SESSION AFTER MOBILE WALLET RETURN
-   ========================================================= */
-
-
-/* =========================================================
-   RESUME WALLET SESSION AFTER MOBILE WALLET RETURN
-   ========================================================= */
-
-async function resumeWalletSession(){
-
- if(!appKit || !appKit.getIsConnected())
-  return;
-
- try{
-
-  const provider=appKit.getWalletProvider();
-  const address=appKit.getAddress();
-
-  if(provider && address){
-
-   walletProvider=provider;
-   walletAddress=address;
-
-   installWalletListeners(provider);
-   await finishConnection();
-
-  }
-
- }catch(error){
-
-  console.warn("Wallet resume:",error);
-
- }
-
-document.addEventListener("visibilitychange",()=>{
-
-document.addEventListener("visibilitychange",()=>{
- if(!document.hidden)
-  setTimeout(resumeWalletSession,300);
-});
-
-window.addEventListener("pageshow",()=>{
- setTimeout(resumeWalletSession,300);
-});
-
+window.addEventListener("load",async()=>{renderHistory();try{await initReownAppKit();}catch(e){console.warn("AppKit startup:",e);}});
+async function resumeWalletSession(){if(!appKit||!appKit.getIsConnected())return;try{const provider=appKit.getWalletProvider(),address=appKit.getAddress();if(provider&&address){walletProvider=provider;walletAddress=address;installWalletListeners(provider);await finishConnection();}}catch(e){console.warn("Wallet resume:",e);}}
+document.addEventListener("visibilitychange",()=>{if(!document.hidden)setTimeout(resumeWalletSession,300);});
+window.addEventListener("pageshow",()=>setTimeout(resumeWalletSession,300));
 
 /* =========================================================
    PERIODIC BALANCE REFRESH
@@ -2686,13 +2342,7 @@ setInterval(
    INITIAL MODE
    ========================================================= */
 
-// Initialize exactly one Reown/AppKit instance.
-// enableReconnect:false prevents any wallet permission request on page load.
-// The wallet chooser opens only after the user taps Connect Wallet.
-initReownAppKit().catch(error=>{
- console.warn("AppKit startup:",error);
-});
-
+initReownAppKit().catch(e=>console.warn("AppKit startup:",e));
 setMode("sell");
 
 </script>
