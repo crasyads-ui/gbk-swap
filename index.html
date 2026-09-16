@@ -1205,12 +1205,42 @@ async function initReownAppKit(){
    networks:[bsc],
    defaultNetwork:bsc,
    projectId:CONFIG.walletConnectProjectId,
-   metadata,
+
+   // Keep Reown/AppKit as the single wallet-selection layer.
+   // Do not request wallet authorization or switch networks on page load.
+   enableReconnect:false,
+   enableNetworkSwitch:false,
+
+   // Keep the complete EVM wallet directory available.
+   allWallets:"SHOW",
+   enableWallets:true,
+
+   universalProviderConfigOverride:{
+    methods:{
+     eip155:[
+      "eth_accounts",
+      "eth_chainId",
+      "eth_sendTransaction"
+     ]
+    },
+    chains:{
+     eip155:["56"]
+    },
+    events:{
+     eip155:["accountsChanged","chainChanged"]
+    },
+    defaultChain:"eip155:56"
+   },
+
    features:{
     analytics:false,
     email:false,
-    socials:[]
-   }
+    socials:[],
+    swaps:false,
+    onramp:false
+   },
+
+   metadata
   });
 
   appKitUnsubscribe=appKit.subscribeProvider(async(state)=>{
