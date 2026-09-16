@@ -566,8 +566,8 @@ footer button.active{color:#3f806f}
  </div>
 
  <div class="connectGrid" style="margin-top:12px">
-  <button class="primary" onclick="connectWallet()">Connect Wallet</button>
-  <button onclick="openWalletModal()">Other Wallets</button>
+  <button id="walletConnectBtn" class="primary" onclick="openWalletModal()">Connect Wallet</button>
+  <button id="walletOtherBtn" onclick="openWalletModal()">Other Wallets</button>
  </div>
 
  <div id="walletStatusLine" class="statusline"></div>
@@ -796,8 +796,8 @@ footer button.active{color:#3f806f}
   <h3>Connect Wallet</h3>
 
   <p>
-   Choose your wallet. Normal Chrome uses WalletConnect.
-   Wallet browsers use their injected wallet connection.
+   Select a wallet to connect. Normal web browsers can use WalletConnect;
+   wallet browsers can use their injected wallet connection.
   </p>
 
   <div class="connectGrid">
@@ -1216,7 +1216,12 @@ async function connectInjected(){
  if(!window.ethereum)
   return false;
 
- const provider=window.ethereum;
+ // Some desktop browsers expose multiple injected wallets.
+ // Prefer the provider that is already selected by the browser,
+ // while still supporting the standard providers array.
+ const provider=
+  window.ethereum.providers?.find(p=>p.isMetaMask) ||
+  window.ethereum;
 
  await provider.request({
   method:"eth_requestAccounts"
@@ -1434,6 +1439,12 @@ async function finishConnection(){
 
  $("swapBtn").textContent="Swap";
 
+ const connectBtn=$("walletConnectBtn");
+ if(connectBtn){
+  connectBtn.textContent="Disconnect Wallet";
+  connectBtn.onclick=disconnectWallet;
+ }
+
  setStatus(
   "Connected • BNB Smart Chain"
  );
@@ -1457,43 +1468,10 @@ async function finishConnection(){
 
 window.connectWallet=async function(){
 
- try{
-
-  setStatus("Connecting wallet…");
-
-  let ok=false;
-
-  /*
-   * IMPORTANT:
-   * If a wallet browser injected provider exists,
-   * use it first.
-   */
-
-  if(window.ethereum){
-
-   ok=await connectInjected();
-
-  }else{
-
-   ok=await connectWC();
-
-  }
-
-  if(ok){
-
-   await finishConnection();
-
-  }
-
- }catch(error){
-
-  console.error(error);
-
-  setStatus("");
-
-  toast(cleanError(error));
-
- }
+ // The main Connect Wallet button opens the wallet chooser.
+ // The user can then select WalletConnect, MetaMask, Trust Wallet,
+ // or Bitget Wallet instead of being forced into one provider.
+ openWalletModal();
 
 };
 
@@ -1529,15 +1507,25 @@ window.connectWalletConnect=async function(){
    DISCONNECT
    ========================================================= */
 
-function disconnectWallet(){
+async function disconnectWallet(){
+
+ const activeProvider=walletProvider;
+ const activeWcProvider=wcProvider;
 
  walletAddress="";
-
  walletProvider=null;
-
  ethersProvider=null;
-
  signer=null;
+
+ // Fully terminate a WalletConnect session so a later connection
+ // starts cleanly instead of silently reusing the old session.
+ if(activeWcProvider){
+  try{
+   await activeWcProvider.disconnect();
+  }catch(error){
+   console.warn("WalletConnect disconnect:",error);
+  }
+ }
 
  $("walletAddress").textContent=
   "Connect wallet";
@@ -1564,7 +1552,14 @@ function disconnectWallet(){
  $("swapBtn").textContent=
   "Connect Wallet & Swap";
 
+ const connectBtn=$("walletConnectBtn");
+ if(connectBtn){
+  connectBtn.textContent="Connect Wallet";
+  connectBtn.onclick=openWalletModal;
+ }
+
  setStatus("");
+ renderHistory();
 
 }
 
