@@ -1249,11 +1249,7 @@ async function connectInjected(){
 async function connectWC(){
 
  if(!CONFIG.walletConnectProjectId){
-
-  throw new Error(
-   "WalletConnect Project ID missing"
-  );
-
+  throw new Error("WalletConnect Project ID missing");
  }
 
  if(!wcProvider){
@@ -1263,60 +1259,44 @@ async function connectWC(){
     "https://esm.sh/@walletconnect/ethereum-provider@2.21.2"
    );
 
-  const EthereumProvider =
-   module.default;
+  const EthereumProvider = module.default;
 
-  wcProvider=
-   await EthereumProvider.init({
+  wcProvider = await EthereumProvider.init({
+   projectId: CONFIG.walletConnectProjectId,
+   chains:[CONFIG.chainId],
+   optionalChains:[CONFIG.chainId],
+   showQrModal:true,
+   metadata:{
+    name:"GBK Swap",
+    description:"GBK Swap on BNB Smart Chain",
+    url:location.origin,
+    icons:[location.origin+"/favicon.ico"]
+   }
+  });
 
-    projectId:
-     CONFIG.walletConnectProjectId,
-
-    chains:[
-     CONFIG.chainId
-    ],
-
-    optionalChains:[
-     CONFIG.chainId
-    ],
-
-    showQrModal:true,
-
-    metadata:{
-
-     name:"GBK Swap",
-
-     description:
-      "GBK Swap on BNB Smart Chain",
-
-     url:location.origin,
-
-     icons:[
-      location.origin+"/favicon.ico"
-     ]
-
-    }
-
-   });
-
+  installWalletListeners(wcProvider);
  }
 
- await wcProvider.connect();
+ // Reuse an existing WalletConnect session when possible.
+ // This is important when a normal Chrome/Samsung Internet tab
+ // returns from Trust/Bitget/another wallet app.
+ let accounts = [];
+ try{
+  accounts = await wcProvider.request({method:"eth_accounts"});
+ }catch(e){
+  accounts = [];
+ }
+
+ if(!accounts?.length){
+  await wcProvider.connect();
+ }
 
  await switchToBNB(wcProvider);
 
- walletProvider=wcProvider;
-
- ethersProvider=
-  new ethers.BrowserProvider(
-   walletProvider
-  );
-
- signer=
-  await ethersProvider.getSigner();
-
- walletAddress=
-  await signer.getAddress();
+ walletProvider = wcProvider;
+ ethersProvider = new ethers.BrowserProvider(walletProvider);
+ signer = await ethersProvider.getSigner();
+ walletAddress = await signer.getAddress();
 
  installWalletListeners(wcProvider);
 
@@ -1595,56 +1575,48 @@ function disconnectWallet(){
 
 async function ensureSigner(){
 
- if(
-  signer &&
-  walletAddress
- )
-  return true;
-
+ // A WalletConnect session can be paused while the wallet app
+ // is in the background. Do not trust a cached signer alone.
  if(walletProvider){
 
-  const accounts=
-   await walletProvider.request({
-    method:"eth_accounts"
-   });
+  let accounts = [];
+
+  try{
+   accounts = await withTimeout(
+    walletProvider.request({method:"eth_accounts"}),
+    8000,
+    "Wallet connection"
+   );
+  }catch(e){
+   accounts = [];
+  }
+
+  if(!accounts?.length && walletProvider===wcProvider){
+   await connectWC();
+   return true;
+  }
 
   if(!accounts?.length){
-
    await walletProvider.request({
     method:"eth_requestAccounts"
    });
-
   }
 
   await switchToBNB(walletProvider);
 
-  ethersProvider=
-   new ethers.BrowserProvider(
-    walletProvider
-   );
-
-  signer=
-   await ethersProvider.getSigner();
-
-  walletAddress=
-   await signer.getAddress();
+  ethersProvider = new ethers.BrowserProvider(walletProvider);
+  signer = await ethersProvider.getSigner();
+  walletAddress = await signer.getAddress();
 
   return true;
-
  }
 
  if(window.ethereum){
-
   await connectInjected();
-
   return true;
-
  }
 
- throw new Error(
-  "No wallet provider found"
- );
-
+ throw new Error("No wallet provider found");
 }
 
 
@@ -2526,6 +2498,44 @@ window.addEventListener(
   }
 
  });
+
+
+/* =========================================================
+   RESUME WALLET SESSION AFTER MOBILE WALLET RETURN
+   ========================================================= */
+
+async function resumeWalletSession(){
+
+ if(!walletAddress || !wcProvider)
+  return;
+
+ try{
+  const accounts = await withTimeout(
+   wcProvider.request({method:"eth_accounts"}),
+   6000,
+   "Wallet resume"
+  );
+
+  if(accounts?.length){
+   walletProvider = wcProvider;
+   ethersProvider = new ethers.BrowserProvider(walletProvider);
+   signer = await ethersProvider.getSigner();
+   walletAddress = await signer.getAddress();
+   await finishConnection();
+  }
+ }catch(error){
+  console.warn("WalletConnect resume:",error);
+ }
+}
+
+document.addEventListener("visibilitychange",()=>{
+ if(!document.hidden)
+  setTimeout(resumeWalletSession,300);
+});
+
+window.addEventListener("pageshow",()=>{
+ setTimeout(resumeWalletSession,300);
+});
 
 
 /* =========================================================
