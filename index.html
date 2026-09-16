@@ -926,6 +926,7 @@ let ethersProvider=null;
 let signer=null;
 
 let appKit=null;
+let appKitInitPromise=null;
 
 let appKitUnsubscribe=null;
 
@@ -1224,96 +1225,151 @@ async function switchToBNB(provider){
 
 async function initReownAppKit(){
 
- try{
+ if(appKit)
+  return appKit;
 
-  const metadata={
-   name:"GBK Swap",
-   description:"GBK Swap on BNB Smart Chain",
-   url:"https://swap.gbkai.com",
-   icons:["https://swap.gbkai.com/favicon.ico"]
-  };
+ if(appKitInitPromise)
+  return appKitInitPromise;
 
-  appKit=createAppKit({
-   adapters:[new EthersAdapter()],
-   networks:[bsc],
-   defaultNetwork:bsc,
-   projectId:CONFIG.walletConnectProjectId,
-   metadata,
-   allWallets:"SHOW",
-   features:{
-    analytics:false,
-    email:false,
-    socials:[]
+ appKitInitPromise=(async()=>{
+
+  try{
+
+   const metadata={
+    name:"GBK Swap",
+    description:"GBK Swap on BNB Smart Chain",
+    url:"https://swap.gbkai.com",
+    icons:["https://swap.gbkai.com/favicon.svg"]
+   };
+
+   appKit=createAppKit({
+    adapters:[new EthersAdapter()],
+    networks:[bsc],
+    defaultNetwork:bsc,
+    projectId:CONFIG.walletConnectProjectId,
+
+    /* Reown/WalletConnect is the single wallet-selection layer.
+       Do not restore or authorize a wallet automatically on page load. */
+    enableReconnect:false,
+
+    /* Network switching happens only when the user actually swaps. */
+    enableNetworkSwitch:false,
+
+    /* Keep the full wallet directory available. */
+    allWallets:"SHOW",
+    enableWallets:true,
+
+    /* Only request the EVM permissions the GBK Swap actually needs.
+       No signTransaction / signTypedData / personal_sign session methods. */
+    universalProviderConfigOverride:{
+     methods:{
+      eip155:[
+       "eth_accounts",
+       "eth_chainId",
+       "eth_sendTransaction"
+      ]
+     },
+     chains:{
+      eip155:["56"]
+     },
+     events:{
+      eip155:["accountsChanged","chainChanged"]
+     },
+     defaultChain:"eip155:56"
+    },
+
+    features:{
+     analytics:false,
+     email:false,
+     socials:[],
+     swaps:false,
+     onramp:false
+    },
+
+    metadata
+   });
+
+   if(appKitUnsubscribe){
+    try{ appKitUnsubscribe(); }catch(e){}
+    appKitUnsubscribe=null;
    }
-  });
 
-  appKitUnsubscribe=appKit.subscribeProvider(async(state)=>{
+   appKitUnsubscribe=appKit.subscribeProvider(async(state)=>{
 
-   try{
+    try{
 
-    if(!state?.isConnected || !state?.provider){
+     if(!state?.isConnected || !state?.provider){
 
-     if(walletAddress)
-      await disconnectWallet(false);
+      if(walletAddress)
+       await disconnectWallet(false);
 
-     return;
-    }
-
-    // Do not request a signer while AppKit is initializing or restoring
-    // a session. Some mobile wallets treat signer/provider access as an
-    // authorization request. Only create the signer when a transaction
-    // is actually submitted.
-    walletProvider=state.provider;
-    walletAddress=state.address || appKit.getAddress() || "";
-
-    if(Number(state.chainId)!==CONFIG.chainId){
-
-     try{
-      await appKit.switchNetwork(bsc);
-     }catch(error){
-      console.warn("Reown BNB network switch:",error);
+      return;
      }
 
+     /* IMPORTANT:
+        A connection event only records the public address/provider.
+        It NEVER creates an ethers signer, requests accounts, signs a
+        message, or switches networks. Signing is deferred to executeSwap(). */
+     walletProvider=state.provider;
+     walletAddress=state.address || appKit.getAddress() || "";
+
+     installWalletListeners(walletProvider);
+
+     await finishConnection();
+
+    }catch(error){
+
+     console.warn("Reown provider update:",error);
+
     }
 
-    installWalletListeners(walletProvider);
+   });
 
-    await finishConnection();
+   /* enableReconnect:false means this only reflects a session that AppKit
+      reports after an explicit user connection; it does not initiate one. */
+   if(appKit.getIsConnected()){
 
-   }catch(error){
+    const provider=appKit.getWalletProvider();
+    const address=appKit.getAddress();
 
-    console.warn("Reown provider update:",error);
+    if(provider && address){
+
+     walletProvider=provider;
+     walletAddress=address;
+
+     installWalletListeners(provider);
+     await finishConnection();
+
+    }
 
    }
 
-  });
+   console.log("Reown AppKit ready");
 
-  // AppKit can restore a previous wallet session. Do not create an
-  // ethers signer here: signer access must be deferred until the user
-  // explicitly performs a transaction. This prevents mobile wallets from
-  // showing an unexpected authorization/signature request during startup.
-  if(appKit.getIsConnected()){
-   const provider=appKit.getWalletProvider();
-   const address=appKit.getAddress();
+   return appKit;
 
-   if(provider && address){
-    walletProvider=provider;
-    walletAddress=address;
-    installWalletListeners(provider);
-    await finishConnection();
-   }
+  }catch(error){
+
+   console.error("Reown AppKit initialization failed:",error);
+   appKit=null;
+   throw error;
+
+  }finally{
+
+   appKitInitPromise=null;
+
   }
 
-  console.log("Reown AppKit ready");
+ })();
 
- }catch(error){
-
-  console.error("Reown AppKit initialization failed:",error);
-  toast("Wallet selector failed to load. Refresh and try again.");
-
- }
+ return appKitInitPromise;
 
 }
+
+
+/* =========================================================
+   INJECTED WALLET
+   ========================================================= */
 
 
 /* =========================================================
@@ -1325,33 +1381,26 @@ async function connectInjected(){
  if(!window.ethereum)
   return false;
 
- // Some desktop browsers expose multiple injected wallets.
- // Prefer the provider that is already selected by the browser,
- // while still supporting the standard providers array.
  const provider=
   window.ethereum.providers?.find(p=>p.isMetaMask) ||
   window.ethereum;
 
+ /* Explicit connect only. Never create a signer here. */
  await provider.request({
   method:"eth_requestAccounts"
  });
 
- await switchToBNB(provider);
-
  walletProvider=provider;
 
- ethersProvider=
-  new ethers.BrowserProvider(provider);
+ const accounts=await provider.request({
+  method:"eth_accounts"
+ });
 
- signer=
-  await ethersProvider.getSigner();
-
- walletAddress=
-  await signer.getAddress();
+ walletAddress=accounts?.[0] || "";
 
  installWalletListeners(provider);
 
- return true;
+ return !!walletAddress;
 
 }
 
@@ -1360,63 +1409,21 @@ async function connectInjected(){
    WALLETCONNECT
    ========================================================= */
 
+
+/* =========================================================
+   WALLETCONNECT
+   ========================================================= */
+
 async function connectWC(){
 
- if(!CONFIG.walletConnectProjectId){
-  throw new Error("WalletConnect Project ID missing");
- }
-
- if(!wcProvider){
-
-  const module =
-   await import(
-    "https://esm.sh/@walletconnect/ethereum-provider@2.21.2"
-   );
-
-  const EthereumProvider = module.default;
-
-  wcProvider = await EthereumProvider.init({
-   projectId: CONFIG.walletConnectProjectId,
-   chains:[CONFIG.chainId],
-   optionalChains:[CONFIG.chainId],
-   showQrModal:true,
-   metadata:{
-    name:"GBK Swap",
-    description:"GBK Swap on BNB Smart Chain",
-    url:location.origin,
-    icons:[location.origin+"/favicon.ico"]
-   }
-  });
-
-  installWalletListeners(wcProvider);
- }
-
- // Reuse an existing WalletConnect session when possible.
- // This is important when a normal Chrome/Samsung Internet tab
- // returns from Trust/Bitget/another wallet app.
- let accounts = [];
- try{
-  accounts = await wcProvider.request({method:"eth_accounts"});
- }catch(e){
-  accounts = [];
- }
-
- if(!accounts?.length){
-  await wcProvider.connect();
- }
-
- await switchToBNB(wcProvider);
-
- walletProvider = wcProvider;
- ethersProvider = new ethers.BrowserProvider(walletProvider);
- signer = await ethersProvider.getSigner();
- walletAddress = await signer.getAddress();
-
- installWalletListeners(wcProvider);
-
- return true;
+ throw new Error("Use Reown AppKit wallet selector");
 
 }
+
+
+/* =========================================================
+   WALLET LISTENERS
+   ========================================================= */
 
 
 /* =========================================================
@@ -1474,34 +1481,27 @@ async function refreshConnectedWallet(){
 
   if(!accounts?.length){
 
-   disconnectWallet();
+   await disconnectWallet();
 
    return;
 
   }
 
-  await switchToBNB(walletProvider);
-
-  ethersProvider=
-   new ethers.BrowserProvider(
-    walletProvider
-   );
-
-  signer=
-   await ethersProvider.getSigner();
-
-  walletAddress=
-   await signer.getAddress();
+  /* Read-only connection refresh. Do not switch chain or create signer here. */
+  walletAddress=accounts[0];
 
   await finishConnection();
 
  }catch(error){
 
-  console.warn(error);
+  console.warn("Wallet refresh:",error);
 
  }
 
-}
+
+/* =========================================================
+   ACCOUNTS CHANGED
+   ========================================================= */
 
 
 /* =========================================================
@@ -1592,25 +1592,22 @@ window.connectWalletConnect=async function(){
 
   closeWalletModal();
 
-  setStatus(
-   "Opening WalletConnect…"
-  );
-
-  await connectWC();
-
-  await finishConnection();
+  await openWalletModal();
 
  }catch(error){
 
   console.error(error);
-
   setStatus("");
-
   toast(cleanError(error));
 
  }
 
-};
+}
+
+
+/* =========================================================
+   DISCONNECT
+   ========================================================= */
 
 
 /* =========================================================
@@ -2543,27 +2540,59 @@ window.openWalletModal=async function(){
 
  setFooterActive("footerWallet");
 
- // AppKit may still be loading on a slow mobile connection.
- if(!appKit){
-  setStatus("Loading wallet selector…");
-  await initReownAppKit();
+ try{
+
+  if(!appKit)
+   await initReownAppKit();
+
+  if(!appKit){
+
+   setStatus("Wallet selector unavailable. Please refresh once.");
+   return;
+
+  }
+
+  /* The ONLY action performed by this button is opening Reown/AppKit.
+     AppKit handles the wallet directory, WalletConnect and injected wallets. */
+  if(appKit.getIsConnected()){
+
+   const address=appKit.getAddress();
+
+   if(address){
+
+    walletAddress=address;
+    walletProvider=appKit.getWalletProvider();
+
+    if(walletProvider)
+     installWalletListeners(walletProvider);
+
+    await finishConnection();
+    appKit.open({view:"Account"});
+    return;
+
+   }
+
+  }
+
+  appKit.open({
+   view:"Connect",
+   namespace:"eip155"
+  });
+
+ }catch(error){
+
+  console.error("Open AppKit:",error);
+  setStatus("");
+  toast(cleanError(error));
+
  }
 
- if(!appKit){
-  setStatus("Wallet selector unavailable. Please refresh once.");
-  return;
- }
+}
 
- // Always open the Reown/AppKit EVM wallet chooser when the user
- // explicitly asks to connect. No signer or transaction permission is
- // requested merely by opening the selector.
- if(walletAddress){
-  appKit.open({view:"Account"});
- }else{
-  appKit.open({view:"Connect",namespace:"eip155"});
- }
 
-};
+/* =========================================================
+   INPUT
+   ========================================================= */
 
 
 /* =========================================================
@@ -2587,45 +2616,13 @@ window.addEventListener(
  "load",
  async()=>{
   renderHistory();
+ }
+)
 
-  try{
 
-   /*
-    * Wallet browser:
-    * silently reconnect only if already authorized.
-    */
-
-   if(window.ethereum){
-
-    const accounts=
-     await window.ethereum.request({
-      method:"eth_accounts"
-     });
-
-    if(accounts?.length){
-
-     await connectInjected();
-
-     await finishConnection();
-
-    }
-
-    installWalletListeners(
-     window.ethereum
-    );
-
-   }
-
-  }catch(error){
-
-   console.warn(
-    "Auto reconnect:",
-    error
-   );
-
-  }
-
- });
+/* =========================================================
+   RESUME WALLET SESSION AFTER MOBILE WALLET RETURN
+   ========================================================= */
 
 
 /* =========================================================
@@ -2634,27 +2631,31 @@ window.addEventListener(
 
 async function resumeWalletSession(){
 
- if(!walletAddress || !wcProvider)
+ if(!appKit || !appKit.getIsConnected())
   return;
 
  try{
-  const accounts = await withTimeout(
-   wcProvider.request({method:"eth_accounts"}),
-   6000,
-   "Wallet resume"
-  );
 
-  if(accounts?.length){
-   walletProvider = wcProvider;
-   ethersProvider = new ethers.BrowserProvider(walletProvider);
-   signer = await ethersProvider.getSigner();
-   walletAddress = await signer.getAddress();
+  const provider=appKit.getWalletProvider();
+  const address=appKit.getAddress();
+
+  if(provider && address){
+
+   walletProvider=provider;
+   walletAddress=address;
+
+   installWalletListeners(provider);
    await finishConnection();
+
   }
+
  }catch(error){
-  console.warn("WalletConnect resume:",error);
+
+  console.warn("Wallet resume:",error);
+
  }
-}
+
+document.addEventListener("visibilitychange",()=>{
 
 document.addEventListener("visibilitychange",()=>{
  if(!document.hidden)
@@ -2685,9 +2686,12 @@ setInterval(
    INITIAL MODE
    ========================================================= */
 
-// Initialize Reown AppKit before the user presses Connect Wallet.
-// The AppKit modal then exposes the full EVM wallet directory.
-initReownAppKit();
+// Initialize exactly one Reown/AppKit instance.
+// enableReconnect:false prevents any wallet permission request on page load.
+// The wallet chooser opens only after the user taps Connect Wallet.
+initReownAppKit().catch(error=>{
+ console.warn("AppKit startup:",error);
+});
 
 setMode("sell");
 
