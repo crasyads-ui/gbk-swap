@@ -846,7 +846,7 @@ const CONFIG = {
 
  usdtDecimals:18,
 
- buySlippage:14,
+ buySlippage:18,
  sellSlippage:18,
 
  walletConnectProjectId:
@@ -2047,18 +2047,43 @@ async function executeSwap(amount){
   $("swapBtn").textContent=
    "Confirm swap in wallet…";
 
-  const tx=
-   await router
+  let tx;
+  try{
+   tx=await router
     .swapExactTokensForTokensSupportingFeeOnTransferTokens(
      amountIn,
      minOut,
      path,
      walletAddress,
      deadline,
-     {
-      gasLimit:900000n
-     }
+     {gasLimit:900000n}
     );
+  }catch(firstError){
+   // GBK rebases can change the live pair state between quote and wallet
+   // confirmation. Re-quote once before failing the user's swap.
+   if(mode!=="buy") throw firstError;
+
+   $("swapBtn").textContent="Refreshing buy quote…";
+
+   const fresh=await getQuote(amount);
+   const freshMinOut=
+    fresh.netOut*
+    BigInt(100-currentSlippage())/100n;
+
+   if(freshMinOut>=minOut) throw firstError;
+
+   const freshDeadline=Math.floor(Date.now()/1000)+1200;
+
+   tx=await router
+    .swapExactTokensForTokensSupportingFeeOnTransferTokens(
+     amountIn,
+     freshMinOut,
+     fresh.path,
+     walletAddress,
+     freshDeadline,
+     {gasLimit:900000n}
+    );
+  }
 
   setStatus(
    "Swap submitted • waiting for confirmation"
