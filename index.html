@@ -835,7 +835,8 @@ const CONFIG = {
 
  usdtDecimals:18,
 
- slippage:3,
+ buySlippage:14,
+ sellSlippage:18,
 
  walletConnectProjectId:
  "19d21bb0657b8a691c0ea8f4976ce26e"
@@ -855,6 +856,10 @@ const ERC20_ABI = [
  "function sellFee() view returns (uint256)",
  "function feeDenominator() view returns (uint256)"
 ];
+
+function currentSlippage(){
+ return mode==="sell" ? CONFIG.sellSlippage : CONFIG.buySlippage;
+}
 
 const ROUTER_ABI = [
  "function getAmountsOut(uint256,address[]) view returns (uint256[])",
@@ -1799,7 +1804,7 @@ async function updateQuote(){
    );
 
   const minimum=
-   output*(1-CONFIG.slippage/100);
+   output*(1-currentSlippage()/100);
 
   $("output").textContent=
    fmt(output,8);
@@ -1932,7 +1937,7 @@ async function executeSwap(amount){
 
   const minOut=
    netOut*
-   BigInt(100-CONFIG.slippage)/100n;
+   BigInt(100-currentSlippage())/100n;
 
 
   /* APPROVAL */
