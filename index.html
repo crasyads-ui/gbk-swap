@@ -536,7 +536,7 @@ footer button.active{color:#3f806f}
 <main>
 
 <!-- WALLET -->
-<section class="card">
+<section id="walletCard" class="card">
 
  <div class="walletStatus">
   <h2 style="margin:0">Wallet</h2>
@@ -1442,7 +1442,8 @@ async function finishConnection(){
  const connectBtn=$("walletConnectBtn");
  if(connectBtn){
   connectBtn.textContent="Disconnect Wallet";
-  connectBtn.onclick=disconnectWallet;
+  connectBtn.onclick=()=>disconnectWallet();
+  connectBtn.setAttribute("aria-label","Disconnect connected wallet");
  }
 
  setStatus(
@@ -1555,7 +1556,8 @@ async function disconnectWallet(){
  const connectBtn=$("walletConnectBtn");
  if(connectBtn){
   connectBtn.textContent="Connect Wallet";
-  connectBtn.onclick=openWalletModal;
+  connectBtn.onclick=()=>openWalletModal();
+  connectBtn.setAttribute("aria-label","Connect wallet");
  }
 
  setStatus("");
@@ -2427,8 +2429,25 @@ window.openWalletModal=function(){
 
  setFooterActive("footerWallet");
 
- $("walletModal")
-  .classList.add("show");
+ // When already connected, the bottom Wallet tab should take the user
+ // back to the wallet controls instead of appearing to do nothing.
+ if(walletAddress){
+  const target=$("walletCard");
+  if(target){
+   target.scrollIntoView({behavior:"smooth",block:"start"});
+   setTimeout(()=>{
+    const btn=$("walletConnectBtn");
+    if(btn) btn.focus({preventScroll:true});
+   },450);
+  }
+  toast("Wallet connected • wallet controls are at the top");
+  return;
+ }
+
+ const modal=$("walletModal");
+ if(modal){
+  modal.classList.add("show");
+ }
 
 };
 
