@@ -433,6 +433,14 @@ footer button.active{color:#3f806f}
  .inputbox input,.output{font-size:24px}
  .token{padding:9px 7px;font-size:12px}
 }
+
+.historyList{display:grid;gap:10px;margin-top:12px}
+.historyItem{border:1px solid #e3ebe8;border-radius:16px;padding:12px 14px;background:#f8fbfa}
+.historyTop{display:flex;justify-content:space-between;gap:10px;align-items:center;font-weight:800}
+.historyMeta{font-size:12px;color:#71817d;margin-top:5px;line-height:1.45}
+.historyLink{display:inline-block;margin-top:7px;font-size:12px;font-weight:800;color:#287b6b;text-decoration:none}
+.historyEmpty{color:#71817d;font-size:14px;padding:10px 0}
+.historyNote{font-size:12px;color:#71817d;margin-top:10px}
 </style>
 
 <style>
@@ -651,6 +659,15 @@ footer button.active{color:#3f806f}
 
 </section>
 
+
+<!-- PERSONAL TRANSACTION HISTORY -->
+<section class="card">
+ <h2>My Transaction History</h2>
+ <div id="historyList" class="historyList">
+  <div class="historyEmpty">Connect your wallet to view your swap history.</div>
+ </div>
+ <div class="historyNote">Your successful GBK swaps are saved for this wallet on this device. Each transaction opens on BscScan.</div>
+</section>
 
 <!-- LOCAL CURRENCY -->
 <section class="card">
@@ -922,6 +939,56 @@ function setStatus(message){
 
  $("walletStatusLine").textContent=message;
 
+}
+
+function historyKey(){
+ return "gbk_swap_history_" + (walletAddress || "").toLowerCase();
+}
+
+function loadHistory(){
+ if(!walletAddress) return [];
+ try{
+  const raw=localStorage.getItem(historyKey());
+  const list=raw ? JSON.parse(raw) : [];
+  return Array.isArray(list) ? list : [];
+ }catch(e){
+  return [];
+ }
+}
+
+function saveHistory(item){
+ if(!walletAddress) return;
+ const list=loadHistory();
+ list.unshift(item);
+ localStorage.setItem(historyKey(),JSON.stringify(list.slice(0,25)));
+ renderHistory();
+}
+
+function renderHistory(){
+ const box=$("historyList");
+ if(!box) return;
+ if(!walletAddress){
+  box.innerHTML='<div class="historyEmpty">Connect your wallet to view your swap history.</div>';
+  return;
+ }
+ const list=loadHistory();
+ if(!list.length){
+  box.innerHTML='<div class="historyEmpty">No completed swaps yet for this wallet on this device.</div>';
+  return;
+ }
+ box.innerHTML=list.map(item=>{
+  const date=new Date(item.time).toLocaleString();
+  const dir=item.mode==="sell" ? "GBK → USDT" : "USDT → GBK";
+  return '<div class="historyItem">'+
+   '<div class="historyTop"><span>'+dir+'</span><span>Confirmed</span></div>'+
+   '<div class="historyMeta">'+
+    'Sent: '+item.amountIn+' '+item.from+'<br>'+
+    'Tx: '+item.hash.slice(0,10)+'…'+item.hash.slice(-8)+'<br>'+
+    date+
+   '</div>'+
+   '<a class="historyLink" href="'+CONFIG.explorer+'/tx/'+item.hash+'" target="_blank" rel="noopener">View transaction ↗</a>'+
+  '</div>';
+ }).join("");
 }
 
 function cleanError(error){
@@ -1650,6 +1717,8 @@ async function updateBalances(){
   $("toBalance").textContent=
    fmt(output,6);
 
+  renderHistory();
+
  }catch(error){
 
   console.error(error);
@@ -2029,13 +2098,25 @@ async function executeSwap(amount){
    tx.hash.slice(0,12)+"…"
   );
 
-  toast(
-   "Swap successful"
-  );
+  saveHistory({
+   mode,
+   amountIn:String(amount),
+   from:mode==="sell" ? "GBK" : "USDT",
+   to:mode==="sell" ? "USDT" : "GBK",
+   hash:tx.hash,
+   time:new Date().toISOString()
+  });
+
+  // Clear the entered amount after a confirmed transaction.
+  $("amount").value="";
+  $("output").textContent="0.00";
+  $("minimum").textContent="—";
+  $("rate").textContent="Connect wallet for live quote";
+
+  toast("Swap successful");
 
   await updateBalances();
-
-  await updateQuote();
+  renderHistory();
 
  }finally{
 
@@ -2236,23 +2317,26 @@ window.openRamp = async function(type) {
     toast("India Buy: Onramper may require a minimum around ₹837.50. Use ₹850 or more.");
   }
   const country = $("country").value || "IN";
-  const popup = window.open("about:blank", "_blank");
 
   try {
-    if (!popup) throw new Error("Please allow pop-ups for GBK Swap");
-
     const response = await fetch(
       "/api/onramper-widget?type=" + encodeURIComponent(type) +
       "&fiat=" + encodeURIComponent(fiat) +
-      "&country=" + encodeURIComponent(country)
+      "&country=" + encodeURIComponent(country),
+      {cache:"no-store"}
     );
 
     const data = await response.json();
-    if (!response.ok || !data.url) throw new Error(data.error || "Onramper test configuration is missing");
 
-    popup.location.href = data.url;
+    if (!response.ok || !data.url) {
+      throw new Error(data.error || "Onramper is not configured");
+    }
+
+    // Navigate directly instead of opening about:blank first.
+    // This avoids mobile-browser popup blocking.
+    window.location.assign(data.url);
+
   } catch (error) {
-    if (popup) popup.close();
     toast(cleanError(error));
   }
 };
@@ -2319,6 +2403,7 @@ $("amount").addEventListener(
 window.addEventListener(
  "load",
  async()=>{
+  renderHistory();
 
   try{
 
