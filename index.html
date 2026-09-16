@@ -2682,6 +2682,10 @@ setInterval(
    INITIAL MODE
    ========================================================= */
 
+// Initialize Reown AppKit before the user presses Connect Wallet.
+// The AppKit modal then exposes the full EVM wallet directory.
+initReownAppKit();
+
 setMode("sell");
 
 </script>
