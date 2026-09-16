@@ -811,9 +811,9 @@ footer button.active{color:#3f806f}
 /* =========================================================
    REOWN APPKIT
    ========================================================= */
-import { createAppKit } from "https://esm.sh/@reown/appkit@1.8.23";
-import { EthersAdapter } from "https://esm.sh/@reown/appkit-adapter-ethers@1.8.23";
-import { bsc } from "https://esm.sh/@reown/appkit@1.8.23/networks";
+let createAppKit=null;
+let EthersAdapter=null;
+let bsc=null;
 
 /* =========================================================
    GBK CONFIG
@@ -1193,6 +1193,17 @@ async function initReownAppKit(){
  if(appKitInitPromise) return appKitInitPromise;
 
  appKitInitPromise=(async()=>{
+  // Lazy-load Reown only when the wallet selector is actually opened.
+  // A failed CDN/module load must never disable the page's wallet buttons.
+  const [appKitMod,adapterMod,networkMod]=await Promise.all([
+   import("https://esm.sh/@reown/appkit@1.8.23"),
+   import("https://esm.sh/@reown/appkit-adapter-ethers@1.8.23"),
+   import("https://esm.sh/@reown/appkit@1.8.23/networks")
+  ]);
+  createAppKit=appKitMod.createAppKit;
+  EthersAdapter=adapterMod.EthersAdapter;
+  bsc=networkMod.bsc;
+
   const metadata={
    name:"GBK Swap",
    description:"GBK Swap on BNB Smart Chain",
@@ -2330,16 +2341,45 @@ window.openRamp = async function(type) {
 
 window.openWalletModal=async function(){
  setFooterActive("footerWallet");
+ if(busy) return;
+
  try{
+  // In a wallet's own DApp browser, use its injected provider directly.
+  if(window.ethereum){
+   const connected=await connectInjected();
+   if(connected){
+    await switchToBNB(walletProvider);
+    ethersProvider=new ethers.BrowserProvider(walletProvider);
+    signer=await ethersProvider.getSigner();
+    walletAddress=await signer.getAddress();
+    await finishConnection();
+    return;
+   }
+  }
+
+  // Normal mobile/desktop browser: open the Reown/AppKit wallet selector.
   closeWalletModal();
   await initReownAppKit();
   if(!appKit) throw new Error("Wallet selector unavailable");
+
   if(appKit.getIsConnected()){
-   const address=appKit.getAddress(), provider=appKit.getWalletProvider();
-   if(address&&provider){walletProvider=provider;walletAddress=address;installWalletListeners(provider);await finishConnection();appKit.open({view:"Account"});return;}
+   const address=appKit.getAddress();
+   const provider=appKit.getWalletProvider();
+   if(address&&provider){
+    walletProvider=provider;
+    walletAddress=address;
+    installWalletListeners(provider);
+    await finishConnection();
+    appKit.open({view:"Account"});
+    return;
+   }
   }
+
   appKit.open({view:"Connect",namespace:"eip155"});
- }catch(error){console.error("Open AppKit:",error);toast(cleanError(error));}
+ }catch(error){
+  console.error("Wallet connection:",error);
+  toast(cleanError(error));
+ }
 };
 window.connectWallet=async function(){return window.openWalletModal();};
 window.connectWalletConnect=async function(){return window.openWalletModal();};
@@ -2361,7 +2401,7 @@ $("amount").addEventListener(
 /* =========================================================
    WALLET SESSION RESUME
    ========================================================= */
-window.addEventListener("load",async()=>{renderHistory();try{await initReownAppKit();}catch(e){console.warn("AppKit startup:",e);}});
+window.addEventListener("load",()=>{renderHistory();});
 async function resumeWalletSession(){if(!appKit||!appKit.getIsConnected())return;try{const provider=appKit.getWalletProvider(),address=appKit.getAddress();if(provider&&address){walletProvider=provider;walletAddress=address;installWalletListeners(provider);await finishConnection();}}catch(e){console.warn("Wallet resume:",e);}}
 document.addEventListener("visibilitychange",()=>{if(!document.hidden)setTimeout(resumeWalletSession,300);});
 window.addEventListener("pageshow",()=>setTimeout(resumeWalletSession,300));
@@ -2385,7 +2425,6 @@ setInterval(
    INITIAL MODE
    ========================================================= */
 
-initReownAppKit().catch(e=>console.warn("AppKit startup:",e));
 setMode("sell");
 
 </script>
