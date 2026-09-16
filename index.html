@@ -842,6 +842,13 @@ footer button.active{color:#3f806f}
 <script type="module">
 
 /* =========================================================
+   REOWN APPKIT
+   ========================================================= */
+import { createAppKit } from "https://esm.sh/@reown/appkit@1.8.23";
+import { EthersAdapter } from "https://esm.sh/@reown/appkit-adapter-ethers@1.8.23";
+import { bsc } from "https://esm.sh/@reown/appkit@1.8.23/networks";
+
+/* =========================================================
    GBK CONFIG
    ========================================================= */
 
@@ -917,6 +924,10 @@ let walletProvider=null;
 let ethersProvider=null;
 
 let signer=null;
+
+let appKit=null;
+
+let appKitUnsubscribe=null;
 
 let wcProvider=null;
 
@@ -1201,6 +1212,108 @@ async function switchToBNB(provider){
    throw error;
 
   }
+
+ }
+
+}
+
+
+/* =========================================================
+   REOWN APPKIT INITIALIZATION
+   ========================================================= */
+
+async function initReownAppKit(){
+
+ try{
+
+  const metadata={
+   name:"GBK Swap",
+   description:"GBK Swap on BNB Smart Chain",
+   url:"https://swap.gbkai.com",
+   icons:["https://swap.gbkai.com/favicon.ico"]
+  };
+
+  appKit=createAppKit({
+   adapters:[new EthersAdapter()],
+   networks:[bsc],
+   defaultNetwork:bsc,
+   projectId:CONFIG.walletConnectProjectId,
+   metadata,
+   allWallets:"SHOW",
+   enableReconnect:true,
+   enableNetworkSwitch:true,
+   features:{
+    analytics:false,
+    email:false,
+    socials:false
+   }
+  });
+
+  appKitUnsubscribe=appKit.subscribeProvider(async(state)=>{
+
+   try{
+
+    if(!state?.isConnected || !state?.provider){
+
+     if(walletAddress)
+      await disconnectWallet(false);
+
+     return;
+    }
+
+    walletProvider=state.provider;
+    ethersProvider=new ethers.BrowserProvider(walletProvider);
+    signer=await ethersProvider.getSigner();
+    walletAddress=state.address ||
+      await signer.getAddress();
+
+    if(Number(state.chainId)!==CONFIG.chainId){
+
+     try{
+      await appKit.switchNetwork(bsc);
+     }catch(error){
+      console.warn("Reown BNB network switch:",error);
+     }
+
+    }
+
+    installWalletListeners(walletProvider);
+
+    await finishConnection();
+
+   }catch(error){
+
+    console.warn("Reown provider update:",error);
+
+   }
+
+  });
+
+  if(appKit.getIsConnected()){
+
+   const provider=appKit.getWalletProvider();
+
+   if(provider){
+
+    walletProvider=provider;
+    ethersProvider=new ethers.BrowserProvider(provider);
+    signer=await ethersProvider.getSigner();
+    walletAddress=appKit.getAddress() ||
+      await signer.getAddress();
+
+    installWalletListeners(provider);
+    await finishConnection();
+
+   }
+
+  }
+
+  console.log("Reown AppKit ready");
+
+ }catch(error){
+
+  console.error("Reown AppKit initialization failed:",error);
+  toast("Wallet selector failed to load. Refresh and try again.");
 
  }
 
@@ -1508,50 +1621,55 @@ window.connectWalletConnect=async function(){
    DISCONNECT
    ========================================================= */
 
-async function disconnectWallet(){
+async function disconnectWallet(closeAppKit=true){
 
- const activeProvider=walletProvider;
  const activeWcProvider=wcProvider;
+
+ if(closeAppKit && appKit){
+
+  try{
+
+   if(appKit.getIsConnected())
+    await appKit.adapter?.connectionControllerClient?.disconnect();
+
+  }catch(error){
+
+   console.warn("Reown disconnect:",error);
+
+  }
+
+ }
 
  walletAddress="";
  walletProvider=null;
  ethersProvider=null;
  signer=null;
 
- // Fully terminate a WalletConnect session so a later connection
- // starts cleanly instead of silently reusing the old session.
  if(activeWcProvider){
+
   try{
    await activeWcProvider.disconnect();
   }catch(error){
    console.warn("WalletConnect disconnect:",error);
   }
+
  }
 
- $("walletAddress").textContent=
-  "Connect wallet";
+ $("walletAddress").textContent="Connect wallet";
 
- $("walletBadge").textContent=
-  "● Not connected";
+ $("walletBadge").textContent="● Not connected";
 
- $("walletBadge").style.background=
-  "#e8f7f1";
+ $("walletBadge").style.background="#e8f7f1";
 
- $("walletBadge").style.color=
-  "#277863";
+ $("walletBadge").style.color="#277863";
 
  $("bnbBalance").textContent="—";
-
  $("gbkBalance").textContent="—";
-
  $("usdtBalance").textContent="—";
-
  $("fromBalance").textContent="—";
-
  $("toBalance").textContent="—";
 
- $("swapBtn").textContent=
-  "Connect Wallet & Swap";
+ $("swapBtn").textContent="Connect Wallet & Swap";
 
  const connectBtn=$("walletConnectBtn");
  if(connectBtn){
@@ -2429,24 +2547,17 @@ window.openWalletModal=function(){
 
  setFooterActive("footerWallet");
 
- // When already connected, the bottom Wallet tab should take the user
- // back to the wallet controls instead of appearing to do nothing.
- if(walletAddress){
-  const target=$("walletCard");
-  if(target){
-   target.scrollIntoView({behavior:"smooth",block:"start"});
-   setTimeout(()=>{
-    const btn=$("walletConnectBtn");
-    if(btn) btn.focus({preventScroll:true});
-   },450);
-  }
-  toast("Wallet connected • wallet controls are at the top");
+ if(!appKit){
+  toast("Wallet selector is loading…");
   return;
  }
 
- const modal=$("walletModal");
- if(modal){
-  modal.classList.add("show");
+ // Reown AppKit provides the complete EVM wallet selector.
+ // This opens the wallet list for normal browsers and mobile.
+ if(walletAddress){
+  appKit.open({view:"Account"});
+ }else{
+  appKit.open({view:"Connect",namespace:"eip155"});
  }
 
 };
