@@ -26,7 +26,10 @@ html,body{
  color:#16362e;
  font-family:Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif
 }
-body{min-height:100vh}
+body{min-height:100vh;touch-action:pan-y;-webkit-tap-highlight-color:transparent}
+button,a,select,input{touch-action:manipulation}
+button{cursor:pointer}
+
 .app{
  max-width:760px;
  margin:auto;
@@ -682,7 +685,7 @@ footer button.active{color:#3f806f}
 </section>
 
 <!-- LOCAL CURRENCY -->
-<section class="card">
+<section id="onrampCard" class="card">
 
  <h2>Buy / Sell with Local Currency</h2>
 
@@ -776,10 +779,10 @@ footer button.active{color:#3f806f}
 </main>
 
 
-<footer>
- <button class="active" onclick="scrollToTop()">⇄<br>Swap</button>
- <button onclick="scrollToOnramp()">＋<br>Buy / Sell</button>
- <button onclick="openWalletModal()">▣<br>Wallet</button>
+<footer id="gbkFooter">
+ <button id="footerSwap" class="active" type="button" onclick="scrollToTop()">⇄<br>Swap</button>
+ <button id="footerBuySell" type="button" onclick="scrollToOnramp()">＋<br>Buy / Sell</button>
+ <button id="footerWallet" type="button" onclick="openWalletModal()">▣<br>Wallet</button>
 </footer>
 
 </div>
@@ -918,6 +921,9 @@ let signer=null;
 let wcProvider=null;
 
 let busy=false;
+let quoteSeq=0;
+let quoteTimer=null;
+let lastQuote=null;
 
 
 /* =========================================================
@@ -1768,80 +1774,89 @@ async function getQuote(amount){
 
  let lastError=null;
 
- for(const rpcUrl of CONFIG.rpcUrls){
+ const attempt=async(rpcUrl)=>{
+
+  const provider=new ethers.JsonRpcProvider(rpcUrl);
+  const router=new ethers.Contract(CONFIG.router,ROUTER_ABI,provider);
+  const gbk=new ethers.Contract(CONFIG.gbk,ERC20_ABI,provider);
+
+  let totalFee=120n;
+  let sellFee=20n;
+  let feeDenominator=1000n;
 
   try{
+   [totalFee,sellFee,feeDenominator]=await withTimeout(
+    Promise.all([
+     gbk.totalFee(),
+     gbk.sellFee(),
+     gbk.feeDenominator()
+    ]),
+    4500,
+    "GBK fee read"
+   );
+  }catch(error){
+   console.warn("GBK fee read failed; using 12% buy / 14% sell fallback",error);
+  }
 
-   const provider=new ethers.JsonRpcProvider(rpcUrl);
-   const router=new ethers.Contract(CONFIG.router,ROUTER_ABI,provider);
-   const gbk=new ethers.Contract(CONFIG.gbk,ERC20_ABI,provider);
+  const buyTax=totalFee;
+  const sellTax=totalFee+sellFee;
 
-   let totalFee=120n;
-   let sellFee=20n;
-   let feeDenominator=1000n;
+  const quoteInput=
+   mode==="sell" ?
+    amountIn*(feeDenominator-sellTax)/feeDenominator :
+    amountIn;
+
+  const paths=[
+   [tokenIn(),CONFIG.wbnb,tokenOut()],
+   [tokenIn(),tokenOut()]
+  ];
+
+  let routeError=null;
+
+  for(const path of paths){
 
    try{
-    [totalFee,sellFee,feeDenominator]=await withTimeout(
-     Promise.all([
-      gbk.totalFee(),
-      gbk.sellFee(),
-      gbk.feeDenominator()
-     ]),
-     7000,
-     "GBK fee read"
+
+    const quote=await withTimeout(
+     router.getAmountsOut(quoteInput,path),
+     4500,
+     "PancakeSwap quote"
     );
+
+    const grossOut=quote[quote.length-1];
+
+    const netOut=
+     tokenOut().toLowerCase()===CONFIG.gbk.toLowerCase()
+      ? grossOut*(feeDenominator-buyTax)/feeDenominator
+      : grossOut;
+
+    return {quote,path,quoteInput,grossOut,netOut};
+
    }catch(error){
-    console.warn("GBK fee read failed; using 12% buy / 14% sell fallback",error);
+    routeError=error;
    }
 
-   const buyTax=totalFee;
-   const sellTax=totalFee+sellFee;
-
-   const quoteInput=
-    mode==="sell" ?
-     amountIn*(feeDenominator-sellTax)/feeDenominator :
-     amountIn;
-
-   const paths=[
-    [tokenIn(),CONFIG.wbnb,tokenOut()],
-    [tokenIn(),tokenOut()]
-   ];
-
-   for(const path of paths){
-
-    try{
-
-     const quote=await withTimeout(
-      router.getAmountsOut(quoteInput,path),
-      7000,
-      "PancakeSwap quote"
-     );
-
-     const grossOut=quote[quote.length-1];
-
-     const netOut=
-      tokenOut().toLowerCase()===CONFIG.gbk.toLowerCase()
-       ? grossOut*(feeDenominator-buyTax)/feeDenominator
-       : grossOut;
-
-     return {quote,path,quoteInput,grossOut,netOut};
-
-    }catch(error){
-     lastError=error;
-    }
-
-   }
-
-  }catch(error){
-   lastError=error;
-   console.warn("Quote RPC failed:",rpcUrl,error);
   }
+
+  throw routeError || new Error("No PancakeSwap V2 route/liquidity found");
+ };
+
+ const results=await Promise.allSettled(
+  CONFIG.rpcUrls.map(rpcUrl=>attempt(rpcUrl))
+ );
+
+ for(const result of results){
+
+  if(result.status==="fulfilled")
+   return result.value;
+
+  lastError=result.reason;
 
  }
 
  throw new Error(
-  lastError && lastError.message
-   ? "Quote temporarily unavailable — retrying another BSC RPC failed"
+  lastError?.message
+   ? "Quote temporarily unavailable — BSC RPCs did not respond"
    : "No PancakeSwap V2 route/liquidity found"
  );
 
@@ -1852,6 +1867,8 @@ async function getQuote(amount){
    ========================================================= */
 
 async function updateQuote(){
+
+ const requestId=++quoteSeq;
 
  const amount=
   Number(
@@ -1883,6 +1900,9 @@ async function updateQuote(){
    netOut
   }=await getQuote(amount);
 
+  if(requestId!==quoteSeq)
+   return;
+
   const output=
    Number(
     ethers.formatUnits(
@@ -1890,6 +1910,12 @@ async function updateQuote(){
      decOut()
     )
    );
+
+  lastQuote={
+   amount,
+   path,
+   netOut
+  };
 
   const minimum=
    output*(1-currentSlippage()/100);
@@ -1929,7 +1955,11 @@ async function updateQuote(){
 
  }catch(error){
 
+  if(requestId!==quoteSeq)
+   return;
+
   console.warn(error);
+  lastQuote=null;
 
   $("output").textContent="—";
 
@@ -2060,7 +2090,11 @@ async function executeSwap(amount){
     "Approval submitted • waiting…"
    );
 
-   await approval.wait();
+   await withTimeout(
+     approval.wait(),
+     120000,
+     "Approval confirmation"
+    );
 
   }
 
@@ -2110,7 +2144,11 @@ async function executeSwap(amount){
    "Swap submitted • waiting for confirmation"
   );
 
-  await tx.wait();
+  await withTimeout(
+   tx.wait(),
+   180000,
+   "Swap confirmation"
+  );
 
   setStatus(
    "Swap confirmed • "+
@@ -2131,6 +2169,8 @@ async function executeSwap(amount){
   $("output").textContent="0.00";
   $("minimum").textContent="—";
   $("rate").textContent="Connect wallet for live quote";
+  lastQuote=null;
+  quoteSeq++;
 
   toast("Swap successful");
 
@@ -2379,7 +2419,18 @@ window.closeWalletModal=function(){
 
 };
 
+function setFooterActive(id){
+
+ ["footerSwap","footerBuySell","footerWallet"].forEach(key=>{
+  const el=$(key);
+  if(el) el.classList.toggle("active",key===id);
+ });
+
+}
+
 window.scrollToTop=function(){
+
+ setFooterActive("footerSwap");
 
  window.scrollTo({
   top:0,
@@ -2390,17 +2441,27 @@ window.scrollToTop=function(){
 
 window.scrollToOnramp=function(){
 
- const cards=
-  document.querySelectorAll(".card");
+ setFooterActive("footerBuySell");
 
- if(cards[2]){
+ const target=$("onrampCard");
 
-  cards[2].scrollIntoView({
+ if(target){
+
+  target.scrollIntoView({
    behavior:"smooth",
    block:"start"
   });
 
  }
+
+};
+
+window.openWalletModal=function(){
+
+ setFooterActive("footerWallet");
+
+ $("walletModal")
+  .classList.add("show");
 
 };
 
@@ -2411,7 +2472,10 @@ window.scrollToOnramp=function(){
 
 $("amount").addEventListener(
  "input",
- updateQuote
+ function(){
+  clearTimeout(quoteTimer);
+  quoteTimer=setTimeout(updateQuote,250);
+ }
 );
 
 
