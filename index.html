@@ -1196,9 +1196,9 @@ async function initReownAppKit(){
   // Lazy-load Reown only when the wallet selector is actually opened.
   // A failed CDN/module load must never disable the page's wallet buttons.
   const [appKitMod,adapterMod,networkMod]=await Promise.all([
-   import("https://esm.sh/@reown/appkit@1.8.23"),
-   import("https://esm.sh/@reown/appkit-adapter-ethers@1.8.23"),
-   import("https://esm.sh/@reown/appkit@1.8.23/networks")
+   import("https://esm.sh/@reown/appkit@1.8.23?bundle"),
+   import("https://esm.sh/@reown/appkit-adapter-ethers@1.8.23?bundle"),
+   import("https://esm.sh/@reown/appkit@1.8.23/networks?bundle")
   ]);
   createAppKit=appKitMod.createAppKit;
   EthersAdapter=adapterMod.EthersAdapter;
@@ -1216,42 +1216,10 @@ async function initReownAppKit(){
    networks:[bsc],
    defaultNetwork:bsc,
    projectId:CONFIG.walletConnectProjectId,
-
-   // Keep Reown/AppKit as the single wallet-selection layer.
-   // Do not request wallet authorization or switch networks on page load.
-   enableReconnect:false,
-   enableNetworkSwitch:false,
-
-   // Keep the complete EVM wallet directory available.
-   allWallets:"SHOW",
-   enableWallets:true,
-
-   universalProviderConfigOverride:{
-    methods:{
-     eip155:[
-      "eth_accounts",
-      "eth_chainId",
-      "eth_sendTransaction"
-     ]
-    },
-    chains:{
-     eip155:["56"]
-    },
-    events:{
-     eip155:["accountsChanged","chainChanged"]
-    },
-    defaultChain:"eip155:56"
-   },
-
+   metadata,
    features:{
-    analytics:false,
-    email:false,
-    socials:[],
-    swaps:false,
-    onramp:false
-   },
-
-   metadata
+    analytics:false
+   }
   });
 
   appKitUnsubscribe=appKit.subscribeProvider(async(state)=>{
@@ -2375,7 +2343,7 @@ window.openWalletModal=async function(){
    }
   }
 
-  appKit.open({view:"Connect",namespace:"eip155"});
+  appKit.open();
  }catch(error){
   console.error("Wallet connection:",error);
   toast(cleanError(error));
